@@ -1,0 +1,37 @@
+{
+  "name": "handy-customizer",
+  "version": "1.0.0",
+  "description": "Handy Customizer is an open-source WordPress toolkit build for WP Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
+  "main": "app.js",
+  "scripts": {
+    "lint-admin-scss": "wp-scripts lint-style assets/admin/src/scss/**/*.scss",
+    "lint-admin-scss-fix": "wp-scripts lint-style assets/admin/src/scss/**/*.scss --fix",
+    "lint-client-scss": "wp-scripts lint-style assets/client/src/scss/**/*.scss",
+    "lint-client-scss-fix": "wp-scripts lint-style assets/client/src/scss/**/*.scss --fix",
+    "lint-admin-js": "wp-scripts lint-js assets/admin/src/js/**/*.js",
+    "lint-admin-js-fix": "wp-scripts lint-js assets/admin/src/js/**/*.js --fix",
+    "lint-client-js": "wp-scripts lint-js assets/client/src/js/**/*.js",
+    "lint-client-js-fix": "wp-scripts lint-js assets/client/src/js/**/*.js --fix"
+  },
+  "author": "Mafel John Cahucom",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.11.0",
+    "@wordpress/scripts": "^23.6.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.2",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-include": "^2.4.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}
