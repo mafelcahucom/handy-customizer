@@ -1,18 +1,18 @@
 <?php
-namespace Handy\Layout;
+namespace Handy\Core;
 
 use Handy\Inc\Helper;
+use Handy\Inc\Validator;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Layout > Panel.
+ * Core > Panel.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-
 final class Panel {
 
     /**
@@ -20,47 +20,30 @@ final class Panel {
      * 
      * @since 1.0.0
      * 
-     * @param  array  $args  Contains the arguments needed to render panel.
+     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
+     * @param  array   $args       Contains the arguments needed to render panel.
      * $args = [
      *      'id'          => (string)  The unique slug like string to be used as an id.
      *      'title'       => (string)  The visible label or name of the panel.
      *      'description' => (string)  The discription of the panel.
      *      'priority'    => (integer) The order of panels appears in the Theme Customizer Sizebar.
      * ]
+     * @return object
      */
-    public function __construct( $args = [] ) {
-        if ( empty( $args ) ) {
-            return;
+    public function __construct( $customize, $args = [] ) {
+        if ( ! empty( $customize ) && ! empty( $args ) ) {
+            $this->render( $customize, $args );
         }
     }
 
     /**
-     * Return the WP_Customize_Manager.
-     * 
-     * @since 1.0.0
+     * Render Panel Layout.
      *
-     * @return object
-     */
-    private function wp_customize() {
-        global $wp_customize;
-        return $wp_customize;
-    }
-
-    /**
-     * Render Panel Wrapper.
-     * 
-     * @since 1.0.0
-     *
-     * @param  array  $args  Contains the arguments needed to render panel.
-     * $args = [
-     *      'id'          => (string)  The unique slug like string to be used as an id.
-     *      'title'       => (string)  The visible label or name of the panel.
-     *      'description' => (string)  The discription of the panel.
-     *      'priority'    => (integer) The order of panels appears in the Theme Customizer Sizebar.
-     * ]
+     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
+     * @param  array   $args       Contains the arguments needed to render panel.
      * @return void
      */
-    private function render( $args = [] ) {
+    public function render( $customize, $args ) {
         $schema = [
             'id'           => [
                 'type'     => 'string',
@@ -79,5 +62,11 @@ final class Panel {
                 'required' => false
             ]
         ];
+
+        $validated     = Validator::get_validated_argument( $schema, $args );
+        $configuration = Validator::get_configuration( 'panel', $validated );
+        if ( $validated && $configuration ) {
+            $customize->add_panel( $validated['id'], $configuration );
+        }
     }
 }

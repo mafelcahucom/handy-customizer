@@ -1,6 +1,9 @@
 <?php
 use Handy\Inc\Helper;
 use Handy\Inc\Validator;
+use Handy\Core\Panel;
+use Handy\Core\Section;
+use Handy\Fields\TextField;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,11 +30,12 @@ final class Handy {
     }
 
     /**
-     * Render Panel Wrapper.
+     * Render Panel Layout.
      * 
      * @since 1.0.0
      *
-     * @param  array  $args  Contains the arguments needed to render panel.
+     * 
+     * @param  array  $args  Contains the arguments needed to render panel layout.
      * $args = [
      *      'id'          => (string)  The unique slug like string to be used as an id.
      *      'title'       => (string)  The visible label or name of the panel.
@@ -41,29 +45,52 @@ final class Handy {
      * @return void
      */
     public static function panel( $args = [] ) {
-        if ( ! is_customize_preview() || empty( $args ) ) {
-            return;
+        if ( Helper::is_continue( $args ) ) {
+            new Panel( self::wp_customize(), $args );
         }
+    }
 
-        $schema = [
-            'id' => [
-                'type'     => 'string',
-                'required' => true
-            ],
-            'title' => [
-                'type'     => 'string',
-                'required' => true,
-            ],
-            'description' => [
-                'type'     => 'string',
-                'required' => false
-            ],
-            'priority' => [
-                'type' => 'integer',
-                'required' => false
-            ]
-        ];
+    /**
+     * Render Section Layout.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $args  Contains the arguments needed to render section layout.
+     * @args = [
+     *      'id'          => (string)  The unique slugin like string to be used as an id.
+     *      'panel'       => (string)  The id of the panel where section can be reside.
+     *      'title'       => (string)  The visible label or name of the section.
+     *      'description' => (string)  The discription of the section.
+     *      'priority'    => (integer) The order of sections appears in the Theme Customizer Sizebar.
+     * ]
+     * @return void
+     */
+    public static function section( $args = [] ) {
+        if ( Helper::is_continue( $args ) ) {
+            new Section( self::wp_customize(), $args );
+        }
+    }
 
-        Helper::log( Validator::validate_arguments( $schema, $args ) );
+    /**
+     * Render Field.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $type  The type of field to be render.
+     * @param  array   $args  Contains the arguments needed to render a certain field.
+     * @return void
+     */
+    public static function field( $type, $args = [] ) {
+        if ( ! empty( $type ) && Helper::is_continue( $args ) ) {
+            ( new self )->render_field( $type, $args );
+        }
+    }
+
+    private function render_field( $type, $args = [] ) {
+        switch ( $type ) {
+            case 'text':
+                ( new TextField )->render( self::wp_customize(), $args );
+                break;
+        }
     }
 }

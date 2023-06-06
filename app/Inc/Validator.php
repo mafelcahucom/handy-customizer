@@ -36,75 +36,95 @@ final class Validator {
      * @param  array  $args    Contains the arguments to be validate.
      * @return array|boolean
      */
-    public static function validate_arguments( $schema, $args ) {
+    public static function get_validated_argument( $schema, $args ) {
         if ( empty( $schema ) || ! is_array( $schema ) || empty( $args ) || ! is_array( $args ) ) {
             return false;
         }
 
-        $validated   = [];
+        $validated = [];
         $has_invalid = false;
         foreach ( $schema as $key => $value ) {
-            $is_isset    = ( isset( $args[ $key ] ) );
-            $is_empty    = ( strlen( $args[ $key ] ) === 0 );
             $is_required = $value['required'];
+            if ( isset( $args[ $key ] ) ) {
+                // Check if value is valid.
+                $is_type_invalid = false;
+                if ( $value['type'] !== 'mixed' && $value['type'] !== gettype( $args[ $key ] ) ) {
+                    $is_type_invalid = true;
+                }
 
-            if ( ( ! $is_isset && $is_required ) || ( $is_empty && $is_required ) ) {
-                $has_invalid = true;
-                break;
-            }
-
-            $is_invalid_value = false;
-            switch ( $value['type'] ) {
-                case 'string':
-                    $is_invalid_value = ( ! is_string( $args[ $key ] ) );
+                // If invalid type and required exit.
+                if ( $is_type_invalid && $is_required ) {
+                    $has_invalid = true;
                     break;
-                case 'integer':
-                    $is_invalid_value = ( ! is_int( $args[ $key ] ) );
+                }
+
+                if ( ! $is_type_invalid ) {
+                    // Check if empty.
+                    $is_empty = false;
+                    if ( in_array( $value['type'], [ 'string', 'integer' ] ) ) {
+                        if ( strlen( $args[ $key ] ) === 0 ) {
+                            $is_empty = true;
+                        }
+                    } elseif ( $value['type'] === 'array' ) {
+                        if ( empty( $args[ $key ] ) ) {
+                            $is_empty = true;
+                        }
+                    }
+
+                    // If empty and required exit.
+                    if ( $is_empty && $is_required ) {
+                        $has_invalid = true;
+                        break;
+                    }
+
+                    if ( ! $is_empty ) {
+                        $validated[ $key ] = $args[ $key ];
+                    }
+                }
+            } else {
+                if ( $is_required ) {
+                    $has_invalid = true;
                     break;
-                case 'boolean':
-                    $is_invalid_value = ( ! is_bool( $args[ $key ] ) );
-                    break;
-            }
-
-            if ( $is_invalid_value && $is_required ) {
-                $has_invalid = true;
-                break;
-            }
-
-            $is_push = true;
-            if ( ! $is_required && ( $is_invalid_value || $is_empty ) ) {
-                $is_push = false;
-            }
-
-            if ( $is_push ) {
-                $validated[ $key ] = $args[ $key ];
+                }
             }
         }
 
-        return ( $has_invalid ? false : $validated );
+        // Set "active_callback" if isset.
+        if ( isset( $validated['active_callback'] ) ) {
+            $callback_type            = gettype( $validated['active_callback'] );
+            $is_callback_type_invalid = ( ! in_array( $callback_type, [ 'string', 'object' ] ) );
+            $is_callback_empty        = ( $callback_type === 'string' && empty( $validated['active_callback'] ) );
+            if ( $is_callback_type_invalid || $is_callback_empty ) {
+                unset( $validated['active_callback'] );
+            }
+        }
+
+        return ( $has_invalid || empty( $validated ) ? false : $validated );
     }
 
     /**
-     * Check whether the variable is valid string type.
+     * Return the panel, section and field configurations.
      * 
      * @since 1.0.0
      *
-     * @param  string  $data  The variable to be checked.
-     * @return boolean
+     * @param  string  $type  The type of component [panel, section, field].
+     * @param  array   $args  Contains the arguments for rendering component.
+     * @return array
      */
-    public static function is_string( $data ) {
-        return is_string( $data );
-    }
+    public static function get_configuration( $type, $args = [] ) {
+        if ( empty( $args ) || ! is_array( $args ) ) {
+            return;
+        }
 
-    /**
-     * Check whether the variable is valid integer type.
-     * 
-     * @since 1.0.0
-     *
-     * @param  string  $data  The variable to be checked.
-     * @return boolean
-     */
-    public static function is_integer( $data ) {
-        return is_int( $data );
+        if ( $type === 'field' ) {
+            $args['settings'] = $args['id'];
+            unset( $args['id'] );
+        }
+
+        if ( in_array( $type, [ 'panel', 'section' ] ) ) {
+            unset( $args['id'] );
+        }
+
+        return $args;
     }
 }

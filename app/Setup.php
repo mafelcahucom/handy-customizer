@@ -26,9 +26,7 @@ final class Setup {
      *
      * @since 1.0.0
      */
-    protected function __construct() {
-        Helper::log( 'HELLO FUCKING WORKD' );
-    }
+    protected function __construct() {}
 
     public static function get() {
 

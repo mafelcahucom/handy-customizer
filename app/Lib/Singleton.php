@@ -4,13 +4,14 @@ namespace Handy\Lib;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Singleton.
+ * Lib > Singleton.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
 trait Singleton {
+    
     /**
      * Protected class constructor to prevent direct object creation.
      *
