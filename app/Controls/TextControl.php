@@ -24,6 +24,17 @@ final class TextControl extends \WP_Customize_Control {
     public $placeholder;
 
     /**
+     * Return the ID with prefix.
+     * 
+     * @since 1.0.0
+     *
+     * @return string
+     */
+    private function prefix_id() {
+        return  'hacu-text-'. $this->id;
+    }
+
+    /**
      * Render Text Control Content.
      * 
      * @since 1.0.0
@@ -31,13 +42,12 @@ final class TextControl extends \WP_Customize_Control {
      * @return void
      */
     public function render_content() {
-        Helper::log( 'CONSTRUCT TEXTCONTROL' );
         ?>
-        <div class="hacu-text">
+        <div class="hacu hacu-text">
             <?php
                 echo Helper::get_control_title([
-                    'id'          => 'hacu-text-'. $this->id,
                     'class'       => 'hacu-text__label',
+                    'id'          => $this->prefix_id(),
                     'label'       => $this->label,
                     'description' => $this->description
                 ]);
@@ -46,10 +56,11 @@ final class TextControl extends \WP_Customize_Control {
             <input 
                 type="text" 
                 class="hacu-text__input" 
-                id="hacu-text-<?php echo esc_attr( $this->id ); ?>"
+                id="<?php echo esc_attr( $this->prefix_id() ); ?>"
                 name="<?php echo esc_attr( $this->id ); ?>"
                 value="<?php echo esc_attr( $this->value() ); ?>"
                 placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
+                <?php echo $this->link(); ?>
             />
         </div>
         <?php

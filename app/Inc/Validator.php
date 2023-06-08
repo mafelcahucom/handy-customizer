@@ -127,4 +127,16 @@ final class Validator {
 
         return $args;
     }
+
+    /**
+     * Checks if the value is empty.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed  $value  Contains the value to be check.
+     * @return boolean
+     */
+    public static function is_empty( $value ) {
+        return ( strlen( $value ) === 0 );
+    }
 }

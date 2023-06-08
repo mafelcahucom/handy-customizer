@@ -44,6 +44,35 @@ final class Helper {
     }
 
     /**
+     * Returns the base url of dist folder.
+     *
+     * @since 1.0.0
+     * 
+     * @param  string  $file  Target filename.
+     * @return string
+     */
+    public static function get_asset_src( $file ) {
+        return HACU_PLUGIN_URL . 'assets/dist/' . $file;
+    }
+
+    /**
+     * Return the asset version.
+     *
+     * @since 1.0.0
+     * 
+     * @param  string  $file  Target filename.
+     * @return string
+     */
+    public static function get_asset_version( $file ) {
+        $version = '1.0.0';
+        if ( ! empty( $file ) ) {
+            $version = filemtime( HACU_PLUGIN_PATH . 'assets/dist/' . $file );
+        }
+
+        return $version;
+    }
+
+    /**
      * Checks if customizer can continue adding or register layouts and controls.
      * 
      * @since 1.0.0
@@ -58,7 +87,7 @@ final class Helper {
     /**
      * Return the control label and description component.
      *
-     * @param  array  $args  Contains the arguments for render control label.
+     * @param  array  $args  Contains the arguments for creating control label.
      * $args = [
      *      'id'          => (string) The id of the control.
      *      'class'       => (string) The classname of control's label.
@@ -71,7 +100,7 @@ final class Helper {
         $no_isset = ( ! isset( $args['label'] ) && ! isset( $args['description'] ) );
         $is_empty = ( empty( $args['label'] ) && empty( $args['description'] ) );
         if ( $no_isset || $is_empty ) {
-            return '';
+            return;
         }
 
         $id    = ( isset( $args['id'] ) ? $args['id'] : '' );
@@ -93,5 +122,33 @@ final class Helper {
         </label>
         <?php
         return ob_get_clean();
+    }
+
+    /**
+     * Return the hidden input for control.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $args  Contains the arguments for creating hidden input.
+     * $args = [
+     *      'attributes' => (array)  Contains the attributes for hidden input.
+     *      'key_link'   => (string) Contains the data link parameter.
+     * ];
+     * @return HTMLElement
+     */
+    public static function get_hidden_input( $args = [] ) {
+        if ( empty( $args ) || ! isset( $args['attributes'] ) || ! isset( $args['key_link'] ) ) {
+            return;
+        }
+
+        $output = '<input type="hidden" ';
+        foreach ( $args['attributes'] as $key => $value ) {
+            $value   = esc_attr( $value );
+            $output .= $key .'="'. $value .'"';
+        }
+
+        $output .= $args['key_link'] . " />";
+
+        return $output;
     }
 }

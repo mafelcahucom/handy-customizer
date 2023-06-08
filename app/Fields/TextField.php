@@ -81,11 +81,11 @@ final class TextField extends Setting {
             ]
         ];
 
-        $validated     = Validator::get_validated_argument( $schema, $args );
-        $configuration = Validator::get_configuration( 'field', $validated );
-        if ( $validated && $configuration ) {
+        $validated = Validator::get_validated_argument( $schema, $args );
+        $config    = Validator::get_configuration( 'field', $validated );
+        if ( $validated && $config ) {
             $this->setting( $customize, $validated );
-            $customize->add_control( new TextControl( $customize, "{$configuration['settings']}_control", $configuration ) );
+            $customize->add_control( new TextControl( $customize, "{$config['settings']}_field", $config ) );
         }
     }
 }
