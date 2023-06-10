@@ -3,31 +3,42 @@ namespace Handy\Fields;
 
 use Handy\Core\Setting;
 use Handy\Inc\Validator;
-use Handy\Controls\TextControl;
-use Handy\Inc\Helper;
+use Handy\Controls\UrlControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Text.
+ * Field > Url.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class TextField extends Setting {
+final class UrlField extends Setting {
 
     /**
-     * Render Text Control.
+     * Return the validated default value. Validate by url.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $default  The default value to be validated.
+     * @return string
+     */
+    private function get_validated_default( $default ) {
+        return ( filter_var( $default, FILTER_VALIDATE_URL ) ? $default : '' );
+    }
+
+    /**
+     * Render Url Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render text control.
+     * @param  array   $args       Contains the arguments needed to render url control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (mixed)   The default value of the control.
+     *      'default'           => (string)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
      *      'placeholder'       => (string)  The placeholder of the control.
@@ -53,7 +64,7 @@ final class TextField extends Setting {
                 'required' => true
             ],
             'default'           => [
-                'type'     => 'mixed',
+                'type'     => 'string',
                 'required' => false,
             ],
             'label'             => [
@@ -87,10 +98,20 @@ final class TextField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        $config    = Validator::get_configuration( 'field', $validated );
+        if ( isset( $validated['default'] ) ) {
+            $validated['default'] = $this->get_validated_default( $validated['default'] );
+        }
+
+        if ( isset( $validated['validations'] ) ) {
+            array_unshift( $validated['validations'], 'valid_url' );
+        } else {
+            $validated['validations'] = [ 'valid_url' ];
+        }
+
+        $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'text', $customize, $validated );
-            $customize->add_control( new TextControl( $customize, "{$config['settings']}_field", $config ) );
+            $this->setting( 'url', $customize, $validated );
+            $customize->add_control( new UrlControl( $customize, "{$config['settings']}_field", $config ) );
         }
     }
 }

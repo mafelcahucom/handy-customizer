@@ -1,9 +1,7 @@
 <?php
 use Handy\Inc\Helper;
-use Handy\Inc\Validator;
 use Handy\Core\Panel;
 use Handy\Core\Section;
-use Handy\Fields\TextField;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -81,16 +79,18 @@ final class Handy {
      * @return void
      */
     public static function field( $type, $args = [] ) {
-        if ( ! empty( $type ) && Helper::is_continue( $args ) ) {
-            ( new self )->render_field( $type, $args );
+        if ( empty( $type ) || ! Helper::is_continue( $args ) ) {
+            return;
         }
-    }
 
-    private function render_field( $type, $args = [] ) {
-        switch ( $type ) {
-            case 'text':
-                ( new TextField )->render( self::wp_customize(), $args );
-                break;
+        $classname = Helper::get_field_classname( $type );
+        if ( empty( $classname ) ) {
+            return;
+        }
+
+        $class_field = "Handy\\Fields\\{$classname}";
+        if ( class_exists( $class_field ) ) {
+            ( new $class_field )->render( self::wp_customize(), $args );
         }
     }
 }

@@ -23,16 +23,16 @@ var vinyl_buffer 		= require( 'vinyl-buffer' );
 
 
 /**
- * Admin CSS Task - compiling scss into minified css
+ * Main CSS Task - compiling scss into minified css
  * and add sourcemap.
  *
  * @since 1.0.0
  */
-var admin_css_src   = './assets/admin/src/scss/*.scss';
-var admin_css_dist  = './assets/admin/dist/css/';
-var admin_css_watch = 'assets/admin/src/scss/**/*.scss';
-function adminCssTask( done ) {
-	gulp.src( admin_css_src )
+var main_css_src   = './assets/src/scss/*.scss';
+var main_css_dist  = './assets/dist/css/';
+var main_css_watch = 'assets/src/scss/**/*.scss';
+function mainCssTask( done ) {
+	gulp.src( main_css_src )
 		.pipe( gulp_sourcemap.init() )
 		.pipe( gulp_sass({ 
 			outputStyle: 'compressed' 
@@ -44,52 +44,25 @@ function adminCssTask( done ) {
 			suffix: '.min'
 		}))
 		.pipe( gulp_sourcemap.write( './' ) )
-		.pipe( gulp.dest( admin_css_dist ) );
+		.pipe( gulp.dest( main_css_dist ) );
 	done();
 }
-gulp.task( 'admin_css_task', adminCssTask );
+gulp.task( 'css_task', mainCssTask );
 
 /**
- * Client CSS Task - compiling scss into minified css
- * and add sourcemap.
- *
- * @since 1.0.0
- */
-var client_css_src   = './assets/client/src/scss/*.scss';
-var client_css_dist  = './assets/client/dist/css/';
-var client_css_watch = 'assets/client/src/scss/**/*.scss';
-function clientCssTask( done ) {
-	gulp.src( client_css_src )
-		.pipe( gulp_sourcemap.init() )
-		.pipe( gulp_sass({ 
-			outputStyle: 'compressed' 
-		}).on( 'error', gulp_sass.logError ))
-		.pipe( gulp_autoprefixer({
-			cascade: false
-		}))
-		.pipe( gulp_rename({
-			suffix: '.min'
-		}))
-		.pipe( gulp_sourcemap.write( './' ) )
-		.pipe( gulp.dest( client_css_dist ) );
-	done();
-}
-gulp.task( 'client_css_task', clientCssTask );
-
-/**
- * Admin JS Task - compiling javascript and convert into babel
+ * Main JS Task - compiling javascript and convert into babel
  * and minify and add sourcemap.
  *
  * @since 1.0.0
  */
-var admin_js_folder = 'assets/admin/src/js/';
-var admin_js_dist   = './assets/admin/dist/js/';
-var admin_js_files  = [ 'hivfw-admin.js' ];
-var admin_js_watch  = 'assets/admin/src/js/*.js'; 
-function adminJsTask( done ) {
-	admin_js_files.map( function( file ) {
+var main_js_folder = 'assets/src/js/';
+var main_js_dist   = './assets/dist/js/';
+var main_js_files  = [ 'main.js' ];
+var main_js_watch  = 'assets/src/js/*.js'; 
+function mainJsTask( done ) {
+	main_js_files.map( function( file ) {
 		return browserify({
-			entries: [ admin_js_folder + file ]
+			entries: [ main_js_folder + file ]
 		})
 		.transform( babelify, {
 			presets: ['@babel/env']
@@ -105,46 +78,11 @@ function adminJsTask( done ) {
 		}))
 		.pipe( gulp_uglify() )
 		.pipe( gulp_sourcemap.write( './' ) )
-		.pipe( gulp.dest( admin_js_dist ) );
+		.pipe( gulp.dest( main_js_dist ) );
 	});
 	done();
 }
-gulp.task( 'js_task', adminJsTask );
-
-/**
- * Client JS Task - compiling javascript and convert into babel
- * and minify and add sourcemap.
- *
- * @since 1.0.0
- */
-var client_js_folder = 'assets/client/src/js/';
-var client_js_dist   = './assets/client/dist/js/';
-var client_js_files  = [ 'hivfw-client.js' ];
-var client_js_watch  = 'assets/client/src/js/*.js'; 
-function clientJsTask( done ) {
-	client_js_files.map( function( file ) {
-		return browserify({
-			entries: [ client_js_folder + file ]
-		})
-		.transform( babelify, {
-			presets: ['@babel/env']
-		})
-		.bundle()
-		.pipe( vinyl_source( file ) )
-		.pipe( gulp_rename({
-			suffix: '.min'
-		}))
-		.pipe( vinyl_buffer() )
-		.pipe( gulp_sourcemap.init({
-			loadMaps: true
-		}))
-		.pipe( gulp_uglify() )
-		.pipe( gulp_sourcemap.write( './' ) )
-		.pipe( gulp.dest( client_js_dist ) );
-	});
-	done();
-}
-gulp.task( 'client_js_task', clientJsTask );
+gulp.task( 'js_task', mainJsTask );
 
 /**
  * Bundle task - budle multiple files into single. Note only
@@ -168,9 +106,7 @@ gulp.task( 'bundle', bundleTask );
  * @since 1.0.0
  */
 function watchTask() {
-	gulp.watch( admin_css_watch, adminCssTask );
-	gulp.watch( client_css_watch, clientCssTask );
-	gulp.watch( admin_js_watch, adminJsTask );
-	gulp.watch( client_js_watch, clientJsTask );
+	gulp.watch( main_css_watch, mainCssTask );
+	gulp.watch( main_js_watch, mainJsTask );
 }
 gulp.task( 'watch', gulp.series( watchTask ) );

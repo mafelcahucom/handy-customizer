@@ -6,13 +6,13 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Text.
+ * Controls > Textarea.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class TextControl extends \WP_Customize_Control {
+final class TextareaControl extends \WP_Customize_Control {
 
     /**
      * Holds placeholder.
@@ -31,11 +31,11 @@ final class TextControl extends \WP_Customize_Control {
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-text-'. $this->id;
+        return  'hacu-textarea-'. $this->id;
     }
 
     /**
-     * Render Text Control Content.
+     * Render Textarea Control Content.
      * 
      * @since 1.0.0
      *
@@ -43,7 +43,7 @@ final class TextControl extends \WP_Customize_Control {
      */
     public function render_content() {
         ?>
-        <div class="hacu hacu-text">
+        <div class="hacu hacu-textarea">
             <?php
                 // Label & Description.
                 echo Helper::get_control_title([
@@ -54,15 +54,15 @@ final class TextControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <input 
-                type="text" 
-                class="hacu-text__input" 
+            <textarea
+                class="hacu-textarea__input"
                 id="<?php echo esc_attr( $this->prefix_id() ); ?>"
                 name="<?php echo esc_attr( $this->id ); ?>"
                 value="<?php echo esc_attr( $this->value() ); ?>"
                 placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
+                rows="5"
                 <?php echo $this->link(); ?>
-            />
+            ></textarea>
         </div>
         <?php
     }

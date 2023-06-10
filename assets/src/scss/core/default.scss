@@ -1,0 +1,31 @@
+.accordion-section,
+.customize-section-title,
+.customize-control-title,
+.customize-section-description {
+	letter-spacing: 0.5px !important;
+}
+
+.hacu {
+    
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    textarea,
+    input[type="url"],
+    input[type="text"] {
+        color: $clr-black;
+        background-color: $clr-white;
+        box-shadow: 0 0 0 transparent;
+        border: 1px solid $clr-gray;
+        border-radius: 4px;
+
+        &:focus {
+            border-color: $clr-blue;
+            box-shadow: 0 0 0 1px $clr-blue;
+            outline: 2px solid transparent;
+        }
+    }
+}

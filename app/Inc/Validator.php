@@ -28,6 +28,35 @@ final class Validator {
     protected function __construct() {}
 
     /**
+     * Checks if the value is empty.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed  $value  Contains the value to be check.
+     * @return boolean
+     */
+    public static function is_empty( $value ) {
+        return ( strlen( $value ) === 0 );
+    }
+
+    /**
+     * Checks if the callback is invalid object or string type.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed  $callback  The callback to be check.
+     * @return boolean
+     */
+    public static function is_invalid_callback( $callback ) {
+        $type            = gettype( $callback );
+        $is_type_invalid = ( ! in_array( $type, [ 'string', 'object' ] ) );
+        $is_empty        = ( $type === 'string' && empty( $callback ) );
+        $is_not_found    = ( $type === 'string' && ! function_exists( $callback ) );
+
+        return ( $is_type_invalid || $is_empty || $is_not_found );
+    }
+
+    /**
      * Return the validated arguments for panel, section and controls.
      * 
      * @since 1.0.0
@@ -61,7 +90,7 @@ final class Validator {
                 if ( ! $is_type_invalid ) {
                     // Check if empty.
                     $is_empty = false;
-                    if ( in_array( $value['type'], [ 'string', 'integer' ] ) ) {
+                    if ( in_array( $value['type'], [ 'string', 'integer', 'double' ] ) ) {
                         if ( strlen( $args[ $key ] ) === 0 ) {
                             $is_empty = true;
                         }
@@ -89,13 +118,17 @@ final class Validator {
             }
         }
 
-        // Set "active_callback" if isset.
+        // Set "active_callback".
         if ( isset( $validated['active_callback'] ) ) {
-            $callback_type            = gettype( $validated['active_callback'] );
-            $is_callback_type_invalid = ( ! in_array( $callback_type, [ 'string', 'object' ] ) );
-            $is_callback_empty        = ( $callback_type === 'string' && empty( $validated['active_callback'] ) );
-            if ( $is_callback_type_invalid || $is_callback_empty ) {
+            if ( self::is_invalid_callback( $validated['active_callback'] ) ) {
                 unset( $validated['active_callback'] );
+            }
+        }
+
+        // Set "sanitize_callback".
+        if ( isset( $validated['sanitize_callback'] ) ) {
+            if ( self::is_invalid_callback( $validated['sanitize_callback'] ) ) {
+                unset( $validated['sanitize_callback'] );
             }
         }
 
@@ -126,17 +159,5 @@ final class Validator {
         }
 
         return $args;
-    }
-
-    /**
-     * Checks if the value is empty.
-     * 
-     * @since 1.0.0
-     *
-     * @param  mixed  $value  Contains the value to be check.
-     * @return boolean
-     */
-    public static function is_empty( $value ) {
-        return ( strlen( $value ) === 0 );
     }
 }

@@ -22,28 +22,28 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 }
 
 // Define plugin domain.
-if ( ! defined( 'HANDY_PLUGIN_DOMAIN' ) ) {
-    define( 'HANDY_PLUGIN_DOMAIN', 'handy-customizer' );
+if ( ! defined( 'HACU_PLUGIN_DOMAIN' ) ) {
+    define( 'HACU_PLUGIN_DOMAIN', 'handy-customizer' );
 }
 
 // Define plugin version.
-if ( ! defined( 'HANDY_PLUGIN_VERSION' ) ) {
-    define( 'HANDY_PLUGIN_VERSION', '1.0.0' );
+if ( ! defined( 'HACU_PLUGIN_VERSION' ) ) {
+    define( 'HACU_PLUGIN_VERSION', '1.0.0' );
 }
 
 // Define plugin basename.
-if ( ! defined( 'HANDY_PLUGIN_BASENAME' ) ) {
-    define( 'HANDY_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+if ( ! defined( 'HACU_PLUGIN_BASENAME' ) ) {
+    define( 'HACU_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
 
 // Define plugin url.
-if ( ! defined( 'HANDY_PLUGIN_URL' ) ) {
-    define( 'HANDY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'HACU_PLUGIN_URL' ) ) {
+    define( 'HACU_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
 // Define plugin path.
-if ( ! defined( 'HANDY_PLUGIN_PATH' ) ) {
-    define( 'HANDY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'HACU_PLUGIN_PATH' ) ) {
+    define( 'HACU_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 }
 
 // Installer.

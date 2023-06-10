@@ -16,6 +16,15 @@ defined( 'ABSPATH' ) || exit;
 class Setting {
 
     /**
+     * Holds the name of field.
+     * 
+     * @since 1.0.0
+     *
+     * @var string
+     */
+    private $field = '';
+
+    /**
      * Holds the set of validations.
      * 
      * @since 1.0.0
@@ -28,53 +37,148 @@ class Setting {
      * Register Control Settings.
      * 
      * @since 1.0.0
-     *
+     * 
+     * @param  string  $field      Contains the name of the field.
      * @param  object  $customize  Contains the instance of WP_Customize_Manager.
      * @param  array   $args       Contains the arguments needed for setting.
      * @return void
      */
-    public function setting( $customize, $args ) {
-        if ( empty( $customize ) || empty( $args ) ) {
+    public function setting( $field, $customize, $args ) {
+        if ( empty( $field ) || empty( $customize ) || empty( $args ) ) {
             return;
         }
 
         $schema = [
-            'id'           => [
+            'id'                => [
                 'type'     => 'string',
                 'required' => true,
             ],
-            'default'      => [
+            'default'           => [
                 'type'     => 'mixed',
                 'required' => false
             ],
-            'validations'  => [
+            'validations'       => [
                 'type'     => 'array',
+                'required' => false
+            ],
+            'sanitize_callback' => [
+                'type'     => 'mixed',
                 'required' => false
             ]
         ];
-
+        
         $validated = Validator::get_validated_argument( $schema, $args );
+        //Helper::log( [ 'setting ',  $validated ] );
         if ( $validated ) {
-            // Set "default".
-            $config['default'] = ( isset( $validated['default'] ) ? $validated['default'] : '' );
-
             // Set "validate_callback".
-            if ( isset( $validated['validations'] ) && ! empty( $validated['validations'] ) ) {
-                $this->validations           = $validated['validations'];
-                $config['validate_callback'] = function( $validity, $value ) {
-                    return $this->perform_validation([
-                        'value'       => $value,
-                        'validity'    => $validity
+            if ( isset( $validated['validations'] ) ) {
+                $validations = array_unique( $validated['validations'] );
+                if ( ! empty( $validations ) ) {
+                    $this->validations           = $validations;
+                    $config['validate_callback'] = function( $validity, $value ) {
+                        return $this->perform_validation([
+                            'value'       => $value,
+                            'validity'    => $validity
+                        ]);
+                    };
+                }
+            }
+
+            // Set default "sanitize_callback" if sanitize_callback is not isset.
+            if ( isset( $validated['sanitize_callback'] ) ) {
+                $config['sanitize_callback'] = $validated['sanitize_callback'];
+            } else {
+                $this->field                 = $field;
+                $config['sanitize_callback'] = function( $input, $setting ) {
+                    return $this->perform_sanitization([
+                        'input'   => $input,
+                        'setting' => $setting
                     ]);
                 };
             }
 
+            // Set "default".
+            $config['default'] = ( isset( $validated['default'] ) ? $validated['default'] : '' );
+
+            // Register Setting.
             $customize->add_setting( $validated['id'], $config );
         }
     }
 
     /**
-     * Perform a validations based on set of validations.
+     * Perform a sanitization based on the field.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $args  Contains the arguments to perform sanitization.
+     * $args = [
+     *      'input'   => (mixed)  Contains the value to sanitize.
+     *      'setting' => (object) Contains WP_Customize_Setting instance.
+     * ]
+     * @return mixed
+     */
+    private function perform_sanitization( $args = [] ) {
+        if ( empty( $this->field ) ) {
+            return $args['input'];
+        }
+
+        $field = [
+            'text'     => 'sanitize_text',
+            'textarea' => 'sanitize_textarea',
+            'url'      => 'sanitize_url'
+        ];
+
+        if ( isset( $field[ $this->field ] ) ) {
+            $sanitization = $field[ $this->field ];
+            if ( method_exists( __CLASS__, $sanitization ) ) {
+                return call_user_func( [ __CLASS__, $sanitization ], $args['input'], $args['setting'] );
+            }
+        }
+
+        return $args['input'];
+    }
+
+    /**
+     * Return the sanitized text value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_text( $input, $setting ) {
+        return sanitize_text_field( $input );
+    }
+
+    /**
+     * Return the sanitized textarea value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_textarea( $input, $setting ) {
+        return sanitize_textarea_field( $input );
+    }
+
+    /**
+     * Return the sanitized url value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_url( $input, $setting ) {
+        return esc_url_raw( $input );
+    }
+
+    /**
+     * Perform a validation based on set of validations.
      * 
      * @since 1.0.0
      *
@@ -160,7 +264,7 @@ class Setting {
 
         $validity      = $args['validity'];
         $current_value = $args['value'];
-        if ( empty( $this->validations ) || ! is_array( $this->validations ) ) {
+        if ( empty( $this->validations ) ) {
             return $validity;
         }
 

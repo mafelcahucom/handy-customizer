@@ -6,13 +6,13 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Text.
+ * Controls > Url.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class TextControl extends \WP_Customize_Control {
+final class UrlControl extends \WP_Customize_Control {
 
     /**
      * Holds placeholder.
@@ -31,11 +31,11 @@ final class TextControl extends \WP_Customize_Control {
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-text-'. $this->id;
+        return  'hacu-url-'. $this->id;
     }
 
     /**
-     * Render Text Control Content.
+     * Render Url Control Content.
      * 
      * @since 1.0.0
      *
@@ -43,7 +43,7 @@ final class TextControl extends \WP_Customize_Control {
      */
     public function render_content() {
         ?>
-        <div class="hacu hacu-text">
+        <div class="hacu hacu-url">
             <?php
                 // Label & Description.
                 echo Helper::get_control_title([
@@ -55,8 +55,8 @@ final class TextControl extends \WP_Customize_Control {
             ?>
 
             <input 
-                type="text" 
-                class="hacu-text__input" 
+                type="url" 
+                class="hacu-url__input" 
                 id="<?php echo esc_attr( $this->prefix_id() ); ?>"
                 name="<?php echo esc_attr( $this->id ); ?>"
                 value="<?php echo esc_attr( $this->value() ); ?>"

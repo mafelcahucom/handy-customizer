@@ -85,6 +85,25 @@ final class Helper {
     }
 
     /**
+     * Return the Fields classname based on the field name.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $field  Contains the name of the field.
+     * @return string
+     */
+    public static function get_field_classname( $field ) {
+        if ( empty( $field ) ) {
+            return '';
+        }
+
+        $exploded = array_map( 'ucfirst', explode( '-', $field ) );
+        array_push( $exploded, 'Field' );
+
+        return implode( '', $exploded );
+    }
+
+    /**
      * Return the control label and description component.
      *
      * @param  array  $args  Contains the arguments for creating control label.
@@ -108,7 +127,7 @@ final class Helper {
 
         ob_start();
         ?>
-        <label class="<?php echo esc_attr( $id ); ?>" for="<?php echo $id; ?>">
+        <label class="<?php echo esc_attr( $class ); ?>" for="<?php echo $id; ?>">
             <?php if ( ! empty( $args['label'] ) ): ?>
                 <span class="customize-control-title">
                     <?php echo esc_html( $args['label'] ); ?>

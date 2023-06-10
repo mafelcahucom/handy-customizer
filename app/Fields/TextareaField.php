@@ -3,27 +3,26 @@ namespace Handy\Fields;
 
 use Handy\Core\Setting;
 use Handy\Inc\Validator;
-use Handy\Controls\TextControl;
-use Handy\Inc\Helper;
+use Handy\Controls\TextareaControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Text.
+ * Field > Textarea.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class TextField extends Setting {
+final class TextareaField extends Setting {
 
     /**
-     * Render Text Control.
+     * Render Textarea Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render text control.
+     * @param  array   $args       Contains the arguments needed to render textarea control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
@@ -89,8 +88,8 @@ final class TextField extends Setting {
         $validated = Validator::get_validated_argument( $schema, $args );
         $config    = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'text', $customize, $validated );
-            $customize->add_control( new TextControl( $customize, "{$config['settings']}_field", $config ) );
+            $this->setting( 'textarea', $customize, $validated );
+            $customize->add_control( new TextareaControl( $customize, "{$config['settings']}_field", $config ) );
         }
     }
 }
