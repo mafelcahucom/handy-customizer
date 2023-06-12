@@ -90,7 +90,7 @@ final class TextField extends Setting {
         $config    = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
             $this->setting( 'text', $customize, $validated );
-            $customize->add_control( new TextControl( $customize, "{$config['settings']}_field", $config ) );
+            $customize->add_control( new TextControl( $customize, $config['settings'], $config ) );
         }
     }
 }

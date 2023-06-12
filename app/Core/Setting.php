@@ -123,9 +123,13 @@ class Setting {
         }
 
         $field = [
-            'text'     => 'sanitize_text',
-            'textarea' => 'sanitize_textarea',
-            'url'      => 'sanitize_url'
+            'checkbox'          => 'sanitize_boolean',
+            'checkbox_multiple' => 'sanitize_multiple',
+            'email'             => 'sanitize_email',
+            'select'            => 'sanitize_choices',
+            'text'              => 'sanitize_text',
+            'textarea'          => 'sanitize_textarea',
+            'url'               => 'sanitize_url'
         ];
 
         if ( isset( $field[ $this->field ] ) ) {
@@ -165,6 +169,19 @@ class Setting {
     }
 
     /**
+     * Return the sanitized email value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_email( $input, $setting ) {
+        return sanitize_email( $input );
+    }
+
+    /**
      * Return the sanitized url value.
      * 
      * @since 1.0.0
@@ -175,6 +192,55 @@ class Setting {
      */
     private function sanitize_url( $input, $setting ) {
         return esc_url_raw( $input );
+    }
+
+    /**
+     * Return the sanitized boolean value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_boolean( $input, $setting ) {
+        return ( $input ? true : false );
+    }
+
+    /**
+     * Return the sanitized choices value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_choices( $input, $setting ) {
+        $value   = sanitize_text_field( $input );
+        $choices = $setting->manager->get_control( $setting->id )->choices;
+        
+        return ( array_key_exists( $value, $choices ) ? $value : '' );
+    }
+
+    /**
+     * Return the sanitized multiple value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_multiple( $input, $setting ) {
+        if ( strlen( $input ) === 0 ) {
+            return [];
+        }
+
+        $choices  = $setting->manager->get_control( $setting->id )->choices;
+        $exploded = Helper::get_exploded_value( $input, $choices );
+
+        return array_map( 'sanitize_text_field', $exploded );
     }
 
     /**

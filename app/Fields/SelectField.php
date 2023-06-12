@@ -3,38 +3,39 @@ namespace Handy\Fields;
 
 use Handy\Core\Setting;
 use Handy\Inc\Validator;
-use Handy\Controls\UrlControl;
+use Handy\Controls\SelectControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Url.
+ * Field > Select.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class UrlField extends Setting {
+final class SelectField extends Setting {
 
     /**
-     * Return the validated default value. Validate by url.
+     * Return the validated default value. Validate default if exist in choices.
      * 
      * @since 1.0.0
      *
      * @param  string  $default  The default value to be validated.
+     * @param  array   $choices  The list of choices.
      * @return string
      */
-    private function get_validated_default( $default ) {
-        return ( filter_var( $default, FILTER_VALIDATE_URL ) ? $default : '' );
+    private function get_validated_default( $default, $choices ) {
+        return ( array_key_exists( $default, $choices ) ? $default : '' );
     }
 
     /**
-     * Render Url Control.
+     * Render Select Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render url control.
+     * @param  array   $args       Contains the arguments needed to render select control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
@@ -46,6 +47,7 @@ final class UrlField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
+     *      'choices'           => (array)   The list of choices.
      * ]
      * @return void
      */
@@ -94,24 +96,29 @@ final class UrlField extends Setting {
             'sanitize_callback' => [
                 'type'     => 'mixed',
                 'required' => false
+            ],
+            'choices'           => [
+                'type'     => 'array',
+                'required' => true
             ]
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default( $validated['default'] );
+            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['choices'] );
         }
 
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'valid_url' );
-        } else {
-            $validated['validations'] = [ 'valid_url' ];
+        if ( isset( $validated['choices'] ) ) {
+            $validated['choices'] = array_unique( $validated['choices'] );
+            if ( empty( $validated['choices'] ) ) {
+                return;
+            }
         }
-
+    
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'url', $customize, $validated );
-            $customize->add_control( new UrlControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'select', $customize, $validated );
+            $customize->add_control( new SelectControl( $customize, $config['settings'], $config ) );
         }
     }
 }

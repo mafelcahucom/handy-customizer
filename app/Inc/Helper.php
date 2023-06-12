@@ -104,6 +104,55 @@ final class Helper {
     }
 
     /**
+     * Return the exploded or array of an imploded value validated by choices.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $value    The imploded value by ",".
+     * @param  array   $choices  The list of choices.
+     * @return array
+     */
+    public static function get_exploded_value( $value, $choices ) {
+        if ( strlen( $value ) === 0 || empty( $choices ) || ! is_array( $choices ) ) {
+            return [];
+        }
+
+        $exploded = array_unique( explode( ',', $value ) );
+        foreach ( $exploded as $key => $value ) {
+            if ( ! array_key_exists( $value, $choices ) ) {
+                unset( $exploded[ $key ] );
+            }
+        }
+
+        return $exploded;
+    }
+
+    /**
+     * Return the imploded or string of an exploded value validated by choices.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $value    The imploded value by ",".
+     * @param  array  $choices  The list of choices.
+     * @return mixed
+     */
+    public static function get_imploded_value( $value, $choices ) {
+        $invalid_value   = ( empty( $value ) || ! is_array( $value ) );
+        $invalid_choices = ( empty( $choices ) || ! is_array( $choices ) );
+        if ( $invalid_value || $invalid_choices ) {
+            return '';
+        }
+
+        foreach ( $value as $key => $data ) {
+            if ( ! array_key_exists( $data, $choices ) ) {
+                unset( $value[ $key ] );
+            }
+        }
+
+        return implode( ',', $value );
+    }
+
+    /**
      * Return the control label and description component.
      *
      * @param  array  $args  Contains the arguments for creating control label.

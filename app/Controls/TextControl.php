@@ -61,7 +61,7 @@ final class TextControl extends \WP_Customize_Control {
                 name="<?php echo esc_attr( $this->id ); ?>"
                 value="<?php echo esc_attr( $this->value() ); ?>"
                 placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-                <?php echo $this->link(); ?>
+                <?php $this->link(); ?>
             />
         </div>
         <?php

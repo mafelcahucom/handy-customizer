@@ -61,7 +61,7 @@ final class TextareaControl extends \WP_Customize_Control {
                 value="<?php echo esc_attr( $this->value() ); ?>"
                 placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
                 rows="5"
-                <?php echo $this->link(); ?>
+                <?php $this->link(); ?>
             ></textarea>
         </div>
         <?php

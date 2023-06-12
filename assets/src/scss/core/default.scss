@@ -13,9 +13,13 @@
         box-sizing: border-box;
     }
 
-    textarea,
     input[type="url"],
-    input[type="text"] {
+    input[type="text"],
+    input[type="email"],
+    input[type="radio"],
+    input[type="checkbox"],
+    select,
+    textarea {
         color: $clr-black;
         background-color: $clr-white;
         box-shadow: 0 0 0 transparent;
@@ -27,5 +31,32 @@
             box-shadow: 0 0 0 1px $clr-blue;
             outline: 2px solid transparent;
         }
+    }
+
+    input[type="url"],
+    input[type="text"],
+    input[type="email"] {
+        padding: 0 8px;
+        line-height: 2;
+        min-height: 30px;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    select {
+        padding: 0 24px 0 8px;
+        min-height: 30px;
+    }
+
+    textarea {
+        padding: 2px 6px;
+        width: 100%;
+        resize: vertical;
+        overflow: auto;
+        line-height: 1.42857143;
     }
 }

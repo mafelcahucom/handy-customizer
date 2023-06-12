@@ -3,21 +3,21 @@ namespace Handy\Fields;
 
 use Handy\Core\Setting;
 use Handy\Inc\Validator;
-use Handy\Controls\UrlControl;
+use Handy\Controls\EmailControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Url.
+ * Field > Email.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class UrlField extends Setting {
+final class EmailField extends Setting {
 
     /**
-     * Return the validated default value. Validate by url.
+     * Return the validated default value. Validate by email.
      * 
      * @since 1.0.0
      *
@@ -25,16 +25,16 @@ final class UrlField extends Setting {
      * @return string
      */
     private function get_validated_default( $default ) {
-        return ( filter_var( $default, FILTER_VALIDATE_URL ) ? $default : '' );
+        return ( filter_var( $default, FILTER_VALIDATE_EMAIL ) ? $default : '' );
     }
 
     /**
-     * Render Url Control.
+     * Render Email Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render url control.
+     * @param  array   $args       Contains the arguments needed to render email control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
@@ -103,15 +103,15 @@ final class UrlField extends Setting {
         }
 
         if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'valid_url' );
+            array_unshift( $validated['validations'], 'valid_email' );
         } else {
-            $validated['validations'] = [ 'valid_url' ];
+            $validated['validations'] = [ 'valid_email' ];
         }
 
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'url', $customize, $validated );
-            $customize->add_control( new UrlControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'email', $customize, $validated );
+            $customize->add_control( new EmailControl( $customize, $config['settings'], $config ) );
         }
     }
 }
