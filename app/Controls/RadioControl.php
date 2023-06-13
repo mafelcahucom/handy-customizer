@@ -6,13 +6,13 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Checkbox Multiple.
+ * Controls > Radio.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class CheckboxMultipleControl extends \WP_Customize_Control {
+final class RadioControl extends \WP_Customize_Control {
 
     /**
      * Holds the list of choices.
@@ -31,22 +31,11 @@ final class CheckboxMultipleControl extends \WP_Customize_Control {
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-checkbox-multiple-'. $this->id;
+        return  'hacu-radio-'. $this->id;
     }
 
     /**
-     * Return the value in array format.
-     * 
-     * @since 1.0.0
-     *
-     * @return array
-     */
-    private function get_value() {
-        return ( ! empty( $this->value() ) && is_array( $this->value() ) ? $this->value() : [] );
-    }
-
-    /**
-     * Render Checkbox Multiple Control Content.
+     * Render Radio Control Content.
      * 
      * @since 1.0.0
      *
@@ -54,7 +43,7 @@ final class CheckboxMultipleControl extends \WP_Customize_Control {
      */
     public function render_content() {
         ?>
-        <div class="hacu hacu-checkbox-multiple">
+        <div class="hacu hacu-radio">
             <?php
                 // Label & Description.
                 echo Helper::get_control_title([
@@ -68,10 +57,10 @@ final class CheckboxMultipleControl extends \WP_Customize_Control {
                 echo Helper::get_hidden_input([
                     'key_link'   => $this->get_link(),
                     'attributes' => [
-                        'class' => 'hacu-checkbox-multiple__input',
+                        'class' => 'hacu-radio__input',
                         'id'    => $this->prefix_id(),
                         'name'  => $this->id,
-                        'value' => Helper::get_imploded_value( $this->get_value(), $this->choices )
+                        'value' => $this->value()
                     ]
                 ]);
             ?>
@@ -80,11 +69,11 @@ final class CheckboxMultipleControl extends \WP_Customize_Control {
                 <div class="hacu-mb-5">
                     <label>
                         <input 
-                            type="checkbox"
-                            class="hacu-checkbox-multiple__box"
+                            type="radio"
+                            class="hacu-radio__box"
                             id="<?php echo esc_attr( $this->prefix_id() .'-'. $key ); ?>"
                             value="<?php echo esc_attr( $key ); ?>"
-                            <?php checked( in_array( $key, $this->get_value() ), 1 ); ?>
+                            <?php checked( ( $this->value() === $key ), true ); ?>
                         />
                         <?php echo esc_html( $value ); ?>
                     </label>

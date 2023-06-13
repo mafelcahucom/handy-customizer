@@ -18,6 +18,7 @@
     input[type="email"],
     input[type="radio"],
     input[type="checkbox"],
+    input[type="number"],
     select,
     textarea {
         color: $clr-black;
@@ -35,7 +36,8 @@
 
     input[type="url"],
     input[type="text"],
-    input[type="email"] {
+    input[type="email"],
+    input[type="number"] {
         padding: 0 8px;
         line-height: 2;
         min-height: 30px;
@@ -45,6 +47,18 @@
     input[type="checkbox"] {
         width: 1rem;
         height: 1rem;
+    }
+
+    input[type="radio"] {
+        border-radius: 100%;
+
+        &:checked::before {
+            margin: 0.1875rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            line-height: 1.14285714;
+            border-radius: 50%;
+        }
     }
 
     select {

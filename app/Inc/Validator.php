@@ -77,8 +77,14 @@ final class Validator {
             if ( isset( $args[ $key ] ) ) {
                 // Check if value is valid.
                 $is_type_invalid = false;
-                if ( $value['type'] !== 'mixed' && $value['type'] !== gettype( $args[ $key ] ) ) {
+                if ( $value['type'] !== 'mixed' && $value['type'] !== 'number' && $value['type'] !== gettype( $args[ $key ] ) ) {
                     $is_type_invalid = true;
+                }
+
+                if ( $value['type'] === 'number' ) {
+                    if ( ! is_numeric( $args[ $key ] ) ) {
+                        $is_type_invalid = true;
+                    }
                 }
 
                 // If invalid type and required exit.
@@ -90,7 +96,7 @@ final class Validator {
                 if ( ! $is_type_invalid ) {
                     // Check if empty.
                     $is_empty = false;
-                    if ( in_array( $value['type'], [ 'string', 'integer', 'double' ] ) ) {
+                    if ( in_array( $value['type'], [ 'string', 'number', 'integer', 'double' ] ) ) {
                         if ( strlen( $args[ $key ] ) === 0 ) {
                             $is_empty = true;
                         }

@@ -3,30 +3,30 @@ namespace Handy\Fields;
 
 use Handy\Core\Setting;
 use Handy\Inc\Validator;
-use Handy\Controls\TextControl;
+use Handy\Controls\NumberControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Text.
+ * Field > Number.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class TextField extends Setting {
+final class NumberField extends Setting {
 
     /**
-     * Render Text Control.
+     * Render Number Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render text control.
+     * @param  array   $args       Contains the arguments needed to render number control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (mixed)   The default value of the control.
+     *      'default'           => (number)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
      *      'placeholder'       => (string)  The placeholder of the control.
@@ -52,7 +52,7 @@ final class TextField extends Setting {
                 'required' => true
             ],
             'default'           => [
-                'type'     => 'mixed',
+                'type'     => 'number',
                 'required' => false,
             ],
             'label'             => [
@@ -86,10 +86,18 @@ final class TextField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        $config    = Validator::get_configuration( 'field', $validated );
+        if ( isset( $validated['validations'] ) ) {
+            array_unshift( $validated['validations'], 'is_number' );
+        } else {
+            if ( ! empty( $validated ) ) {
+                $validated['validations'] = [ 'is_number' ];
+            }
+        }
+
+        $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'text', $customize, $validated );
-            $customize->add_control( new TextControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'number', $customize, $validated );
+            $customize->add_control( new NumberControl( $customize, $config['settings'], $config ) );
         }
     }
 }

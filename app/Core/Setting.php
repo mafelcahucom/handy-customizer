@@ -125,7 +125,10 @@ class Setting {
         $field = [
             'checkbox'          => 'sanitize_boolean',
             'checkbox_multiple' => 'sanitize_multiple',
+            'counter'           => 'sanitize_counter',
             'email'             => 'sanitize_email',
+            'number'            => 'sanitize_number',
+            'radio'             => 'sanitize_choices',
             'select'            => 'sanitize_choices',
             'text'              => 'sanitize_text',
             'textarea'          => 'sanitize_textarea',
@@ -208,6 +211,23 @@ class Setting {
     }
 
     /**
+     * Return the sanitized number value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_number( $input, $setting ) {
+        if ( ! is_numeric( $input ) ) {
+            return '';
+        }
+
+        return floatval( $input );
+    }
+
+    /**
      * Return the sanitized choices value.
      * 
      * @since 1.0.0
@@ -241,6 +261,39 @@ class Setting {
         $exploded = Helper::get_exploded_value( $input, $choices );
 
         return array_map( 'sanitize_text_field', $exploded );
+    }
+
+    /**
+     * Return the sanitized counter value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_counter( $input, $setting ) {
+        $options          = $setting->manager->get_control( $setting->id )->options;
+        $is_valid_min_max = ( is_numeric( $options['min'] ) && is_numeric( $options['max'] ) );
+
+        $value = 0;
+        if ( is_numeric( $input ) ) {
+            $value = floatval( $input );
+            if ( $is_valid_min_max ) {
+                $min   = floatval( $options['min'] );
+                $max   = floatval( $options['max'] );
+
+                if ( $value < $min ) {
+                    $value = $min;
+                }
+
+                if ( $value > $max ) {
+                    $value = $max;
+                }
+            }
+        }
+
+        return $value;
     }
 
     /**

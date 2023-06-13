@@ -105,7 +105,9 @@ final class EmailField extends Setting {
         if ( isset( $validated['validations'] ) ) {
             array_unshift( $validated['validations'], 'valid_email' );
         } else {
-            $validated['validations'] = [ 'valid_email' ];
+            if ( ! empty( $validated ) ) {
+                $validated['validations'] = [ 'valid_email' ];
+            }
         }
 
         $config = Validator::get_configuration( 'field', $validated );

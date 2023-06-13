@@ -1,0 +1,6 @@
+@mixin media-sm {
+
+	@media ( max-width: 782px ) {
+		@content;
+	}
+}
