@@ -153,6 +153,27 @@ final class Helper {
     }
 
     /**
+     * Return the unique intersected values based on two arrays.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $array1  Contains the array with master values to check.
+     * @param  array  $array2  Contains the array to compare value againts.
+     * @return array
+     */
+    public static function get_intersected( $array1, $array2 ) {
+        $invalid_array1 = ( empty( $array1 ) || ! is_array( $array1 ) );
+        $invalid_array2 = ( empty( $array2 ) || ! is_array( $array2 ) );
+        if ( $invalid_array1 || $invalid_array2 ) {
+            return [];
+        }
+
+        $intersected = array_values( array_unique( array_intersect( $array1, $array2 ) ) );
+
+        return ( ! empty( $intersected ) ? $intersected : [] );
+    }
+
+    /**
      * Return the control label and description component.
      *
      * @param  array  $args  Contains the arguments for creating control label.

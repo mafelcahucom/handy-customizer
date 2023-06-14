@@ -4,14 +4,10 @@
   "description": "Handy Customizer is an open-source WordPress toolkit build for WP Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
   "main": "app.js",
   "scripts": {
-    "lint-admin-scss": "wp-scripts lint-style assets/admin/src/scss/**/*.scss",
-    "lint-admin-scss-fix": "wp-scripts lint-style assets/admin/src/scss/**/*.scss --fix",
-    "lint-client-scss": "wp-scripts lint-style assets/client/src/scss/**/*.scss",
-    "lint-client-scss-fix": "wp-scripts lint-style assets/client/src/scss/**/*.scss --fix",
-    "lint-admin-js": "wp-scripts lint-js assets/admin/src/js/**/*.js",
-    "lint-admin-js-fix": "wp-scripts lint-js assets/admin/src/js/**/*.js --fix",
-    "lint-client-js": "wp-scripts lint-js assets/client/src/js/**/*.js",
-    "lint-client-js-fix": "wp-scripts lint-js assets/client/src/js/**/*.js --fix"
+    "lint-scss": "wp-scripts lint-style assets/src/scss/**/*.scss",
+    "lint-scss-fix": "wp-scripts lint-style assets/src/scss/**/*.scss --fix",
+    "lint-js": "wp-scripts lint-js assets/src/js/**/*.js",
+    "lint-js-fix": "wp-scripts lint-js assets/src/js/**/*.js --fix"
   },
   "author": "Mafel John Cahucom",
   "license": "GPL-3.0-or-later",

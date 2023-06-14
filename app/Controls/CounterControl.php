@@ -7,7 +7,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Counter.
+ * Control > Counter.
  *
  * @since   1.0.0
  * @version 1.0.0

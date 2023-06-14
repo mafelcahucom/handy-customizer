@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Number.
+ * Control > Number.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -54,15 +54,7 @@ final class NumberControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <input 
-                type="number" 
-                class="hacu-number__input" 
-                id="<?php echo esc_attr( $this->prefix_id() ); ?>"
-                name="<?php echo esc_attr( $this->id ); ?>"
-                value="<?php echo esc_attr( $this->value() ); ?>"
-                placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-                <?php $this->link(); ?>
-            />
+            <input type="number" class="hacu-number__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" <?php $this->link(); ?> />
         </div>
         <?php
     }

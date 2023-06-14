@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Checkbox Multiple.
+ * Control > Checkbox Multiple.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -79,13 +79,7 @@ final class CheckboxMultipleControl extends \WP_Customize_Control {
             <?php foreach ( $this->choices as $key => $value ): ?>
                 <div class="hacu-mb-5">
                     <label>
-                        <input 
-                            type="checkbox"
-                            class="hacu-checkbox-multiple__box"
-                            id="<?php echo esc_attr( $this->prefix_id() .'-'. $key ); ?>"
-                            value="<?php echo esc_attr( $key ); ?>"
-                            <?php checked( in_array( $key, $this->get_value() ), 1 ); ?>
-                        />
+                        <input type="checkbox" class="hacu-checkbox-multiple__box" id="<?php echo esc_attr( $this->prefix_id() .'-'. $key ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $this->get_value() ), 1 ); ?> />
                         <?php echo esc_html( $value ); ?>
                     </label>
                 </div>

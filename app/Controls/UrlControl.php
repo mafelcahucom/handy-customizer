@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Url.
+ * Control > Url.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -54,15 +54,7 @@ final class UrlControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <input 
-                type="url" 
-                class="hacu-url__input" 
-                id="<?php echo esc_attr( $this->prefix_id() ); ?>"
-                name="<?php echo esc_attr( $this->id ); ?>"
-                value="<?php echo esc_attr( $this->value() ); ?>"
-                placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-                <?php $this->link(); ?>
-            />
+            <input type="url" class="hacu-url__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" <?php $this->link(); ?> />
         </div>
         <?php
     }

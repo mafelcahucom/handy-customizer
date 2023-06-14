@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Select.
+ * Control > Select.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -63,7 +63,7 @@ final class SelectControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <select class="hacu-select__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?>>
+            <select class="hacu-select__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?> >
                 <?php if ( ! empty( $this->placeholder ) ): ?>
                     <option value="">
                         <?php echo esc_html( $this->placeholder ); ?>

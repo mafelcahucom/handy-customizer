@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Checkbox.
+ * Control > Checkbox.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -37,14 +37,7 @@ final class CheckboxControl extends \WP_Customize_Control {
         <div class="hacu hacu-checkbox">
             <div class="hacu-flex">
                 <div class="hacu-col__left hacu-mr-5">
-                    <input 
-                        type="checkbox"
-                        class="hacu-checkbox__input"
-                        id="<?php echo esc_attr( $this->prefix_id() ); ?>"
-                        name="<?php echo esc_attr( $this->id ); ?>"
-                        value="<?php echo esc_attr( $this->value() ); ?>"
-                        <?php $this->link(); ?>
-                    />
+                    <input type="checkbox" class="hacu-checkbox__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
                 </div>
                 <div class="hacu-col__right">
                     <?php

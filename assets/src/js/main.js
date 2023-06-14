@@ -55,11 +55,11 @@ hacu.fn = {
 
 	/**
 	 * Check if the value is a valid number.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
-	 * @param  {mixed} value The value to be checked.
-	 * @return {boolean}
+	 *
+	 * @param {*} value The value to be checked.
+	 * @return {boolean} Flag if value is number.
 	 */
 	isNumber( value ) {
 		if ( value === null || value === undefined || value.length === 0 ) {
@@ -71,11 +71,11 @@ hacu.fn = {
 
 	/**
 	 * Return the value of joined or imploded to exploded array.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
-	 * @param  {string} value The value to be exploded as array.
-	 * @return {array}
+	 *
+	 * @param {string} value The value to be exploded as array.
+	 * @return {Array} The exploded value.
 	 */
 	getExplodedValue( value ) {
 		if ( value.length === 0 ) {
@@ -87,32 +87,32 @@ hacu.fn = {
 
 	/**
 	 * Dispatch or trigger on chage event to an element.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param {Object} element The target element to dispatched.
 	 */
 	trigger( element ) {
 		if ( element ) {
 			element.dispatchEvent( new Event( 'change', {
-				'bubbles': true
+				bubbles: true,
 			} ) );
 		}
-	}
+	},
 };
 
 /**
  * Checkbox Multiple Field.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  * @type {Object}
  */
 hacu.checkboxMultiple = {
 
 	/**
 	 * Initialize.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	init() {
@@ -121,20 +121,20 @@ hacu.checkboxMultiple = {
 
 	/**
 	 * Update hidden input value based on checked checkbox.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	onChange() {
 		hacu.fn.eventListener( 'change', '.hacu-checkbox-multiple__box', function( e ) {
 			const target = e.target;
 			const value = target.value;
-			const parent = target.closest( '.hacu-checkbox-multiple' );
-			const input = parent.querySelector( '.hacu-checkbox-multiple__input' );
-			if ( value.length === 0 || ! parent || ! input ) {
+			const parentElem = target.closest( '.hacu-checkbox-multiple' );
+			const inputElem = parentElem.querySelector( '.hacu-checkbox-multiple__input' );
+			if ( value.length === 0 || ! parentElem || ! inputElem ) {
 				return;
 			}
 
-			const checked = hacu.fn.getExplodedValue( input.value );
+			const checked = hacu.fn.getExplodedValue( inputElem.value );
 			if ( target.checked ) {
 				if ( ! checked.includes( target.value ) ) {
 					checked.push( value );
@@ -146,33 +146,33 @@ hacu.checkboxMultiple = {
 				}
 			}
 
-			input.value = checked.join( ',' );
-			hacu.fn.trigger( input );
-		});
-	}
+			inputElem.value = checked.join( ',' );
+			hacu.fn.trigger( inputElem );
+		} );
+	},
 };
 
 /**
  * Counter Field.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  * @type {Object}
  */
 hacu.counter = {
 
 	/**
 	 * Holds the keypress timer.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
-	 * @type {integer}
+	 *
+	 * @type {number}
 	 */
 	timer: null,
 
 	/**
 	 * Initialize.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	init() {
@@ -182,8 +182,8 @@ hacu.counter = {
 
 	/**
 	 * Execute the event decrementing and incrementing.
-	 * 
-	 * @since 1.0.0 
+	 *
+	 * @since 1.0.0
 	 */
 	onExecuteEvent() {
 		hacu.fn.eventListener( 'click', '.hacu-counter__control-btn', function( e ) {
@@ -191,23 +191,23 @@ hacu.counter = {
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
 			const event = target.getAttribute( 'data-event' );
-			const parent = target.closest( '.hacu-counter' );
-			const input = parent.querySelector( '.hacu-counter__input' );
-			if ( ! parent || ! input || state !== 'default' || ! [ '-', '+' ].includes( event ) ) {
+			const parentElem = target.closest( '.hacu-counter' );
+			const inputElem = parentElem.querySelector( '.hacu-counter__input' );
+			if ( ! parentElem || ! inputElem || state !== 'default' || ! [ '-', '+' ].includes( event ) ) {
 				return;
 			}
 
-			const decrementBtnElem = parent.querySelector( 'button[data-event="-"]' );
-			const incrementBtnElem = parent.querySelector( 'button[data-event="+"]' );
+			const decrementBtnElem = parentElem.querySelector( 'button[data-event="-"]' );
+			const incrementBtnElem = parentElem.querySelector( 'button[data-event="+"]' );
 			if ( ! decrementBtnElem || ! incrementBtnElem ) {
 				return;
 			}
- 
-			let value = input.value;
-			let min = input.getAttribute( 'data-min' );
-			let max = input.getAttribute( 'data-max' );
-			let step = input.getAttribute( 'data-step' );
-			let isValidMinMax = ( hacu.fn.isNumber( min ) && hacu.fn.isNumber( max ) );
+
+			let value = inputElem.value;
+			let min = inputElem.getAttribute( 'data-min' );
+			let max = inputElem.getAttribute( 'data-max' );
+			let step = inputElem.getAttribute( 'data-step' );
+			const isValidMinMax = ( hacu.fn.isNumber( min ) && hacu.fn.isNumber( max ) );
 
 			value = ( hacu.fn.isNumber( value ) ? parseFloat( value ) : 0 );
 			min = ( hacu.fn.isNumber( min ) ? parseFloat( min ) : 0 );
@@ -246,30 +246,30 @@ hacu.counter = {
 					}
 					break;
 			}
-			
-			input.value = value;
-			hacu.fn.trigger( input );
-		});
+
+			inputElem.value = value;
+			hacu.fn.trigger( inputElem );
+		} );
 	},
 
 	/**
 	 * Execute event when input value change.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	onInputChange() {
 		const callback = function( e ) {
 			const target = e.target;
-			const parent = target.closest( '.hacu-counter' );
-			const decrementBtnElem = parent.querySelector( 'button[data-event="-"]' );
-			const incrementBtnElem = parent.querySelector( 'button[data-event="+"]' );
-			if ( ! parent || ! decrementBtnElem || ! incrementBtnElem ) {
+			const parentElem = target.closest( '.hacu-counter' );
+			const decrementBtnElem = parentElem.querySelector( 'button[data-event="-"]' );
+			const incrementBtnElem = parentElem.querySelector( 'button[data-event="+"]' );
+			if ( ! parentElem || ! decrementBtnElem || ! incrementBtnElem ) {
 				return;
 			}
 
 			let min = target.getAttribute( 'data-min' );
 			let max = target.getAttribute( 'data-max' );
-			let isValidMinMax = ( hacu.fn.isNumber( min ) && hacu.fn.isNumber( max ) );
+			const isValidMinMax = ( hacu.fn.isNumber( min ) && hacu.fn.isNumber( max ) );
 
 			clearTimeout( hacu.counter.timer );
 			hacu.counter.timer = setTimeout( function() {
@@ -305,21 +305,21 @@ hacu.counter = {
 
 		hacu.fn.eventListener( 'keyup', '.hacu-counter__input', callback );
 		hacu.fn.eventListener( 'paste', '.hacu-counter__input', callback );
-	}
+	},
 };
 
 /**
  * Radio Field.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  * @type {Object}
  */
 hacu.radio = {
 
 	/**
 	 * Initialize.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	init() {
@@ -328,31 +328,166 @@ hacu.radio = {
 
 	/**
 	 * Update hidden input value based on checked radio.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	onChange() {
 		hacu.fn.eventListener( 'change', '.hacu-radio__box', function( e ) {
 			const target = e.target;
 			const value = target.value;
-			const parent = target.closest( '.hacu-radio' );
-			const input = parent.querySelector( '.hacu-radio__input' );
-			if ( value.length === 0 || ! parent || ! input ) {
+			const parentElem = target.closest( '.hacu-radio' );
+			const inputElem = parentElem.querySelector( '.hacu-radio__input' );
+			if ( value.length === 0 || ! parentElem || ! inputElem ) {
 				return;
 			}
 
-			const radioElems = parent.querySelectorAll( '.hacu-radio__box' );
+			const radioElems = parentElem.querySelectorAll( '.hacu-radio__box' );
 			if ( radioElems.length > 0 ) {
 				radioElems.forEach( function( radioElem ) {
 					radioElem.checked = false;
-				});
+				} );
 			}
 
 			target.checked = true;
-			input.value = value;
+			inputElem.value = value;
+			hacu.fn.trigger( inputElem );
+		} );
+	},
+};
+
+/**
+ * Size Field.
+ *
+ * @since 1.0.0
+ *
+ * @type {Object}
+ */
+hacu.size = {
+
+	/**
+	 * Holds the keypress timer.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @type {number}
+	 */
+	timer: null,
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 1.0.0
+	 */
+	init() {
+		this.onToggleDropdown();
+		this.onSelectUnit();
+		this.onChangeNumber();
+	},
+
+	/**
+	 * Update the size value in the hidden input.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} input The hidden input element.
+	 */
+	updateValue( input ) {
+		if ( input ) {
+			const size = input.getAttribute( 'data-size' );
+			const unit = input.getAttribute( 'data-unit' );
+			input.value = `${ size }${ unit }`;
 			hacu.fn.trigger( input );
-		});
-	}
+		}
+	},
+
+	/**
+	 * On toggle dropdown button control.
+	 *
+	 * @since 1.0.0
+	 */
+	onToggleDropdown() {
+		hacu.fn.eventListener( 'click', '.hacu-size__dropdown-btn', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const parentElem = target.closest( '.hacu-size' );
+			const dropdownElem = parentElem.querySelector( '.hacu-size__dropdown' );
+			if ( ! parentElem || ! dropdownElem ) {
+				return;
+			}
+
+			const state = target.getAttribute( 'data-state' );
+			if ( [ 'closed', 'opened' ].includes( state ) ) {
+				const updatedState = ( state === 'closed' ? 'opened' : 'closed' );
+				target.setAttribute( 'data-state', updatedState );
+				dropdownElem.setAttribute( 'data-state', updatedState );
+			}
+		} );
+	},
+
+	/**
+	 * Update or select the unit size in hidden input.
+	 *
+	 * @since 1.0.0
+	 */
+	onSelectUnit() {
+		hacu.fn.eventListener( 'click', '.hacu-size__dropdown__li', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const parentElem = target.closest( '.hacu-size' );
+			const inputElem = parentElem.querySelector( '.hacu-size__input' );
+			const dropdownElem = parentElem.querySelector( '.hacu-size__dropdown' );
+			const dropdownBtnElem = parentElem.querySelector( '.hacu-size__dropdown-btn' );
+			if ( ! parentElem || ! inputElem || ! dropdownElem || ! dropdownBtnElem ) {
+				return;
+			}
+
+			const state = target.getAttribute( 'data-state' );
+			const value = target.getAttribute( 'data-value' );
+			if ( state === 'default' || value.length > 0 ) {
+				inputElem.setAttribute( 'data-unit', value );
+				hacu.size.updateValue( inputElem );
+
+				const dropdownLiElems = parentElem.querySelectorAll( '.hacu-size__dropdown__li' );
+				if ( dropdownLiElems.length > 0 ) {
+					dropdownLiElems.forEach( function( dropdownLiElem ) {
+						dropdownLiElem.setAttribute( 'data-state', 'default' );
+					} );
+				}
+				target.setAttribute( 'data-state', 'active' );
+
+				dropdownBtnElem.textContent = value;
+				dropdownBtnElem.setAttribute( 'data-state', 'closed' );
+				dropdownElem.setAttribute( 'data-state', 'closed' );
+			}
+		} );
+	},
+
+	/**
+	 * Update or type the number size value.
+	 *
+	 * @since 1.0.0
+	 */
+	onChangeNumber() {
+		const callback = function( e ) {
+			const target = e.target;
+			const parentElem = target.closest( '.hacu-size' );
+			const inputElem = parentElem.querySelector( '.hacu-size__input' );
+			if ( ! parentElem || ! inputElem ) {
+				return;
+			}
+
+			clearTimeout( hacu.size.timer );
+			hacu.size.timer = setTimeout( function() {
+				const value = ( hacu.fn.isNumber( target.value ) ? target.value : '' );
+				target.value = value;
+				inputElem.setAttribute( 'data-size', value );
+				hacu.size.updateValue( inputElem );
+			}, 500 );
+		};
+
+		hacu.fn.eventListener( 'keyup', '.hacu-size__number', callback );
+		hacu.fn.eventListener( 'paste', '.hacu-size__number', callback );
+	},
 };
 
 /**
@@ -382,6 +517,7 @@ hacu.domReady = {
 
 hacu.domReady.execute( function() {
 	hacu.checkboxMultiple.init(); // Handle checkbox multiple events.
-	hacu.counter.init(); 		  // Handle counter events.
-	hacu.radio.init();			  // Handle radio events.
+	hacu.counter.init(); // Handle counter events.
+	hacu.radio.init(); // Handle radio events.
+	hacu.size.init(); // Handle size events.
 } );

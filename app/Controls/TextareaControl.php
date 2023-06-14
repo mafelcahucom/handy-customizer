@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Textarea.
+ * Control > Textarea.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -54,15 +54,7 @@ final class TextareaControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <textarea
-                class="hacu-textarea__input"
-                id="<?php echo esc_attr( $this->prefix_id() ); ?>"
-                name="<?php echo esc_attr( $this->id ); ?>"
-                value="<?php echo esc_attr( $this->value() ); ?>"
-                placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-                rows="5"
-                <?php $this->link(); ?>
-            ></textarea>
+            <textarea class="hacu-textarea__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" rows="5" <?php $this->link(); ?>></textarea>
         </div>
         <?php
     }

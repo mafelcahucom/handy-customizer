@@ -6,7 +6,7 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Controls > Radio.
+ * Control > Radio.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -68,13 +68,7 @@ final class RadioControl extends \WP_Customize_Control {
             <?php foreach ( $this->choices as $key => $value ): ?>
                 <div class="hacu-mb-5">
                     <label>
-                        <input 
-                            type="radio"
-                            class="hacu-radio__box"
-                            id="<?php echo esc_attr( $this->prefix_id() .'-'. $key ); ?>"
-                            value="<?php echo esc_attr( $key ); ?>"
-                            <?php checked( ( $this->value() === $key ), true ); ?>
-                        />
+                        <input type="radio" class="hacu-radio__box" id="<?php echo esc_attr( $this->prefix_id() .'-'. $key ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php checked( ( $this->value() === $key ), true ); ?> />
                         <?php echo esc_html( $value ); ?>
                     </label>
                 </div>

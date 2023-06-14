@@ -1,0 +1,97 @@
+.hacu-size {
+
+	&__container {
+		display: flex;
+		gap: 3px;
+	}
+
+	&__col-left {
+		width: 100%;
+	}
+
+	&__col-right {
+		position: relative;
+	}
+
+	&__dropdown-btn {
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 30px;
+		min-height: 30px;
+		font-size: 12px;
+		line-height: 12px;
+		cursor: pointer;
+		color: $clr-light-black;
+		background-color: $clr-grey;
+		border: 1px solid $clr-gray;
+		border-radius: 4px;
+
+		&:hover,
+		&:focus,
+		&[data-state="opened"] {
+			color: $clr-blue;
+			background-color: $clr-dark-grey;
+			border-color: $clr-blue;
+		}
+	}
+
+	&__dropdown {
+		display: none;
+		position: absolute;
+		right: 0;
+		padding: 0;
+		margin: 0;
+		margin-top: 3px;
+		width: 45px;
+		max-height: 150px;
+		list-style: none;
+		background-color: $clr-white;
+		border: 1px solid $clr-gray;
+		border-radius: 4px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		z-index: 999999;
+
+		&::-webkit-scrollbar {
+			width: 5px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: $clr-gray;
+			border-radius: 4px;
+		}
+
+		&[data-state="opened"] {
+			display: block;
+		}
+
+		&__li {
+			margin: 0;
+			padding: 5px;
+			font-size: 12px;
+			line-height: 12px;
+			cursor: pointer;
+
+			&:hover,
+			&:focus,
+			&[data-state="active"] {
+				color: $clr-white;
+				background-color: $clr-blue;
+			}
+		}
+	}
+
+	@include media-sm {
+
+		&__dropdown-btn {
+			min-width: 34px;
+			min-height: 34px;
+		}
+	}
+}

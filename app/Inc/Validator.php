@@ -40,6 +40,30 @@ final class Validator {
     }
 
     /**
+     * Checks if the value is a valid size based on defined valid units.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $value  The value size to be check.
+     * @param  array   $units  The list of valid units.
+     * @return boolean
+     */
+    public static function is_valid_size( $value = '', $units = [] ) {
+        if ( ! is_string( $value ) || empty( $units ) || ! is_array( $units ) ) {
+            return false;
+        }
+
+        $splited = preg_split( '/(?<=[0-9])(?=[a-z%]+)/i', $value );
+        if ( count( $splited ) === 2 ) {
+            if ( is_numeric( $splited[0] ) && in_array( $splited[1], $units ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the callback is invalid object or string type.
      * 
      * @since 1.0.0

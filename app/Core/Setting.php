@@ -322,6 +322,9 @@ class Setting {
             'valid_ip'                 => [
                 'has_param' => false
             ],
+            'valid_size'               => [
+                'has_param' => true
+            ],
             'is_number'                => [
                 'has_param' => false
             ],
@@ -484,6 +487,27 @@ class Setting {
         if ( ! Validator::is_empty( $value ) ) {
             if ( filter_var( $value, FILTER_VALIDATE_IP ) === false ) {
                 $validity->add( 'error', $this->__p( 'Invalid IP address' ) );
+            }
+        }
+
+        return $validity;
+    }
+
+    /**
+     * Print an error message if the value is an invalid size.
+     * 
+     * @since 1.0.0
+     *
+     * @param  object  $validity  Contains the validation prompt.
+     * @param  mixed   $value     Contains the value of the field.
+     * @param  string  $units     Contains the list of valid size units.
+     * @return object
+     */
+    private function valid_size( $validity, $value, $units ) {
+        if ( ! Validator::is_empty( $value ) ) {
+            $exploded = explode( ',', $units );
+            if ( ! Validator::is_valid_size( $value, $exploded ) ) {
+                $validity->add( 'error', $this->__p( 'Invalid size.' ) );
             }
         }
 

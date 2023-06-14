@@ -2,79 +2,80 @@
 namespace Handy\Fields;
 
 use Handy\Core\Setting;
+use Handy\Inc\Helper;
 use Handy\Inc\Validator;
-use Handy\Controls\CounterControl;
+use Handy\Controls\SizeControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Counter.
+ * Field > Size.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class CounterField extends Setting {
+final class SizeField extends Setting {
 
     /**
-     * Return the validated options. Validate the value of minimum, maximum and stepper.
+     * Return the list of valid units.
      * 
      * @since 1.0.0
      *
-     * @param  array  $options  Contains the option settings.
-     * $options = [
-     *      'min'  => (number) The minimum value of the counter.
-     *      'max'  => (number) The maximum value of the counter.
-     *      'step' => (number) The stepper of the counter.
-     * ]
      * @return array
      */
-    private function get_validated_options( $options ) {
-        $value = [
-            'min'  => '∞',
-            'max'  => '∞',
-            'step' => 1
+    private function valid_units() {
+        return [
+            'px', '%', 'pt', 'pc', 'in', 'q', 'mm', 'cm', 'em', 'ex', 'ch', 'rem', 'lh', 'rlh', 
+            'vw', 'vh', 'vmin', 'vmax', 'vb', 'vi', 'swv', 'svh', 'lvw', 'lvh', 'dvw', 'dvh'
         ];
-
-        $is_valid_min = ( isset( $options['min'] ) && is_numeric( $options['min'] ) );
-        $is_valid_max = ( isset( $options['max'] ) && is_numeric( $options['max'] ) );
-        if ( $is_valid_min && $is_valid_max ) {
-            $min = floatval( $options['min'] );
-            $max = floatval( $options['max'] );
-            if ( $min < $max ) {
-                $value['min'] = $min;
-                $value['max'] = $max;
-            }
-        }
-
-        if ( isset( $options['step'] ) && is_numeric( $options['step'] ) ) {
-            $step = floatval( $options['step'] );
-            if ( $step > 0 ) {
-                $value['step'] = $step;
-            }
-        }
-
-        return $value;
     }
 
     /**
-     * Render Counter Control.
+     * Return the validated default value. Validate default if a valid size.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $default  The default value to be validated.
+     * @param  array   $units    The list of valid units.
+     * @return string
+     */
+    private function get_validated_default( $default = '', $units = [] ) {
+        return ( Validator::is_valid_size( $default, $units ) ? $default : '' );
+    }
+
+    /**
+     * Return the validated units. Validate if defined units are valid.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $units  Contains the units to be validate.
+     * @return array
+     */
+    private function get_validated_units( $units ) {
+        $validated = Helper::get_intersected( $units, $this->valid_units() );
+        return ( ! empty( $validated ) ? $validated : $this->valid_units() );
+    }
+
+    /**
+     * Render Size Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render counter control.
+     * @param  array   $args       Contains the arguments needed to render size control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (number)  The default value of the control.
+     *      'default'           => (string)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
+     *      'placeholder'       => (string)  The placeholder of the control.
      *      'priority'          => (integer) The order of control appears in the section. 
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'options'           => (array)   The set of options minimum, maximum and stepper.
+     *      'units'             => (array)   The list of allowed unit size.
      * ]
      * @return void
      */
@@ -93,7 +94,7 @@ final class CounterField extends Setting {
                 'required' => true
             ],
             'default'           => [
-                'type'     => 'number',
+                'type'     => 'string',
                 'required' => false,
             ],
             'label'             => [
@@ -103,6 +104,10 @@ final class CounterField extends Setting {
             'description'       => [
                 'type'     => 'string',
                 'required' => false
+            ],
+            'placeholder'       => [
+                'type'     => 'string',
+                'required' => false 
             ],
             'priority'          => [
                 'type'     => 'integer',
@@ -120,29 +125,38 @@ final class CounterField extends Setting {
                 'type'     => 'mixed',
                 'required' => false
             ],
-            'options'           => [
+            'units'             => [
                 'type'     => 'array',
-                'required' => true
+                'required' => false
             ]
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['options'] ) ) {
-            $validated['options'] = $this->get_validated_options( $validated['options'] );
-        }
-
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'is_number' );
+        if ( isset( $validated['units'] ) ) {
+            $validated['units'] = $this->get_validated_units( $validated['units'] );
         } else {
             if ( ! empty( $validated ) ) {
-                $validated['validations'] = [ 'is_number' ];
+                $validated['units'] = $this->valid_units();
             }
         }
 
+        if ( isset( $validated['default'] ) ) {
+            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['units'] );
+        }
+
+        if ( ! empty( $validated ) ) {
+            $validation = 'valid_size['. implode( ',', $validated['units'] ) .']';
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], $validation );
+            } else {
+                $validated['validations'] = [ $validation ];
+            }
+        }
+        
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'counter', $customize, $validated );
-            $customize->add_control( new CounterControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'size', $customize, $validated );
+            $customize->add_control( new SizeControl( $customize, $config['settings'], $config ) );
         }
     }
 }
