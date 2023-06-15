@@ -38,6 +38,8 @@
 			color: $clr-blue;
 			background-color: $clr-dark-grey;
 			border-color: $clr-blue;
+
+			@include transition;
 		}
 	}
 

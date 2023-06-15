@@ -54,6 +54,42 @@ hacu.fn = {
 	},
 
 	/**
+	 * Checks if the object is empty.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} object The object to be checked.
+	 * @return {boolean} Whether has empty key.
+	 */
+	isObjectEmpty( object ) {
+		return Object.keys( object ).length === 0;
+	},
+
+	/**
+	 * Checks if the object has a missing key, if has found
+	 * a missing key return true.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Array}  keys   The list of keys use as referrence.
+	 * @param {Object} object The object to be checked.
+	 */
+	isObjectHasMissingKey( keys, object ) {
+		if ( keys.length === 0 || this.isObjectEmpty( object ) ) {
+			return;
+		}
+
+		let hasMissing = false;
+		keys.forEach( function( key ) {
+			if ( ! object.hasOwnProperty( key ) ) {
+				hasMissing = true;
+			}
+		} );
+
+		return hasMissing;
+	},
+
+	/**
 	 * Check if the value is a valid number.
 	 *
 	 * @since 1.0.0
@@ -86,6 +122,118 @@ hacu.fn = {
 	},
 
 	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} params          Contains the parameters needed to required element.
+	 * @param {Object} params.target   The target element.
+	 * @param {Object} params.elements The list of required elements.
+	 * @return {Object} The required elements.
+	 */
+	getRequiredElements( params = {} ) {
+		const required = [ 'target', 'elements' ];
+		if ( this.isObjectEmpty( params ) || this.isObjectHasMissingKey( required, params ) ) {
+			return false;
+		}
+
+		if ( this.isObjectEmpty( params.elements ) ) {
+			return false;
+		}
+
+		const targetClassname = params.target.getAttribute( 'class' );
+		if ( ! targetClassname ) {
+			return false;
+		}
+
+		const classname = targetClassname.split( '__' )[ 0 ];
+		const parentElem = params.target.closest( `.${ classname }` );
+		if ( ! parentElem ) {
+			return false;
+		}
+
+		const elements = {};
+		let hasNotFound = false;
+		Object.entries( params.elements ).forEach( function( value ) {
+			const { isSingle, selector } = value[ 1 ];
+			if ( isSingle ) {
+				const elem = parentElem.querySelector( selector );
+				if ( elem ) {
+					elements[ `${ value[ 0 ] }Elem` ] = elem;
+				} else {
+					hasNotFound = true;
+				}
+			} else {
+				const elems = parentElem.querySelectorAll( selector );
+				elements[ `${ value[ 0 ] }Elems` ] = elems;
+			}
+		} );
+		elements.parentElem = parentElem;
+
+		return ( hasNotFound ? false : elements );
+	},
+
+	/**
+	 * Sets the attribute of target elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {string} selector  The element selector.
+	 * @param {string} attribute The Attribute to be set.
+	 * @param {string} value     The value of the attribute.
+	 */
+	setAttribute( selector, attribute, value ) {
+		if ( ! selector || ! attribute ) {
+			return;
+		}
+
+		const elems = document.querySelectorAll( selector );
+		if ( elems.length > 0 ) {
+			elems.forEach( function( elem ) {
+				elem.setAttribute( attribute, value );
+			} );
+		}
+	},
+
+	/**
+	 * Sets the children attribute of target elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} parent    The parent element.
+	 * @param {string} selector  The element selector.
+	 * @param {string} attribute The Attribute to be set.
+	 * @param {string} value     The value of the attribute.
+	 */
+	setChildAttribute( parent, selector, attribute, value ) {
+		if ( ! parent || ! selector || ! attribute ) {
+			return;
+		}
+
+		const elems = parent.querySelectorAll( selector );
+		if ( elems.length > 0 ) {
+			elems.forEach( function( elem ) {
+				elem.setAttribute( attribute, value );
+			} );
+		}
+	},
+
+	/**
+	 * Update the hidden input value and dispatch change event.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} input The target hidden input.
+	 * @param {*}      value The new value of hidden input.
+	 */
+	updateFieldValue( input, value ) {
+		if ( input ) {
+			input.value = value;
+			this.trigger( input );
+		}
+	},
+
+	/**
 	 * Dispatch or trigger on chage event to an element.
 	 *
 	 * @since 1.0.0
@@ -98,6 +246,70 @@ hacu.fn = {
 				bubbles: true,
 			} ) );
 		}
+	},
+};
+
+/**
+ * Button Set Field.
+ *
+ * @since 1.0.0
+ *
+ * @type {Object}
+ */
+hacu.buttonSet = {
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 1.0.0
+	 */
+	init() {
+		this.onChange();
+	},
+
+	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-button-set__input',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
+	 * Update hidden input value based on selected item button.
+	 *
+	 * @since 1.0.0
+	 */
+	onChange() {
+		hacu.fn.eventListener( 'click', '.hacu-button-set__item-btn', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const value = target.getAttribute( 'data-value' );
+			const state = target.getAttribute( 'data-state' );
+			const elements = hacu.buttonSet.elements( target );
+			if ( ! elements || value.length === 0 || state !== 'default' ) {
+				return;
+			}
+
+			const { parentElem, inputElem } = elements;
+			hacu.fn.updateFieldValue( inputElem, value );
+			hacu.fn.setChildAttribute( parentElem, '.hacu-button-set__item-btn', 'data-state', 'default' );
+			target.setAttribute( 'data-state', 'active' );
+		} );
 	},
 };
 
@@ -120,6 +332,28 @@ hacu.checkboxMultiple = {
 	},
 
 	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-checkbox-multiple__input',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
 	 * Update hidden input value based on checked checkbox.
 	 *
 	 * @since 1.0.0
@@ -128,11 +362,12 @@ hacu.checkboxMultiple = {
 		hacu.fn.eventListener( 'change', '.hacu-checkbox-multiple__box', function( e ) {
 			const target = e.target;
 			const value = target.value;
-			const parentElem = target.closest( '.hacu-checkbox-multiple' );
-			const inputElem = parentElem.querySelector( '.hacu-checkbox-multiple__input' );
-			if ( value.length === 0 || ! parentElem || ! inputElem ) {
+			const elements = hacu.checkboxMultiple.elements( target );
+			if ( ! elements || value.length === 0 ) {
 				return;
 			}
+
+			const { inputElem } = elements;
 
 			const checked = hacu.fn.getExplodedValue( inputElem.value );
 			if ( target.checked ) {
@@ -146,8 +381,7 @@ hacu.checkboxMultiple = {
 				}
 			}
 
-			inputElem.value = checked.join( ',' );
-			hacu.fn.trigger( inputElem );
+			hacu.fn.updateFieldValue( inputElem, checked.join( ',' ) );
 		} );
 	},
 };
@@ -181,6 +415,36 @@ hacu.counter = {
 	},
 
 	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-counter__input',
+					},
+					decrementBtn: {
+						isSingle: true,
+						selector: 'button[data-event="-"]',
+					},
+					incrementBtn: {
+						isSingle: true,
+						selector: 'button[data-event="+"]',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
 	 * Execute the event decrementing and incrementing.
 	 *
 	 * @since 1.0.0
@@ -191,18 +455,12 @@ hacu.counter = {
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
 			const event = target.getAttribute( 'data-event' );
-			const parentElem = target.closest( '.hacu-counter' );
-			const inputElem = parentElem.querySelector( '.hacu-counter__input' );
-			if ( ! parentElem || ! inputElem || state !== 'default' || ! [ '-', '+' ].includes( event ) ) {
+			const elements = hacu.counter.elements( target );
+			if ( ! elements || state !== 'default' || ! [ '-', '+' ].includes( event ) ) {
 				return;
 			}
 
-			const decrementBtnElem = parentElem.querySelector( 'button[data-event="-"]' );
-			const incrementBtnElem = parentElem.querySelector( 'button[data-event="+"]' );
-			if ( ! decrementBtnElem || ! incrementBtnElem ) {
-				return;
-			}
-
+			const { inputElem, decrementBtnElem, incrementBtnElem } = elements;
 			let value = inputElem.value;
 			let min = inputElem.getAttribute( 'data-min' );
 			let max = inputElem.getAttribute( 'data-max' );
@@ -247,8 +505,7 @@ hacu.counter = {
 					break;
 			}
 
-			inputElem.value = value;
-			hacu.fn.trigger( inputElem );
+			hacu.fn.updateFieldValue( inputElem, value );
 		} );
 	},
 
@@ -260,13 +517,12 @@ hacu.counter = {
 	onInputChange() {
 		const callback = function( e ) {
 			const target = e.target;
-			const parentElem = target.closest( '.hacu-counter' );
-			const decrementBtnElem = parentElem.querySelector( 'button[data-event="-"]' );
-			const incrementBtnElem = parentElem.querySelector( 'button[data-event="+"]' );
-			if ( ! parentElem || ! decrementBtnElem || ! incrementBtnElem ) {
+			const elements = hacu.counter.elements( target );
+			if ( ! elements ) {
 				return;
 			}
 
+			const { decrementBtnElem, incrementBtnElem } = elements;
 			let min = target.getAttribute( 'data-min' );
 			let max = target.getAttribute( 'data-max' );
 			const isValidMinMax = ( hacu.fn.isNumber( min ) && hacu.fn.isNumber( max ) );
@@ -327,6 +583,32 @@ hacu.radio = {
 	},
 
 	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-radio__input',
+					},
+					radio: {
+						isSingle: false,
+						selector: '.hacu-radio__box',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
 	 * Update hidden input value based on checked radio.
 	 *
 	 * @since 1.0.0
@@ -335,13 +617,12 @@ hacu.radio = {
 		hacu.fn.eventListener( 'change', '.hacu-radio__box', function( e ) {
 			const target = e.target;
 			const value = target.value;
-			const parentElem = target.closest( '.hacu-radio' );
-			const inputElem = parentElem.querySelector( '.hacu-radio__input' );
-			if ( value.length === 0 || ! parentElem || ! inputElem ) {
+			const elements = hacu.radio.elements( target );
+			if ( ! elements || value.length === 0 ) {
 				return;
 			}
 
-			const radioElems = parentElem.querySelectorAll( '.hacu-radio__box' );
+			const { inputElem, radioElems } = elements;
 			if ( radioElems.length > 0 ) {
 				radioElems.forEach( function( radioElem ) {
 					radioElem.checked = false;
@@ -349,8 +630,7 @@ hacu.radio = {
 			}
 
 			target.checked = true;
-			inputElem.value = value;
-			hacu.fn.trigger( inputElem );
+			hacu.fn.updateFieldValue( inputElem, value );
 		} );
 	},
 };
@@ -385,6 +665,36 @@ hacu.size = {
 	},
 
 	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-size__input',
+					},
+					dropdown: {
+						isSingle: true,
+						selector: '.hacu-size__dropdown',
+					},
+					dropdownBtn: {
+						isSingle: true,
+						selector: '.hacu-size__dropdown-btn',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
 	 * Update the size value in the hidden input.
 	 *
 	 * @since 1.0.0
@@ -395,8 +705,7 @@ hacu.size = {
 		if ( input ) {
 			const size = input.getAttribute( 'data-size' );
 			const unit = input.getAttribute( 'data-unit' );
-			input.value = `${ size }${ unit }`;
-			hacu.fn.trigger( input );
+			hacu.fn.updateFieldValue( input, `${ size }${ unit }` );
 		}
 	},
 
@@ -409,12 +718,12 @@ hacu.size = {
 		hacu.fn.eventListener( 'click', '.hacu-size__dropdown-btn', function( e ) {
 			e.preventDefault();
 			const target = e.target;
-			const parentElem = target.closest( '.hacu-size' );
-			const dropdownElem = parentElem.querySelector( '.hacu-size__dropdown' );
-			if ( ! parentElem || ! dropdownElem ) {
+			const elements = hacu.size.elements( target );
+			if ( ! elements ) {
 				return;
 			}
 
+			const { dropdownElem } = elements;
 			const state = target.getAttribute( 'data-state' );
 			if ( [ 'closed', 'opened' ].includes( state ) ) {
 				const updatedState = ( state === 'closed' ? 'opened' : 'closed' );
@@ -433,31 +742,25 @@ hacu.size = {
 		hacu.fn.eventListener( 'click', '.hacu-size__dropdown__li', function( e ) {
 			e.preventDefault();
 			const target = e.target;
-			const parentElem = target.closest( '.hacu-size' );
-			const inputElem = parentElem.querySelector( '.hacu-size__input' );
-			const dropdownElem = parentElem.querySelector( '.hacu-size__dropdown' );
-			const dropdownBtnElem = parentElem.querySelector( '.hacu-size__dropdown-btn' );
-			if ( ! parentElem || ! inputElem || ! dropdownElem || ! dropdownBtnElem ) {
+			const elements = hacu.size.elements( target );
+			if ( ! elements ) {
 				return;
 			}
 
+			// inputElem. dropdownElem, dropdownBtnElem
+			const { parentElem, inputElem, dropdownElem, dropdownBtnElem } = elements;
 			const state = target.getAttribute( 'data-state' );
 			const value = target.getAttribute( 'data-value' );
 			if ( state === 'default' || value.length > 0 ) {
-				inputElem.setAttribute( 'data-unit', value );
-				hacu.size.updateValue( inputElem );
-
-				const dropdownLiElems = parentElem.querySelectorAll( '.hacu-size__dropdown__li' );
-				if ( dropdownLiElems.length > 0 ) {
-					dropdownLiElems.forEach( function( dropdownLiElem ) {
-						dropdownLiElem.setAttribute( 'data-state', 'default' );
-					} );
-				}
+				hacu.fn.setChildAttribute( parentElem, '.hacu-size__dropdown__li', 'data-state', 'default' );
 				target.setAttribute( 'data-state', 'active' );
 
 				dropdownBtnElem.textContent = value;
 				dropdownBtnElem.setAttribute( 'data-state', 'closed' );
 				dropdownElem.setAttribute( 'data-state', 'closed' );
+
+				inputElem.setAttribute( 'data-unit', value );
+				hacu.size.updateValue( inputElem );
 			}
 		} );
 	},
@@ -470,12 +773,12 @@ hacu.size = {
 	onChangeNumber() {
 		const callback = function( e ) {
 			const target = e.target;
-			const parentElem = target.closest( '.hacu-size' );
-			const inputElem = parentElem.querySelector( '.hacu-size__input' );
-			if ( ! parentElem || ! inputElem ) {
+			const elements = hacu.size.elements( target );
+			if ( ! elements ) {
 				return;
 			}
 
+			const { inputElem } = elements;
 			clearTimeout( hacu.size.timer );
 			hacu.size.timer = setTimeout( function() {
 				const value = ( hacu.fn.isNumber( target.value ) ? target.value : '' );
@@ -516,6 +819,7 @@ hacu.domReady = {
 };
 
 hacu.domReady.execute( function() {
+	hacu.buttonSet.init(); // Handle button set events.
 	hacu.checkboxMultiple.init(); // Handle checkbox multiple events.
 	hacu.counter.init(); // Handle counter events.
 	hacu.radio.init(); // Handle radio events.

@@ -34,6 +34,8 @@
 			color: $clr-blue;
 			background-color: $clr-dark-grey;
 			border-color: $clr-blue;
+
+			@include transition;
 		}
 	}
 
@@ -83,6 +85,8 @@
 			&[data-state="active"] {
 				color: $clr-white;
 				background-color: $clr-blue;
+
+				@include transition;
 			}
 		}
 	}

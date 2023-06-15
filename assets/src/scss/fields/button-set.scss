@@ -1,0 +1,35 @@
+.hacu-button-set {
+
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+		border: 1px solid $clr-light-gray;
+		border-radius: 4px;
+
+		&:hover,
+		&:focus {
+			border-color: $clr-blue;
+
+			@include transition;
+		}
+	}
+
+	&__item-btn {
+		flex-grow: 1;
+		padding: 0.5em 1em;
+		margin: 0;
+		cursor: pointer;
+		color: $clr-light-black;
+		background-color: $clr-light-gray;
+		border: 0;
+
+		&:hover,
+		&:focus,
+		&[data-state="active"] {
+			color: $clr-white;
+			background-color: $clr-blue;
+
+			@include transition;
+		}
+	}
+}

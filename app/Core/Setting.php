@@ -123,6 +123,7 @@ class Setting {
         }
 
         $field = [
+            'button_set'        => 'sanitize_choices',
             'checkbox'          => 'sanitize_boolean',
             'checkbox_multiple' => 'sanitize_multiple',
             'counter'           => 'sanitize_counter',

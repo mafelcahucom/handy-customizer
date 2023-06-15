@@ -104,17 +104,17 @@ final class SelectField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['choices'] );
-        }
-
         if ( isset( $validated['choices'] ) ) {
             $validated['choices'] = array_unique( $validated['choices'] );
             if ( empty( $validated['choices'] ) ) {
                 return;
             }
         }
-    
+
+        if ( isset( $validated['default'] ) ) {
+            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['choices'] );
+        }
+
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
             $this->setting( 'select', $customize, $validated );
