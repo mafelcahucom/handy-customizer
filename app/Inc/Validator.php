@@ -190,4 +190,42 @@ final class Validator {
 
         return $args;
     }
+
+    /**
+     * Return the validated sort_order value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $order  The sort order value to be validate.
+     * @return string
+     */
+    public static function get_sort_order( $order ) {
+        $value = 'asc';
+        $valid = [ 'asc', 'ASC', 'desc', 'DESC' ];
+        if ( in_array( $order, $valid ) ) {
+            $value = $order;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Return the validated post_status value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $status  The post status to be validate.
+     * @return array
+     */
+    public static function get_post_status( $status ) {
+        $value        = [ 'publish' ];
+        $valid        = [ 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' ];
+        $valid_status = ( ! empty( $status ) && is_array( $status ) );
+        if ( $valid_status ) {
+            $intersected = array_values( array_unique( array_intersect( $status, $valid ) ) );
+            $value       = ( ! empty( $intersected ) ? $intersected : $value );
+        }
+
+        return $value;
+    } 
 }

@@ -4,73 +4,81 @@ namespace Handy\Fields;
 use Handy\Core\Setting;
 use Handy\Inc\Helper;
 use Handy\Inc\Validator;
-use Handy\Controls\SizeControl;
+use Handy\Controls\DropdownPageControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Size.
+ * Field > Dropdown Page.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class SizeField extends Setting {
+final class DropdownPageField extends Setting {
 
     /**
-     * Return the list of valid units.
+     * Return an array of pages.
      * 
      * @since 1.0.0
      *
+     * @param  array  $args  Contains arguments to retrieve pages.
+     * $args = [
+     *      'status'      => (array)  The status of the pages.
+     *      'order'       => (string) The order of pages.
+     *      'placeholder' => (string) The placeholder of the control.
+     * ]
      * @return array
      */
-    private function valid_units() {
-        return [
-            'px', '%', 'pt', 'pc', 'in', 'q', 'mm', 'cm', 'em', 'ex', 'ch', 'rem', 'lh', 'rlh', 
-            'vw', 'vh', 'vmin', 'vmax', 'vb', 'vi', 'swv', 'svh', 'lvw', 'lvh', 'dvw', 'dvh'
-        ];
+    private function get_pages( $args = [] ) {
+        $value  = [];
+        $order  = Validator::get_sort_order( $args['order'] );
+        $status = Validator::get_post_status( $args['status'] );
+        $pages  = get_pages([
+            'post_status' => $status,
+            'sort_order'  => $order
+        ]);
+
+        if ( strlen( $args['placeholder'] ) > 0 ) {
+            $value[0] = $args['placeholder'];
+        }
+
+        if ( ! empty( $pages ) ) {
+            foreach ( $pages as $page ) {
+                $value[ $page->ID ] = $page->post_title;
+            }
+        }
+
+        return $value;
     }
 
     /**
-     * Return the validated default value. Validate default if a valid size.
+     * Return the validated default value. Validate default if exist in pages.
      * 
      * @since 1.0.0
      *
      * @param  array  $args  Contains the arguments needed for default validation.
      * $args = [
-     *      'default' => (string) The default value to be validated.
-     *      'units'   => (array)  The list of valid units.
+     *      'default' => (number) The default value to be validated.
+     *      'choices' => (array)  The list of pages.
      * ]
-     * @return string
+     * @return integer
      */
     private function get_validated_default( $args = [] ) {
-        return ( Validator::is_valid_size( $args['default'], $args['units'] ) ? $args['default'] : '' );
+        return ( array_key_exists( $args['default'], $args['choices'] ) ? $args['default'] : 0 );
     }
 
     /**
-     * Return the validated units. Validate if defined units are valid.
-     * 
-     * @since 1.0.0
-     *
-     * @param  array  $units  Contains the units to be validate.
-     * @return array
-     */
-    private function get_validated_units( $units ) {
-        $validated = Helper::get_intersected( $units, $this->valid_units() );
-        return ( ! empty( $validated ) ? $validated : $this->valid_units() );
-    }
-
-    /**
-     * Render Size Control.
+     * Render Dropdown Page Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render size control.
+     * @param  array   $args       Contains the arguments needed to render dropdown page control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (string)  The default value of the control.
+     *      'default'           => (number)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
      *      'placeholder'       => (string)  The placeholder of the control.
@@ -78,7 +86,8 @@ final class SizeField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'units'             => (array)   The list of allowed unit size.
+     *      'status'            => (array)   The list of page status.
+     *      'order'             => (string)  The order of the pages.
      * ]
      * @return void
      */
@@ -97,7 +106,7 @@ final class SizeField extends Setting {
                 'required' => true
             ],
             'default'           => [
-                'type'     => 'string',
+                'type'     => 'number',
                 'required' => false,
             ],
             'label'             => [
@@ -110,7 +119,7 @@ final class SizeField extends Setting {
             ],
             'placeholder'       => [
                 'type'     => 'string',
-                'required' => false 
+                'required' => false
             ],
             'priority'          => [
                 'type'     => 'integer',
@@ -128,41 +137,47 @@ final class SizeField extends Setting {
                 'type'     => 'mixed',
                 'required' => false
             ],
-            'units'             => [
+            'status'            => [
                 'type'     => 'array',
+                'required' => false
+            ],
+            'order'             => [
+                'type'     => 'string',
                 'required' => false
             ]
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['units'] ) ) {
-            $validated['units'] = $this->get_validated_units( $validated['units'] );
-        } else {
-            if ( ! empty( $validated ) ) {
-                $validated['units'] = $this->valid_units();
-            }
+        if ( ! empty( $validated ) ) {
+            $validated['choices'] = $this->get_pages([
+                'order'       => ( isset( $validated['order'] ) ? $validated['order'] : 'asc' ),
+                'status'      => ( isset( $validated['status'] ) ? $validated['status'] : [ 'publish' ] ),
+                'placeholder' => ( isset( $validated['placeholder'] ) ? $validated['placeholder'] : '' )
+            ]);
         }
 
         if ( isset( $validated['default'] ) ) {
             $validated['default'] = $this->get_validated_default([
                 'default' => $validated['default'],
-                'units'   => $validated['units']
+                'choices' => $validated['choices']
             ]);
         }
 
         if ( ! empty( $validated ) ) {
-            $validation = 'valid_size['. implode( ',', $validated['units'] ) .']';
+            $parameters = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+            $validation = "in_choices[{$parameters}]";
             if ( isset( $validated['validations'] ) ) {
                 array_unshift( $validated['validations'], $validation );
             } else {
                 $validated['validations'] = [ $validation ];
             }
         }
-        
-        $config = Validator::get_configuration( 'field', $validated );
+
+        $validated = Helper::unset_keys( $validated, [ 'order', 'status', 'placeholder' ] );
+        $config    = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'size', $customize, $validated );
-            $customize->add_control( new SizeControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'dropdown_page', $customize, $validated );
+            $customize->add_control( new DropdownPageControl( $customize, $config['settings'], $config ) );
         }
     }
 }

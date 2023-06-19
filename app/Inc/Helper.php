@@ -240,4 +240,25 @@ final class Helper {
 
         return $output;
     }
+
+    /**
+     * Unset a certain keys and return updated array value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $array  Contains the array to be modify.
+     * @param  array  $keys   Contains the list of array keys to be unset.
+     * @return array
+     */
+    public static function unset_keys( $array, $keys ) {
+        if ( ! empty( $array ) && is_array( $array ) ) {
+            foreach ( $keys as $key ) {
+                if ( isset( $array[ $key ] ) ) {
+                    unset( $array[ $key ] );
+                }
+            }
+        }
+
+        return $array;
+    }
 }

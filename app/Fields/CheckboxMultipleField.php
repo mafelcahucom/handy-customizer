@@ -21,14 +21,17 @@ final class CheckboxMultipleField extends Setting {
      * 
      * @since 1.0.0
      *
-     * @param  array  $default  The default value to be validated.
-     * @param  array  $choices  The list of choices.
+     * @param  array  $args  Contains the arguments needed for default validation.
+     * $args = [
+     *      'default' => (array) The default value to be validated.
+     *      'choices' => (array) The list of choices.
+     * ]
      * @return string
      */
-    private function get_validated_default( $default, $choices ) {
+    private function get_validated_default( $args = [] ) {
         $validated = [];
-        foreach ( $default as $value ) {
-            if ( array_key_exists( $value, $choices ) ) {
+        foreach ( $args['default'] as $value ) {
+            if ( array_key_exists( $value, $args['choices'] ) ) {
                 $validated[] = $value;
             }
         }
@@ -114,7 +117,10 @@ final class CheckboxMultipleField extends Setting {
         }
 
         if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['choices'] );
+            $validated['default'] = $this->get_validated_default([
+                'default' => $validated['default'],
+                'choices' => $validated['choices']
+            ]);
         }
 
         $config = Validator::get_configuration( 'field', $validated );

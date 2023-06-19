@@ -35,7 +35,7 @@ final class Installer {
         flush_rewrite_rules();
 
         // Set plugin version.
-        update_option( '_handy_plugin_version', HANDY_PLUGIN_VERSION );
+        update_option( '_handy_plugin_version', HACU_PLUGIN_VERSION );
     }
 
     /**

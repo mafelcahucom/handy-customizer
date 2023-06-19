@@ -20,13 +20,16 @@ final class RadioField extends Setting {
      * Return the validated default value. Validate default if exist in choices.
      * 
      * @since 1.0.0
-     *
-     * @param  array  $default  The default value to be validated.
-     * @param  array  $choices  The list of choices.
+     * 
+     * @param  array  $args  Contains the arguments needed for default validation.
+     * $args = [
+     *      'default' => (array) The default value to be validated.
+     *      'choices' => (array) The list of choices.
+     * ]
      * @return string
      */
-    private function get_validated_default( $default, $choices ) {
-        return ( array_key_exists( $default, $choices ) ? $default : '' );
+    private function get_validated_default( $args = [] ) {
+        return ( array_key_exists( $args['default'], $args['choices'] ) ? $args['default'] : '' );
     }
 
     /**
@@ -99,14 +102,27 @@ final class RadioField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default( $validated['default'], $validated['choices'] );
-        }
-
         if ( isset( $validated['choices'] ) ) {
             $validated['choices'] = array_unique( $validated['choices'] );
             if ( empty( $validated['choices'] ) ) {
                 return;
+            }
+        }
+
+        if ( isset( $validated['default'] ) ) {
+            $validated['default'] = $this->get_validated_default([
+                'default' => $validated['default'],
+                'choices' => $validated['choices']
+            ]);
+        }
+
+        if ( ! empty( $validated ) ) {
+            $parameters = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+            $validation = "in_choices[{$parameters}]";
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], $validation );
+            } else {
+                $validated['validations'] = [ $validation ];
             }
         }
     

@@ -68,7 +68,6 @@ class Setting {
         ];
         
         $validated = Validator::get_validated_argument( $schema, $args );
-        //Helper::log( [ 'setting ',  $validated ] );
         if ( $validated ) {
             // Set "validate_callback".
             if ( isset( $validated['validations'] ) ) {
@@ -123,17 +122,20 @@ class Setting {
         }
 
         $field = [
-            'button_set'        => 'sanitize_choices',
-            'checkbox'          => 'sanitize_boolean',
-            'checkbox_multiple' => 'sanitize_multiple',
-            'counter'           => 'sanitize_counter',
-            'email'             => 'sanitize_email',
-            'number'            => 'sanitize_number',
-            'radio'             => 'sanitize_choices',
-            'select'            => 'sanitize_choices',
-            'text'              => 'sanitize_text',
-            'textarea'          => 'sanitize_textarea',
-            'url'               => 'sanitize_url'
+            'button_set'           => 'sanitize_choices',
+            'checkbox'             => 'sanitize_boolean',
+            'checkbox_multiple'    => 'sanitize_multiple',
+            'counter'              => 'sanitize_counter',
+            'dropdown_custom_post' => 'sanitize_choices',
+            'dropdown_page'        => 'sanitize_choices',
+            'dropdown_post'        => 'sanitize_choices',
+            'email'                => 'sanitize_email',
+            'number'               => 'sanitize_number',
+            'radio'                => 'sanitize_choices',
+            'select'               => 'sanitize_choices',
+            'text'                 => 'sanitize_text',
+            'textarea'             => 'sanitize_textarea',
+            'url'                  => 'sanitize_url'
         ];
 
         if ( isset( $field[ $this->field ] ) ) {
@@ -781,7 +783,8 @@ class Setting {
             $imploded = implode( ', ', $exploded );
             if ( ! empty( $exploded ) ) {
                 if ( ! in_array( $value, $exploded ) ) {
-                    $validity->add( 'error', $this->__p( "Value not found in the choices <strong><em>[{$imploded}]</em></strong>." ) );
+                    $keys = ( ! in_array( '__', $exploded ) ? "[{$imploded}]" : '' );
+                    $validity->add( 'error', $this->__p( "Value not found in the choices <strong><em>{$keys}</em></strong>." ) );
                 }
             }
         }
@@ -805,7 +808,8 @@ class Setting {
             $imploded = implode( ', ', $exploded );
             if ( ! empty( $exploded ) ) {
                 if ( in_array( $value, $exploded ) ) {
-                    $validity->add( 'error', $this->__p( "Value must not exists in the choices <strong><em>[{$imploded}]</em></strong>." ) );
+                    $keys = ( ! in_array( '__', $exploded ) ? "[{$imploded}]" : '' );
+                    $validity->add( 'error', $this->__p( "Value must not exists in the choices <strong><em>{$keys}</em></strong>." ) );
                 }
             }
         }
