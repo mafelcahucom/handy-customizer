@@ -125,6 +125,7 @@ class Setting {
             'button_set'           => 'sanitize_choices',
             'checkbox'             => 'sanitize_boolean',
             'checkbox_multiple'    => 'sanitize_multiple',
+            'checkbox_pill'        => 'sanitize_multiple',
             'counter'              => 'sanitize_counter',
             'dropdown_custom_post' => 'sanitize_choices',
             'dropdown_page'        => 'sanitize_choices',
@@ -261,7 +262,7 @@ class Setting {
         }
 
         $choices  = $setting->manager->get_control( $setting->id )->choices;
-        $exploded = Helper::get_exploded_value( $input, $choices );
+        $exploded = Helper::get_exploded_value( $input, array_keys( $choices ) );
 
         return array_map( 'sanitize_text_field', $exploded );
     }
@@ -368,6 +369,12 @@ class Setting {
                 'has_param' => true
             ],
             'not_in_choices'           => [
+                'has_param' => true
+            ],
+            'values_in_choices'        => [
+                'has_param' => true
+            ],
+            'values_not_in_choices'    => [
                 'has_param' => true
             ],
             'total_words'              => [
@@ -779,7 +786,7 @@ class Setting {
 	 */
 	private function in_choices( $validity, $value, $choices ) {
         if ( ! Validator::is_empty( $choices ) ) {
-            $exploded = array_filter( explode( ',', $choices ) );
+            $exploded = Helper::array_remove_empty( explode( ',', $choices ) );
             $imploded = implode( ', ', $exploded );
             if ( ! empty( $exploded ) ) {
                 if ( ! in_array( $value, $exploded ) ) {
@@ -804,12 +811,70 @@ class Setting {
 	 */
 	private function not_in_choices( $validity, $value, $choices ) {
         if ( ! Validator::is_empty( $choices ) ) {
-            $exploded = array_filter( explode( ',', $choices ) );
+            $exploded = Helper::array_remove_empty( explode( ',', $choices ) );
             $imploded = implode( ', ', $exploded );
             if ( ! empty( $exploded ) ) {
                 if ( in_array( $value, $exploded ) ) {
                     $keys = ( ! in_array( '__', $exploded ) ? "[{$imploded}]" : '' );
                     $validity->add( 'error', $this->__p( "Value must not exists in the choices <strong><em>{$keys}</em></strong>." ) );
+                }
+            }
+        }
+
+		return $validity;
+	}
+
+    /**
+	 * Print an error message if a certain value in array values is not found in predetermined choices.
+	 *
+	 * @since 1.0.0
+	 * 
+	 * @param  object  $validity  Contains the validation prompt.
+     * @param  string  $values    Contains the values of the field.
+	 * @param  string  $choices   Set of predetermined choices.
+	 * @return object
+	 */
+	private function values_in_choices( $validity, $values, $choices ) {
+        if ( ! Validator::is_empty( $values ) && ! Validator::is_empty( $choices ) ) {
+            $values  = Helper::array_remove_empty( explode( ',', $values ) );
+            $choices = Helper::array_remove_empty( explode( ',', $choices ) );
+            if ( ! empty( $values ) && ! empty( $choices ) ) {
+                $imploded = implode( ', ', $choices );
+                $keys     = ( ! in_array( '__', $choices ) ? "[{$imploded}]" : '' );
+                foreach ( $values as $value ) {
+                    if ( ! in_array( $value, $choices ) ) {
+                        $validity->add( 'error', $this->__p( "A certain value is not found in the choices <strong><em>{$keys}</em></strong>." ) );
+                        break;
+                    }
+                }
+            }
+        }
+
+		return $validity;
+	}
+
+    /**
+     * Print an error message if a certain value in array values is found in predetermined choices.
+	 *
+	 * @since 1.0.0
+	 * 
+	 * @param  object  $validity  Contains the validation prompt.
+     * @param  string  $values    Contains the values of the field.
+	 * @param  string  $choices   Set of predetermined choices.
+	 * @return object
+	 */
+	private function values_not_in_choices( $validity, $values, $choices ) {
+        if ( ! Validator::is_empty( $values ) && ! Validator::is_empty( $choices ) ) {
+            $values  = Helper::array_remove_empty( explode( ',', $values ) );
+            $choices = Helper::array_remove_empty( explode( ',', $choices ) );
+            if ( ! empty( $values ) && ! empty( $choices ) ) {
+                $imploded = implode( ', ', $choices );
+                $keys     = ( ! in_array( '__', $choices ) ? "[{$imploded}]" : '' );
+                foreach ( $values as $value ) {
+                    if ( in_array( $value, $choices ) ) {
+                        $validity->add( 'error', $this->__p( "A certain value must not exists in the choices <strong><em>{$keys}</em></strong>." ) );
+                        break;
+                    }
                 }
             }
         }

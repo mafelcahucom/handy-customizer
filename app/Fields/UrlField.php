@@ -102,10 +102,10 @@ final class UrlField extends Setting {
             $validated['default'] = $this->get_validated_default( $validated['default'] );
         }
 
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'valid_url' );
-        } else {
-            if ( ! empty( $validated ) ) {
+        if ( ! empty( $validated ) ) {
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], 'valid_url' );
+            } else {
                 $validated['validations'] = [ 'valid_url' ];
             }
         }

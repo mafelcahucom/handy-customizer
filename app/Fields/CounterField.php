@@ -131,10 +131,10 @@ final class CounterField extends Setting {
             $validated['options'] = $this->get_validated_options( $validated['options'] );
         }
 
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'is_number' );
-        } else {
-            if ( ! empty( $validated ) ) {
+        if ( ! empty( $validated ) ) {
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], 'is_number' );
+            } else {
                 $validated['validations'] = [ 'is_number' ];
             }
         }

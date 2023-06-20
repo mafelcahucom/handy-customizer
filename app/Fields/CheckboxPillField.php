@@ -2,20 +2,20 @@
 namespace Handy\Fields;
 
 use Handy\Core\Setting;
-use Handy\Inc\Validator;
-use Handy\Controls\CheckboxMultipleControl;
 use Handy\Inc\Helper;
+use Handy\Inc\Validator;
+use Handy\Controls\CheckboxPillControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Checkbox Multiple.
+ * Field > Checkbox Pill.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class CheckboxMultipleField extends Setting {
+final class CheckboxPillField extends Setting {
 
     /**
      * Return the validated default value. Validate default if exist in choices.
@@ -31,6 +31,40 @@ final class CheckboxMultipleField extends Setting {
      */
     private function get_validated_default( $args = [] ) {
         return Helper::get_intersected( $args['default'], array_keys( $args['choices'] ) );
+    }
+
+    /**
+     * Return the validated shape value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_validated_shape( $validated ) {
+        $shape = 'square';
+        if ( isset( $validated['shape'] ) && in_array( $validated['shape'], [ 'square', 'round' ] ) ) {
+            $shape = $validated['shape'];
+        }
+
+        return $shape;
+    }
+
+    /**
+     * Return the validated display value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_validated_display( $validated ) {
+        $display = 'block';
+        if ( isset( $validated['display'] ) && in_array( $validated['display'], [ 'block', 'inline' ] ) ) {
+            $display = $validated['display'];
+        }
+
+        return $display;
     }
 
     /**
@@ -51,6 +85,8 @@ final class CheckboxMultipleField extends Setting {
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'choices'           => (array)   The list of choices.
+     *      'shape'             => (string)  The shape of the checkbox pills [ square, round ].
+     *      'display'           => (string)  The display of the checkbox pills [ block, inline ].
      * ]
      * @return void
      */
@@ -99,6 +135,14 @@ final class CheckboxMultipleField extends Setting {
             'choices'           => [
                 'type'     => 'array',
                 'required' => true
+            ],
+            'shape'             => [
+                'type'     => 'string',
+                'required' => false
+            ],
+            'display'           => [
+                'type'     => 'string',
+                'required' => false
             ]
         ];
 
@@ -118,6 +162,9 @@ final class CheckboxMultipleField extends Setting {
         }
 
         if ( ! empty( $validated ) ) {
+            $validated['shape']   = $this->get_validated_shape( $validated );
+            $validated['display'] = $this->get_validated_display( $validated );
+
             $parameters = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
             $validation = "values_in_choices[{$parameters}]";
             if ( isset( $validated['validations'] ) ) {
@@ -129,8 +176,8 @@ final class CheckboxMultipleField extends Setting {
 
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'checkbox_multiple', $customize, $validated );
-            $customize->add_control( new CheckboxMultipleControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'checkbox_pill', $customize, $validated );
+            $customize->add_control( new CheckboxPillControl( $customize, $config['settings'], $config ) );
         }
     }
 }

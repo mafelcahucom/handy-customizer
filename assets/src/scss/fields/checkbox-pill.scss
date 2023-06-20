@@ -1,0 +1,54 @@
+.hacu-checkbox-pill {
+
+	&__container {
+		display: flex;
+		gap: 6px;
+
+		&[data-display="block"] {
+			flex-direction: column;
+
+			.hacu-checkbox-pill {
+				width: 100%;
+			}
+		}
+
+		&[data-display="inline"] {
+			flex-wrap: wrap;
+		}
+	}
+
+	&__item-btn {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		padding: 0.5em 1em;
+		cursor: pointer;
+		color: $clr-light-black;
+		background-color: rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+
+		&[data-shape="round"] {
+			border-radius: 100px;
+		}
+
+		&[data-state="active"] > svg {
+			display: block;
+		}
+
+		svg {
+			display: none;
+			width: 18px;
+			height: 18px;
+		}
+
+		&:hover,
+		&:focus,
+		&[data-state="active"] {
+			color: $clr-white;
+			background-color: $clr-blue;
+
+			@include transition;
+		}
+	}
+}

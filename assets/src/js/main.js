@@ -368,7 +368,6 @@ hacu.checkboxMultiple = {
 			}
 
 			const { inputElem } = elements;
-
 			const checked = hacu.fn.getExplodedValue( inputElem.value );
 			if ( target.checked ) {
 				if ( ! checked.includes( target.value ) ) {
@@ -379,6 +378,86 @@ hacu.checkboxMultiple = {
 				if ( index !== -1 ) {
 					checked.splice( index, 1 );
 				}
+			}
+
+			hacu.fn.updateFieldValue( inputElem, checked.join( ',' ) );
+		} );
+	},
+};
+
+/**
+ * Checkbox Pill Field.
+ *
+ * @since 1.0.0
+ *
+ * @type {Object}
+ */
+hacu.checkboxPill = {
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 1.0.0
+	 */
+	init() {
+		this.onChange();
+	},
+
+	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-checkbox-pill__input',
+					},
+				},
+			} );
+		}
+	},
+	
+	/**
+	 * Update hidden input value based on checked pills.
+	 *
+	 * @since 1.0.0
+	 */
+	onChange() {
+		hacu.fn.eventListener( 'click', '.hacu-checkbox-pill__item-btn', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const state = target.getAttribute( 'data-state' );
+			const value = target.getAttribute( 'data-value' );
+			const elements = hacu.checkboxPill.elements( target );
+			if ( ! elements || state.length === 0 || value.length === 0 ) {
+				return;
+			}
+
+			const { inputElem } = elements;
+			const checked = hacu.fn.getExplodedValue( inputElem.value );
+			switch ( state ) {
+				case 'default':
+					if ( ! checked.includes( value ) ) {
+						checked.push( value );
+						target.setAttribute( 'data-state', 'active' );
+					}
+					break;
+				case 'active':
+					const index = checked.indexOf( value );
+					console.log( index );
+					if ( index !== -1 ) {
+						checked.splice( index, 1 );
+						target.setAttribute( 'data-state', 'default' );
+					}
+					break;
 			}
 
 			hacu.fn.updateFieldValue( inputElem, checked.join( ',' ) );
@@ -821,6 +900,7 @@ hacu.domReady = {
 hacu.domReady.execute( function() {
 	hacu.buttonSet.init(); // Handle button set events.
 	hacu.checkboxMultiple.init(); // Handle checkbox multiple events.
+	hacu.checkboxPill.init(); // Handle checkbox pill events.
 	hacu.counter.init(); // Handle counter events.
 	hacu.radio.init(); // Handle radio events.
 	hacu.size.init(); // Handle size events.

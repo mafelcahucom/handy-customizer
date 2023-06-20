@@ -117,14 +117,9 @@ final class Helper {
             return [];
         }
 
-        $exploded = array_unique( explode( ',', $value ) );
-        foreach ( $exploded as $key => $value ) {
-            if ( ! array_key_exists( $value, $choices ) ) {
-                unset( $exploded[ $key ] );
-            }
-        }
+        $intersected = self::get_intersected( explode( ',', $value ), $choices );
 
-        return $exploded;
+        return $intersected;
     }
 
     /**
@@ -143,13 +138,9 @@ final class Helper {
             return '';
         }
 
-        foreach ( $value as $key => $data ) {
-            if ( ! array_key_exists( $data, $choices ) ) {
-                unset( $value[ $key ] );
-            }
-        }
+        $intersected = self::get_intersected( $value, $choices );
 
-        return implode( ',', $value );
+        return implode( ',', $intersected );
     }
 
     /**
@@ -261,4 +252,23 @@ final class Helper {
 
         return $array;
     }
+
+    /**
+     * Remove the empty value of an array and return modified array.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $array  Contains the array to be modify.
+     * @return array
+     */
+    public static function array_remove_empty( $array = [] ) {
+        if ( is_array( $array ) ) {
+            return array_filter( $array, function( $value ) {
+                return ! empty( $value ) || $value == 0;
+            });
+        }
+        
+        return [];
+    }
+
 }

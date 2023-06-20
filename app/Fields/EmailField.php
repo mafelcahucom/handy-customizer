@@ -102,10 +102,10 @@ final class EmailField extends Setting {
             $validated['default'] = $this->get_validated_default( $validated['default'] );
         }
 
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'valid_email' );
-        } else {
-            if ( ! empty( $validated ) ) {
+        if ( ! empty( $validated ) ) {
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], 'valid_email' );
+            } else {
                 $validated['validations'] = [ 'valid_email' ];
             }
         }

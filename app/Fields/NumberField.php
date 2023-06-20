@@ -85,11 +85,11 @@ final class NumberField extends Setting {
             ]
         ];
 
-        $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['validations'] ) ) {
-            array_unshift( $validated['validations'], 'is_number' );
-        } else {
-            if ( ! empty( $validated ) ) {
+        if ( ! empty( $validated ) ) {
+            $validated = Validator::get_validated_argument( $schema, $args );
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], 'is_number' );
+            } else {
                 $validated['validations'] = [ 'is_number' ];
             }
         }
