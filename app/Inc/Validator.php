@@ -64,6 +64,23 @@ final class Validator {
     }
 
     /**
+     * Check if the color string contains a valid hexadecimal color.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $color  The string color to be check.
+     * @return boolean
+     */
+    public static function is_valid_hexa_color( $color = '' ) {
+        $is_valid = false;
+        if ( is_string( $color ) ) {
+            $is_valid = (bool) preg_match( '/^#([a-f0-9]{3}|[a-f0-9]{6}|[a-f0-9]{8})$/i', $color );
+        }
+        
+        return $is_valid;
+    }
+
+    /**
      * Checks if the callback is invalid object or string type.
      * 
      * @since 1.0.0

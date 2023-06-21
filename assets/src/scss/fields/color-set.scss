@@ -1,0 +1,63 @@
+.hacu-color-set {
+
+	&__preview {
+		width: 25px;
+		height: 25px;
+		margin-right: 10px;
+		border-radius: 4px;
+		border: 1px solid #ccc;
+
+		&[data-shape="round"] {
+			border-radius: 100%;
+		}
+	}
+
+	&__label {
+		color: $clr-dark-black;
+		font-weight: 600;
+	}
+
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+
+		&[data-shape="round"] {
+			gap: 8px;
+		}
+	}
+
+	&__item {
+		position: relative;
+		cursor: pointer;
+
+		&[data-state="active"] {
+
+			.hacu-color-set__color {
+				width: 150% !important;
+				height: 150% !important;
+				position: relative !important;
+				top: -25% !important;
+				left: -25% !important;
+				box-shadow: 1px 1px 10px 1px #616161;
+				z-index: 1;
+			}
+		}
+
+		&[data-shape="round"] {
+
+			.hacu-color-set__color {
+				border-radius: 100%;
+			}
+		}
+
+		* {
+			pointer-events: none;
+		}
+	}
+
+	&__color {
+		width: 100%;
+		height: 100%;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+	}
+}

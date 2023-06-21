@@ -1,5 +1,6 @@
 <?php
 use Handy\Inc\Helper;
+use Handy\Inc\Utilities;
 use Handy\Core\Panel;
 use Handy\Core\Section;
 
@@ -14,6 +15,13 @@ defined( 'ABSPATH' ) || exit;
  */
 
 final class Handy {
+
+    /**
+     * Inherit Utilities.
+     * 
+     * @since 1.0.0
+     */
+    use Utilities;
 
     /**
      * Return the WP_Customize_Manager.

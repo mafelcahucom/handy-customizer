@@ -7,8 +7,13 @@
 @import "core/default";
 @import "core/helpers";
 
+// Components
+@import "components/button";
+@import "components/accordion";
+
 // Fields
 @import "fields/button-set";
 @import "fields/checkbox-pill";
+@import "fields/color-set";
 @import "fields/counter";
 @import "fields/size";

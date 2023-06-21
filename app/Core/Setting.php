@@ -126,6 +126,7 @@ class Setting {
             'checkbox'             => 'sanitize_boolean',
             'checkbox_multiple'    => 'sanitize_multiple',
             'checkbox_pill'        => 'sanitize_multiple',
+            'color_set'            => 'sanitize_color_set',
             'counter'              => 'sanitize_counter',
             'dropdown_custom_post' => 'sanitize_choices',
             'dropdown_page'        => 'sanitize_choices',
@@ -265,6 +266,22 @@ class Setting {
         $exploded = Helper::get_exploded_value( $input, array_keys( $choices ) );
 
         return array_map( 'sanitize_text_field', $exploded );
+    }
+
+    /**
+     * Return the sanitized color set value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_color_set( $input, $setting ) {
+        $value  = sanitize_text_field( $input );
+        $colors = $setting->manager->get_control( $setting->id )->colors;
+
+        return ( Validator::is_valid_hexa_color( $value ) && in_array( $value, $colors ) ? $value : '' );
     }
 
     /**

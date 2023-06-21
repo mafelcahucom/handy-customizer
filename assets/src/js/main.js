@@ -106,6 +106,23 @@ hacu.fn = {
 	},
 
 	/**
+	 * Check if the color string contains a valid hexadecimal color.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {string} color The string color to be check.
+	 * @return {boolean} Flag if color is valid hexadecimal color.
+	 */
+	isValidHexaColor( color ) {
+		let isValid = false;
+		if ( typeof ( color ) === 'string' ) {
+			isValid = /^#([a-f0-9]{3}|[a-f0-9]{6}|[a-f0-9]{8})$/i.test( color );
+		}
+
+		return isValid;
+	},
+
+	/**
 	 * Return the value of joined or imploded to exploded array.
 	 *
 	 * @since 1.0.0
@@ -246,6 +263,99 @@ hacu.fn = {
 				bubbles: true,
 			} ) );
 		}
+	},
+};
+
+/**
+ * Global Components.
+ *
+ * @since 1.0.0
+ *
+ * @type {Object}
+ */
+hacu.component = {
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 1.0.0
+	 */
+	init() {
+		this.accordion.init();
+	},
+
+	/**
+	 * Accordion Component.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @type {Object}
+	 */
+	accordion: {
+
+		/**
+		 * Initialize Accordion.
+		 *
+		 * @since 1.0.0
+		 */
+		init() {
+			this.onToggle();
+		},
+
+		/**
+		 * Return the required elements.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {Object} target The target element.
+		 * @return {Object} The required elements.
+		 */
+		elements( target ) {
+			if ( target ) {
+				return hacu.fn.getRequiredElements( {
+					target,
+					elements: {
+						body: {
+							isSingle: true,
+							selector: '.hacu-accordion__body',
+						},
+					},
+				} );
+			}
+		},
+
+		/**
+		 * Toggle or collapse down and up accordion.
+		 *
+		 * @since 1.0.0
+		 */
+		onToggle() {
+			hacu.fn.eventListener( 'click', '.hacu-accordion__head', function( e ) {
+				e.preventDefault();
+				const target = e.target;
+				const state = target.getAttribute( 'data-state' );
+				const elements = hacu.component.accordion.elements( target );
+				if ( ! elements || ! [ 'opened', 'closed' ].includes( state ) ) {
+					return;
+				}
+
+				const { bodyElem } = elements;
+				bodyElem.style.maxHeight = bodyElem.scrollHeight + 'px';
+				if ( state === 'opened' ) {
+					setTimeout( function() {
+						bodyElem.style.maxHeight = null;
+					}, 300 );
+					target.setAttribute( 'data-state', 'closed' );
+					bodyElem.setAttribute( 'data-state', 'closed' );
+				} else {
+					setTimeout( function() {
+						bodyElem.style.maxHeight = 'max-content';
+					}, 500 );
+					target.setAttribute( 'data-state', 'opened' );
+					bodyElem.setAttribute( 'data-state', 'opened' );
+				}
+			} );
+		},
 	},
 };
 
@@ -424,7 +534,7 @@ hacu.checkboxPill = {
 			} );
 		}
 	},
-	
+
 	/**
 	 * Update hidden input value based on checked pills.
 	 *
@@ -461,6 +571,119 @@ hacu.checkboxPill = {
 			}
 
 			hacu.fn.updateFieldValue( inputElem, checked.join( ',' ) );
+		} );
+	},
+};
+
+/**
+ * Color Set Field.
+ *
+ * @since 1.0.0
+ *
+ * @type {Object}
+ */
+hacu.colorSet = {
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 1.0.0
+	 */
+	init() {
+		this.onChange();
+		this.onChangeToDefault();
+	},
+
+	/**
+	 * Return the required elements.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Object} target The target element.
+	 * @return {Object} The required elements.
+	 */
+	elements( target ) {
+		if ( target ) {
+			return hacu.fn.getRequiredElements( {
+				target,
+				elements: {
+					input: {
+						isSingle: true,
+						selector: '.hacu-color-set__input',
+					},
+					preview: {
+						isSingle: true,
+						selector: '.hacu-color-set__preview',
+					},
+					label: {
+						isSingle: true,
+						selector: '.hacu-color-set__label',
+					},
+				},
+			} );
+		}
+	},
+
+	/**
+	 * Update hidden input value based on selected color item.
+	 *
+	 * @since 1.0.0
+	 */
+	onChange() {
+		hacu.fn.eventListener( 'click', '.hacu-color-set__item', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const state = target.getAttribute( 'data-state' );
+			const value = target.getAttribute( 'data-value' );
+			const elements = hacu.colorSet.elements( target );
+			if ( ! elements || state !== 'default' || value.length === 0 ) {
+				return;
+			}
+
+			if ( ! hacu.fn.isValidHexaColor( value ) ) {
+				return;
+			}
+
+			const { parentElem, inputElem, labelElem, previewElem } = elements;
+			labelElem.textContent = value;
+			previewElem.style.backgroundColor = value;
+
+			hacu.fn.setChildAttribute( parentElem, '.hacu-color-set__item', 'data-state', 'default' );
+			target.setAttribute( 'data-state', 'active' );
+
+			hacu.fn.updateFieldValue( inputElem, value );
+		} );
+	},
+
+	/**
+	 * Update hidden input value to the default color value.
+	 *
+	 * @since 1.0.0
+	 */
+	onChangeToDefault() {
+		hacu.fn.eventListener( 'click', '.hacu-color-set__default-btn', function( e ) {
+			e.preventDefault();
+			const target = e.target;
+			const value = target.getAttribute( 'data-value' );
+			const elements = hacu.colorSet.elements( target );
+			if ( ! elements || value.length === 0 ) {
+				return;
+			}
+
+			if ( ! hacu.fn.isValidHexaColor( value ) ) {
+				return;
+			}
+
+			const { parentElem, inputElem, labelElem, previewElem } = elements;
+			if ( inputElem.value !== value ) {
+				labelElem.textContent = value;
+				previewElem.style.backgroundColor = value;
+
+				hacu.fn.setChildAttribute( parentElem, '.hacu-color-set__item', 'data-state', 'default' );
+				hacu.fn.setChildAttribute( parentElem, `.hacu-color-set__item[data-value="${ value }"]`, 'data-state', 'active' );
+
+				hacu.fn.updateFieldValue( inputElem, value );
+			}
 		} );
 	},
 };
@@ -898,9 +1121,11 @@ hacu.domReady = {
 };
 
 hacu.domReady.execute( function() {
+	hacu.component.init(); // Hadle global component events.
 	hacu.buttonSet.init(); // Handle button set events.
 	hacu.checkboxMultiple.init(); // Handle checkbox multiple events.
 	hacu.checkboxPill.init(); // Handle checkbox pill events.
+	hacu.colorSet.init(); // Handle color set events.
 	hacu.counter.init(); // Handle counter events.
 	hacu.radio.init(); // Handle radio events.
 	hacu.size.init(); // Handle size events.
