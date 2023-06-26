@@ -68,6 +68,20 @@
 		align-items: center !important;
 	}
 
+	// Width & Height
+	&-width-full {
+		width: 100% !important;
+	}
+
+	&-height-full {
+		height: 100% !important;
+	}
+
+	// Padding.
+	&-pl-20 {
+		padding-left: 20px !important;
+	}
+
 	// Margin.
 	&-mb-5 {
 		margin-bottom: 5px !important;

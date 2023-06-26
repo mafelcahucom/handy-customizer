@@ -7,7 +7,11 @@
     "lint-scss": "wp-scripts lint-style assets/src/scss/**/*.scss",
     "lint-scss-fix": "wp-scripts lint-style assets/src/scss/**/*.scss --fix",
     "lint-js": "wp-scripts lint-js assets/src/js/**/*.js",
-    "lint-js-fix": "wp-scripts lint-js assets/src/js/**/*.js --fix"
+    "lint-js-fix": "wp-scripts lint-js assets/src/js/**/*.js --fix",
+    "lint-app-scss": "wp-scripts lint-style app/**/*.scss",
+    "lint-app-scss-fix": "wp-scripts lint-style app/**/*.scss --fix",
+    "lint-app-js": "wp-scripts lint-js app/**/*.js",
+    "lint-app-js-fix": "wp-scripts lint-js app/**/*.js --fix"
   },
   "author": "Mafel John Cahucom",
   "license": "GPL-3.0-or-later",

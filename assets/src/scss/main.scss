@@ -8,12 +8,14 @@
 @import "core/helpers";
 
 // Components
-@import "components/button";
 @import "components/accordion";
+@import "components/button";
+@import "components/toggle";
 
 // Fields
-@import "fields/button-set";
-@import "fields/checkbox-pill";
-@import "fields/color-set";
-@import "fields/counter";
-@import "fields/size";
+@import "../../../app/Modules/ButtonSet/ButtonSet";
+@import "../../../app/Modules/CheckboxPill/CheckboxPill";
+@import "../../../app/Modules/ColorSet/ColorSet";
+@import "../../../app/Modules/Counter/Counter";
+@import "../../../app/Modules/Size/Size";
+@import "../../../app/Modules/Switches/Switches";

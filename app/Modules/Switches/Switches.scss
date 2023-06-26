@@ -1,0 +1,29 @@
+.hacu-switches {
+
+	.hacu-switches__choice {
+		display: none;
+		position: absolute;
+		top: 2px;
+		left: 48px;
+		width: max-content;
+
+		&[data-type="on"] {
+			color: $clr-blue;
+		}
+
+		&[data-type="off"] {
+			color: $clr-gray;
+		}
+	}
+
+	.hacu-toggle-checkbox__input {
+
+		&:checked + .hacu-toggle-checkbox > [data-type="on"] {
+			display: inline-block;
+		}
+
+		&:not(:checked) + .hacu-toggle-checkbox > [data-type="off"] {
+			display: inline-block;
+		}
+	}
+}

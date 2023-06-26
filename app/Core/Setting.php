@@ -135,8 +135,10 @@ class Setting {
             'number'               => 'sanitize_number',
             'radio'                => 'sanitize_choices',
             'select'               => 'sanitize_choices',
+            'switches'             => 'sanitize_boolean',
             'text'                 => 'sanitize_text',
             'textarea'             => 'sanitize_textarea',
+            'toggle'               => 'sanitize_boolean',
             'url'                  => 'sanitize_url'
         ];
 

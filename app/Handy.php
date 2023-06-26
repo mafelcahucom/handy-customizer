@@ -91,12 +91,12 @@ final class Handy {
             return;
         }
 
-        $classname = Helper::get_field_classname( $type );
-        if ( empty( $classname ) ) {
+        $module = Helper::get_module( $type );
+        if ( empty( $module ) ) {
             return;
         }
 
-        $class_field = "Handy\\Fields\\{$classname}";
+        $class_field = "Handy\\Modules\\{$module['dir']}\\Field\\{$module['field']}";
         if ( class_exists( $class_field ) ) {
             ( new $class_field )->render( self::wp_customize(), $args );
         }

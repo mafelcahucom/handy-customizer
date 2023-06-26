@@ -85,22 +85,26 @@ final class Helper {
     }
 
     /**
-     * Return the Fields classname based on the field name.
+     * Return the module directory, field and control class name based on the field name.
      * 
      * @since 1.0.0
      *
      * @param  string  $field  Contains the name of the field.
-     * @return string
+     * @return array
      */
-    public static function get_field_classname( $field ) {
+    public static function get_module( $field ) {
         if ( empty( $field ) ) {
-            return '';
+            return;
         }
 
         $exploded = array_map( 'ucfirst', explode( '-', $field ) );
-        array_push( $exploded, 'Field' );
+        $imploded = implode( '', $exploded );
 
-        return implode( '', $exploded );
+        return [
+            'dir'     => $imploded,
+            'field'   => $imploded . 'Field',
+            'control' => $imploded . 'Control'
+        ];
     }
 
     /**
