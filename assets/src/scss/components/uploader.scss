@@ -1,0 +1,23 @@
+.hacu-uploader {
+
+    &__library-selector {
+        padding: 15px;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        color: $clr-light-black;
+        background-color: transparent;
+        border: 1px dashed $clr-gray;
+        border-radius: 4px;
+
+        * {
+            pointer-events: none;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $clr-white;
+            @include transition;
+        }
+    }
+}
