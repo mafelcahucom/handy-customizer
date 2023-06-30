@@ -8,11 +8,11 @@
 		width: max-content;
 
 		&[data-type="on"] {
-			color: $clr-blue;
+			color: $clr-blue-1;
 		}
 
 		&[data-type="off"] {
-			color: $clr-gray;
+			color: $clr-gray-1;
 		}
 	}
 

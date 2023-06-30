@@ -21,15 +21,15 @@
 	input[type="number"],
 	select,
 	textarea {
-		color: $clr-black;
-		background-color: $clr-white;
+		color: $clr-black-1;
+		background-color: $clr-white-1;
 		box-shadow: 0 0 0 transparent;
-		border: 1px solid $clr-gray;
+		border: 1px solid $clr-gray-1;
 		border-radius: 4px;
 
 		&:focus {
-			border-color: $clr-blue;
-			box-shadow: 0 0 0 1px $clr-blue;
+			border-color: $clr-blue-1;
+			box-shadow: 0 0 0 1px $clr-blue-1;
 			outline: 2px solid transparent;
 		}
 	}

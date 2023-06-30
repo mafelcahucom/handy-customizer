@@ -135,10 +135,10 @@ final class SizeField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['units'] ) ) {
-            $validated['units'] = $this->get_validated_units( $validated['units'] );
-        } else {
-            if ( ! empty( $validated ) ) {
+        if ( ! empty( $validated ) ) {
+            if ( isset( $validated['units'] ) ) {
+                $validated['units'] = $this->get_validated_units( $validated['units'] );
+            } else {
                 $validated['units'] = $this->valid_units();
             }
         }

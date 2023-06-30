@@ -29,6 +29,23 @@ final class AudioUploaderField extends Setting {
     }
 
     /**
+     * Return the validated default value. Validate attachment if contains a valid extension.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $args  Contains the arguments needed for default validation.
+     * $args = [
+     *      'default'    => (string) The default value to be validated.
+     *      'extensions' => (array)  The list of allowed extensions.
+     * ]
+     * @return string
+     */
+    private function get_validated_default( $args = [] ) {
+        $file = Helper::get_file_meta( $args['default'] );
+        return ( ! empty( $file ) && in_array( $file['extension'], $args['extensions'] ) ? $args['default'] : '' );
+    }
+
+    /**
      * Return the validated extensions. Validate if defined extensions are valid.
      * 
      * @since 1.0.0
@@ -124,9 +141,26 @@ final class AudioUploaderField extends Setting {
             $validated['extensions'] = $this->get_validated_extensions( $validated );
         }
 
+        if ( isset( $validated['default'] ) ) {
+            $validated['default'] = $this->get_validated_default([
+                'default'    => $validated['default'],
+                'extensions' => $validated['extensions']
+            ]);
+        }
+
+        if ( ! empty( $validated ) ) {
+            $parameters = implode( ',', $validated['extensions'] );
+            $validation = "valid_attachment[{$parameters}]";
+            if ( isset( $validated['validations'] ) ) {
+                array_unshift( $validated['validations'], $validation );
+            } else {
+                $validated['validations'] = [ $validation ];
+            }
+        }
+
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'audio-uploader', $customize, $validated );
+            $this->setting( 'audio_uploader', $customize, $validated );
             $customize->add_control( new AudioUploaderControl( $customize, $config['settings'], $config ) );
         }
     }

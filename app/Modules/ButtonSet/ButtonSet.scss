@@ -3,12 +3,12 @@
 	&__container {
 		display: flex;
 		flex-wrap: wrap;
-		border: 1px solid $clr-light-gray;
+		border: 1px solid $clr-gray-2;
 		border-radius: 4px;
 
 		&:hover,
 		&:focus {
-			border-color: $clr-blue;
+			border-color: $clr-blue-1;
 
 			@include transition;
 		}
@@ -19,15 +19,15 @@
 		padding: 0.5em 1em;
 		margin: 0;
 		cursor: pointer;
-		color: $clr-light-black;
-		background-color: $clr-light-gray;
+		color: $clr-black-2;
+		background-color: $clr-gray-2;
 		border: 0;
 
 		&:hover,
 		&:focus,
 		&[data-state="active"] {
-			color: $clr-white;
-			background-color: $clr-blue;
+			color: $clr-white-1;
+			background-color: $clr-blue-1;
 
 			@include transition;
 		}

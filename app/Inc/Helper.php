@@ -169,6 +169,29 @@ final class Helper {
     }
 
     /**
+     * Return the attachment file meta data filename and extension.
+     * 
+     * @since 1.0.0
+     *
+     * @param  integer  $attachment_id  Contains the attachment id of file.
+     * @return array
+     */
+    public static function get_file_meta( $attachment_id ) {
+        $data = [];
+        if ( ! empty( $attachment_id ) ) {
+            $file = get_attached_file( $attachment_id );
+            if ( $file ) {
+                $data['file']      = $file;
+                $data['filename']  = basename( $file );
+                $data['raw_name']  = pathinfo( $data['filename'], PATHINFO_FILENAME );
+                $data['extension'] = pathinfo( $data['filename'], PATHINFO_EXTENSION );
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Return the control label and description component.
      *
      * @param  array  $args  Contains the arguments for creating control label.

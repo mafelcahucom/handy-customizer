@@ -46,6 +46,8 @@ final class Setup {
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
         wp_register_style( 'handy-main', $source, [], $version, 'all' );
+
+        wp_enqueue_style( 'wp-mediaelement' );
         wp_enqueue_style( 'handy-main' );
     }
 
@@ -59,7 +61,7 @@ final class Setup {
             return;
         }
 
-        $dependency = [ 'jquery' ];
+        $dependency = [ 'jquery', 'wp-mediaelement' ];
         $source     = Helper::get_asset_src( 'js/main.min.js' );
         $version    = Helper::get_asset_version( 'js/main.min.js' );
 

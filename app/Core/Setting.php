@@ -122,6 +122,7 @@ class Setting {
         }
 
         $field = [
+            'audio_uploader'       => 'sanitize_attachment',
             'button_set'           => 'sanitize_choices',
             'checkbox'             => 'sanitize_boolean',
             'checkbox_multiple'    => 'sanitize_multiple',
@@ -132,6 +133,8 @@ class Setting {
             'dropdown_page'        => 'sanitize_choices',
             'dropdown_post'        => 'sanitize_choices',
             'email'                => 'sanitize_email',
+            'file_uploader'        => 'sanitize_attachment',
+            'image_uploader'       => 'sanitize_attachment',
             'number'               => 'sanitize_number',
             'radio'                => 'sanitize_choices',
             'select'               => 'sanitize_choices',
@@ -139,7 +142,8 @@ class Setting {
             'text'                 => 'sanitize_text',
             'textarea'             => 'sanitize_textarea',
             'toggle'               => 'sanitize_boolean',
-            'url'                  => 'sanitize_url'
+            'url'                  => 'sanitize_url',
+            'video_uploader'       => 'sanitize_attachment'
         ];
 
         if ( isset( $field[ $this->field ] ) ) {
@@ -320,6 +324,31 @@ class Setting {
     }
 
     /**
+     * Return the sanitize attachment value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_attachment( $input, $setting ) {
+        $value = sanitize_text_field( $input );
+        if ( strlen( $value ) === 0 ) {
+            return '';
+        }
+
+        $file = Helper::get_file_meta( $value );
+        if ( empty( $file ) ) {
+            return '';
+        }
+
+        $extensions = $setting->manager->get_control( $setting->id )->extensions;
+
+        return ( in_array( $file['extension'], $extensions ) ? $value : '' );
+    }
+
+    /**
      * Perform a validation based on set of validations.
      * 
      * @since 1.0.0
@@ -409,6 +438,9 @@ class Setting {
                 'has_param' => true
             ],
             'not_equal_to_setting'     => [
+                'has_param' => true
+            ],
+            'valid_attachment'         => [
                 'has_param' => true
             ]
         ];
@@ -1000,6 +1032,34 @@ class Setting {
 
         return $validity;
 	}
+
+    /**
+     * Print an error message if the attachment file type and extension is
+     * not found in predetermined extensions.
+     * 
+     * @since 1.0.0
+     *
+     * @param  object  $validity    Contains the validation prompt.
+     * @param  mixed   $value       Contains the value of the field.
+     * @param  string  $extensions  Set of predetermined extensions.
+     * @return object
+     */
+    private function valid_attachment( $validity, $value, $extensions ) {
+        if ( ! Validator::is_empty( $value ) && ! Validator::is_empty( $extensions ) ) {
+            $file = Helper::get_file_meta( $value );
+            if ( ! empty( $file ) ) {
+                $exploded  = Helper::array_remove_empty( explode( ',', $extensions ) );
+                $imploded  = implode( ', ', $exploded );
+                if ( ! empty( $exploded ) ) {
+                    if ( ! in_array( $file['extension'], $exploded ) ) {
+                        $validity->add( 'error', $this->__p( "The specified file <strong><em>{$file['filename']}</em></strong> is not allowed. Only files with the following extensions are allowed: <strong><em>{$imploded}</em></strong>." ) );
+                    }
+                }
+            }
+        }
+
+        return $validity;
+    }
 
     /**
      * Return a text wrapped in <p> tag.

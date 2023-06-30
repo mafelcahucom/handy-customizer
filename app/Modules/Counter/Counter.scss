@@ -13,9 +13,9 @@
 		min-width: 30px;
 		min-height: 30px;
 		cursor: pointer;
-		color: $clr-light-black;
-		background-color: $clr-grey;
-		border: 1px solid $clr-gray;
+		color: $clr-black-2;
+		background-color: $clr-white-2;
+		border: 1px solid $clr-gray-1;
 		border-radius: 4px;
 
 		* {
@@ -35,9 +35,9 @@
 
 		&[data-state="default"]:hover,
 		&[data-state="default"]:focus {
-			color: $clr-blue;
-			background-color: $clr-dark-grey;
-			border-color: $clr-blue;
+			color: $clr-blue-1;
+			background-color: $clr-white-3;
+			border-color: $clr-blue-1;
 
 			@include transition;
 		}

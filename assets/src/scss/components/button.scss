@@ -7,9 +7,9 @@
 	margin: 0;
 	padding: 0 10px;
 	cursor: pointer;
-	color: $clr-blue;
-	background-color: $clr-grey;
-	border-color: $clr-blue;
+	color: $clr-blue-1;
+	background-color: $clr-white-2;
+	border-color: $clr-blue-1;
 	border-width: 1px;
 	border-style: solid;
 	border-radius: 3px;
@@ -18,9 +18,9 @@
 
 	&:hover,
 	&:focus {
-		color: $clr-dark-blue;
-		background-color: $clr-dark-grey;
-		border-color: $clr-dark-blue;
+		color: $clr-blue-2;
+		background-color: $clr-white-3;
+		border-color: $clr-blue-2;
 
 		@include transition;
 	}

@@ -6,7 +6,7 @@ import Uploader from './Uploader';
 
 const Components = [
 	Accordion,
-	Uploader
+	Uploader,
 ];
 
 export default Components;

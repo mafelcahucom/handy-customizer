@@ -92,7 +92,9 @@ final class Uploader {
                 'jpeg' => [ 'image/jpeg', 'image/pjpeg' ],
                 'png'  => [ 'image/png' ],
                 'gif'  => [ 'image/gif' ],
-                'ico'  => [ 'image/x-icon' ]
+                'ico'  => [ 'image/x-icon' ],
+                'svg'  => [ 'image/svg+xml' ],
+                'webp' => [ 'image/webp' ]
             ],
             'video'       => [
                 'mp4'  => [ 'video/mp4' ],
@@ -184,21 +186,43 @@ final class Uploader {
     }
 
     /**
-     * Return the attacment filename, file type and image url.
+     * Return the converted bytes in to more human readable filesize format.
+     * 
+     * @since 1.0.0
+     *
+     * @param  integer  $bytes    The specified filesize in bytes.
+     * @param  integer  $decimal  The specified number of decimal places.
+     * @return string
+     */
+    private static function get_converted_filesize( $bytes, $decimal = 1 ) {
+        $size   = [ 'B','KB','MB','GB','TB','PB','EB','ZB','YB' ];
+        $factor = floor( ( strlen( $bytes ) - 1 ) / 3 );
+
+        return sprintf("%.{$decimal}f", $bytes / pow( 1024, $factor ) ) . $size[ $factor ];
+    }
+
+    /**
+     * Return the attachment meta data.
      * 
      * @since 1.0.0
      *
      * @return array
      */
     private static function get_attachment() {
-        $attachment = [];
-        $file       = get_attached_file( self::$data['value'] );
-        if ( $file ) {
-            $attachment['url']       = wp_get_attachment_url( self::$data['value'] );
-            $attachment['name']      = basename( $file );
-            $attachment['extension'] = pathinfo( $attachment['name'], PATHINFO_EXTENSION );
+        $attachment    = [];
+        $attachment_id = self::$data['value'];
+        $file          = get_attached_file( $attachment_id );
+
+        $file = Helper::get_file_meta( $attachment_id );
+        if ( ! empty( $file ) ) {
+            $attachment['filename']  = $file['filename'];
+            $attachment['raw_name']  = $file['raw_name'];
+            $attachment['extension'] = $file['extension'];
+            $attachment['filesize']  = self::get_converted_filesize( filesize( $file['file'] ) );
             $attachment['type']      = self::get_attachment_type( $attachment['extension'] );
             $attachment['image']     = self::get_attachment_image();
+            $attachment['url']       = wp_get_attachment_url( $attachment_id );
+            $attachment['date']      = get_the_date( 'M j, Y', $attachment_id );
         }
 
         return $attachment;
@@ -236,7 +260,7 @@ final class Uploader {
     private static function get_attachment_image() {
         $image = wp_get_attachment_image_url( self::$data['value'], 'thumbnail', true );
         if ( self::$data['type'] === 'image' ) {
-            $image = wp_get_attachment_url( self::$data['value'] );
+            $image = wp_get_attachment_image_url( self::$data['value'], 'medium' );
         }
 
         return $image;
@@ -286,62 +310,17 @@ final class Uploader {
      */
     private static function get_source() {
         $data = [
-            'file' => [
-                'state' => 'hidden',
-                'icon'  => '',
-                'title' => ''
-            ],
-            'image' => [
-                'state' => 'hidden',
-                'src'   => '',
-                'title' => ''
-            ],
-            'audio' => [
-                'state' => 'hidden',
-                'src'   => ''
-            ],
-            'video' => [
-                'state' => 'hidden',
-                'src'   => ''
-            ]
+            'url'       => '',
+            'filename'  => '',
+            'raw_name'  => '',
+            'extension' => '',
+            'filesize'  => '',
+            'type'      => '',
+            'image'     => '',
+            'date'      => ''
         ];
-
-        if ( self::is_valid_attachment() ) {
-            $type       = self::$data['type'];
-            $attachment = self::get_attachment();
-
-            if ( in_array( $type, [ 'application', 'audio' ] ) ) {
-                $data['file'] = [
-                    'state' => 'visible',
-                    'icon'  => $attachment['image'],
-                    'title' => $attachment['name']
-                ];
-            }
-
-            if ( $type === 'image' ) {
-                $data['image'] = [
-                    'state' => 'visible',
-                    'src'   => $attachment['image'],
-                    'title' => $attachment['name']
-                ];
-            }
-
-            if ( $type === 'audio' ) {
-                $data['audio'] = [
-                    'state' => 'visible',
-                    'src'   => $attachment['url']
-                ];
-            }
-
-            if ( $type === 'video' ) {
-                $data['video'] = [
-                    'state' => 'visible',
-                    'src'   => $attachment['url']
-                ];
-            }
-        }
-
-        return $data;
+        
+        return ( self::is_valid_attachment() ? self::get_attachment() : $data );
     }
     
     /**
@@ -352,10 +331,6 @@ final class Uploader {
      * @return HTMLElement
      */
     private static function get_uploader_component() {
-        //Helper::log( self::get_mimes() );
-        Helper::log( self::get_attachment() );
-        Helper::log( self::is_valid_attachment() );
-
         $source = self::get_source();
         ob_start();
         ?>
@@ -374,48 +349,36 @@ final class Uploader {
             ?>
 
             <div class="hacu-uploader__container">
-                
-                <div class="hacu-uploader__library-selector"
-                     data-type="<?php echo esc_attr( self::$data['type'] ); ?>"
-                     data-mimes="<?php echo esc_attr( self::get_mimes() ); ?>"
-                     data-state="<?php echo esc_attr( self::get_state()['selector'] ); ?>"
-                >
+                <div class="hacu-uploader__file-selector hacu-uploader__uploader" data-id="<?php echo esc_attr( self::$data['id'] ); ?>" data-type="<?php echo esc_attr( self::$data['type'] ); ?>" data-mimes="<?php echo esc_attr( self::get_mimes() ); ?>" data-state="<?php echo esc_attr( self::get_state()['selector'] ); ?>">
                     <i class="dashicons <?php echo esc_attr( self::get_icon() ); ?>"></i>
                     <p class="hacu-m-0"><?php echo esc_html( self::get_placeholder() ); ?></p>
                 </div>
 
                 <div class="hacu-uploader__thumbnail" data-state="<?php echo esc_attr( self::get_state()['thumbnail'] ); ?>">
-
-                    <!-- file thumbnail -->
-                    <div class="hacu-uploader__file-thumbnail" data-state="<?php echo esc_attr( $source['file']['state'] ); ?>">
-                        <div class="hacu-uploader__file-thumbnail__content">
-                            <img class="hacu-uploader__file-thumbnail__icon" src="<?php echo esc_attr( $source['file']['icon'] ); ?>"/>
+                    <?php if ( self::$data['type'] === 'application' ): ?>
+                        <div class="hacu-uploader__application-thumbnail">
+                            <?php echo self::get_file_thumbnail_component( $source ); ?>
                         </div>
-                        <div class="hacu-uploader__file-thumbnail__footer">
-                            <span class="hacu-uploader__file-thumbnail__title">
-                                <?php echo esc_html( $source['file']['title'] ); ?>
-                            </span>
+                    <?php endif; ?>
+                    <?php if ( self::$data['type'] === 'image' ): ?>
+                        <div class="hacu-uploader__image-thumbnail">
+                            <img class="hacu-uploader__image-thumbnail__image" src="<?php echo esc_attr( $source['image'] ); ?>" title="<?php echo esc_attr( $source['raw_name'] ); ?>"/>
                         </div>
-                    </div><!-- end: file thumbnail -->
-
-                    <!-- image thumbnail -->
-                    <div class="hacu-uploader__image-thumbnail" data-state="<?php echo esc_attr( $source['image']['state'] ); ?>">
-                        <img class="hacu-uploader__image-thumbnail__image" src="<?php echo esc_attr( $source['image']['src'] ); ?>" title="<?php echo esc_attr( $source['image']['title'] ); ?>"/>
-                    </div><!-- end: image thumbnail -->
-
-                    <!-- audio player -->
-                    <div class="hacu-uploader__audio-player" data-state="">
-
-                    </div><!-- end: audio player -->
-
-                    <!-- video player -->
-                    <div class="hacu-uploader__video-player" data-state="">
-
-                    </div><!-- end: video player -->
-
+                    <?php endif; ?>
+                    <?php if ( self::$data['type'] === 'audio' ): ?>
+                        <div class="hacu-uploader__audio-thumbnail">
+                            <?php echo self::get_file_thumbnail_component( $source ); ?>
+                            <audio class="hacu-media-player" id="<?php echo esc_attr( self::$data['id'] .'-media-player' ); ?>" src="<?php echo esc_attr( $source['url'] ); ?>"></audio>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ( self::$data['type'] === 'video' ): ?>
+                        <div class="hacu-uploader__video-thumbnail">
+                            <video class="hacu-media-player" id="<?php echo esc_attr( self::$data['id'] .'-media-player' ); ?>" src="<?php echo esc_attr( $source['url'] ); ?>" preload="true" style="width: 100%; height: 100%;"></video>
+                        </div>
+                    <?php endif; ?>
                     <div class="hacu-uploader__thumbnail__controls">
-                        <button type="button" class="hacu-btn">Remove</button>
-                        <button type="button" class="hacu-btn">Change</button>
+                        <button type="button" class="hacu-uploader__file-remove hacu-btn">Remove</button>
+                        <button type="button" class="hacu-uploader__file-selector hacu-btn" data-id="<?php echo esc_attr( self::$data['id'] ); ?>" data-type="<?php echo esc_attr( self::$data['type'] ); ?>" data-mimes="<?php echo esc_attr( self::get_mimes() ); ?>">Change</button>
                     </div>
                 </div>
             </div>
@@ -424,5 +387,44 @@ final class Uploader {
         return ob_get_clean();
     }
 
-    
+    /**
+     * Return the file information thumbnail component.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $args  Contains the necessary arguments needed for rendering file thumbnail.
+     * $args = [
+     *      'filename'  => (string) The filename of the attachment.
+     *      'raw_name'  => (string) The raw file name of the attachment.
+     *      'extension' => (string) The file extension of the attachment.
+     *      'filesize'  => (string) The readable file size of attachment.
+     *      'image'     => (string) The icon url source of the attachment.  
+     *      'date'      => (string) The date attachment uploaded.
+     * ];
+     * @return void
+     */
+    private static function get_file_thumbnail_component( $args = [] ) {
+        $filemeta = $args['filesize'] .' - '. $args['date'];
+        $filename = $args['filename'];
+        if ( strlen( $filename ) > 24 ) {
+            $filename = mb_strimwidth( $args['raw_name'], 0, 22, '...'. $args['extension'] );
+        }
+        ob_start();
+        ?>
+        <div class="hacu-uploader__file-thumbnail" title="<?php echo esc_attr( $args['filename'] ); ?>">
+            <div class="hacu-col__left">
+                <img class="hacu-uploader__file-thumbnail__icon" src="<?php echo esc_attr( $args['image'] ); ?>"/>
+            </div>
+            <div class="hacu-col__right">
+                <p class="hacu-uploader__file-thumbnail__filename">
+                    <?php echo esc_html( $filename ); ?>
+                </p>
+                <p class="hacu-uploader__file-thumbnail__filemeta">
+                    <?php echo esc_html( $filemeta ); ?>
+                </p>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
 }
