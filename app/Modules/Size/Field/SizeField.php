@@ -32,32 +32,51 @@ final class SizeField extends Setting {
     }
 
     /**
-     * Return the validated default value. Validate default if a valid size.
+     * Return the validated default value.
      * 
      * @since 1.0.0
-     *
-     * @param  array  $args  Contains the arguments needed for default validation.
-     * $args = [
-     *      'default' => (string) The default value to be validated.
-     *      'units'   => (array)  The list of valid units.
-     * ]
+     * 
+     * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $args = [] ) {
-        return ( Validator::is_valid_size( $args['default'], $args['units'] ) ? $args['default'] : '' );
+    private function get_validated_default( $validated ) {
+        return ( Validator::is_valid_size( $validated['default'], $validated['units'] ) ? $validated['default'] : '' );
     }
 
     /**
-     * Return the validated units. Validate if defined units are valid.
+     * Return the validated units.
      * 
      * @since 1.0.0
      *
-     * @param  array  $units  Contains the units to be validate.
+     * @param  array  $validated  Contains the validated arguments.
      * @return array
      */
-    private function get_validated_units( $units ) {
-        $validated = Helper::get_intersected( $units, $this->valid_units() );
-        return ( ! empty( $validated ) ? $validated : $this->valid_units() );
+    private function get_validated_units( $validated ) {
+        $units = [];
+        if ( isset( $validated['units'] ) ) {
+            $units = Helper::get_intersected( $validated['units'], $this->valid_units() );
+        }
+
+        return ( ! empty( $units ) ? $units : $this->valid_units() );
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $validation  = 'valid_size['. implode( ',', $validated['units'] ) .']';
+        $validations = [ $validation ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, $validation );
+        }
+
+        return $validations;
     }
 
     /**
@@ -136,27 +155,13 @@ final class SizeField extends Setting {
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            if ( isset( $validated['units'] ) ) {
-                $validated['units'] = $this->get_validated_units( $validated['units'] );
-            } else {
-                $validated['units'] = $this->valid_units();
-            }
-        }
+            $validated['units'] = $this->get_validated_units( $validated );
 
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default([
-                'default' => $validated['default'],
-                'units'   => $validated['units']
-            ]);
-        }
-
-        if ( ! empty( $validated ) ) {
-            $validation = 'valid_size['. implode( ',', $validated['units'] ) .']';
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], $validation );
-            } else {
-                $validated['validations'] = [ $validation ];
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
+
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
         
         $config = Validator::get_configuration( 'field', $validated );

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 final class CounterField extends Setting {
 
     /**
-     * Return the validated options. Validate the value of minimum, maximum and stepper.
+     * Return the validated options.
      * 
      * @since 1.0.0
      *
@@ -55,6 +55,24 @@ final class CounterField extends Setting {
         }
 
         return $value;
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $validations = [ 'is_number' ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, 'is_number' );
+        }
+
+        return $validations;
     }
 
     /**
@@ -127,16 +145,9 @@ final class CounterField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['options'] ) ) {
-            $validated['options'] = $this->get_validated_options( $validated['options'] );
-        }
-
         if ( ! empty( $validated ) ) {
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], 'is_number' );
-            } else {
-                $validated['validations'] = [ 'is_number' ];
-            }
+            $validated['options']     = $this->get_validated_options( $validated['options'] );
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );

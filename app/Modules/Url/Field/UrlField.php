@@ -17,15 +17,33 @@ defined( 'ABSPATH' ) || exit;
 final class UrlField extends Setting {
 
     /**
-     * Return the validated default value. Validate by url.
+     * Return the validated default value.
      * 
      * @since 1.0.0
      *
-     * @param  string  $default  The default value to be validated.
+     * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $default ) {
-        return ( filter_var( $default, FILTER_VALIDATE_URL ) ? $default : '' );
+    private function get_validated_default( $validated ) {
+        return ( filter_var( $validated['default'], FILTER_VALIDATE_URL ) ? $validated['default'] : '' );
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $validations = [ 'valid_url' ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, 'valid_url' );
+        }
+
+        return $validations;
     }
 
     /**
@@ -98,16 +116,12 @@ final class UrlField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default( $validated['default'] );
-        }
-
         if ( ! empty( $validated ) ) {
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], 'valid_url' );
-            } else {
-                $validated['validations'] = [ 'valid_url' ];
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
+
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );

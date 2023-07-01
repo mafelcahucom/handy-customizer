@@ -24,8 +24,8 @@ const ColorSet = {
 	 * @since 1.0.0
 	 */
 	init() {
-		this.onChange();
-		this.onChangeToDefault();
+		this.onSelectItem();
+		this.onSetToDefault();
 	},
 
 	/**
@@ -59,11 +59,11 @@ const ColorSet = {
 	},
 
 	/**
-	 * Update hidden input value based on selected color item.
+	 * On selecting item and update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
-	onChange() {
+	onSelectItem() {
 		eventListener( 'click', '.hacu-color-set__item', function( e ) {
 			e.preventDefault();
 			const target = e.target;
@@ -90,11 +90,11 @@ const ColorSet = {
 	},
 
 	/**
-	 * Update hidden input value to the default color value.
+	 * On setting to default and update field value based on set default.
 	 *
 	 * @since 1.0.0
 	 */
-	onChangeToDefault() {
+	onSetToDefault() {
 		eventListener( 'click', '.hacu-color-set__default-btn', function( e ) {
 			e.preventDefault();
 			const target = e.target;

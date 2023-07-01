@@ -1,5 +1,5 @@
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 import {
 	queryElement,
@@ -9,13 +9,13 @@ import {
 } from '../../../assets/src/js/helpers';
 
 /**
- * Button Set Field.
+ * Image Radio Field.
  *
  * @since 1.0.0
  *
  * @type {Object}
  */
-const ButtonSet = {
+const ImageRadio = {
 
 	/**
 	 * Initialize.
@@ -41,7 +41,7 @@ const ButtonSet = {
 				elements: {
 					input: {
 						isSingle: true,
-						selector: '.hacu-button-set__input',
+						selector: '.hacu-image-radio__input',
 					},
 				},
 			} );
@@ -54,22 +54,22 @@ const ButtonSet = {
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-button-set__item-btn', function( e ) {
+		eventListener( 'click', '.hacu-image-radio__item', function( e ) {
 			e.preventDefault();
 			const target = e.target;
 			const value = target.getAttribute( 'data-value' );
 			const state = target.getAttribute( 'data-state' );
-			const elements = ButtonSet.elements( target );
+			const elements = ImageRadio.elements( target );
 			if ( ! elements || value.length === 0 || state !== 'default' ) {
 				return;
 			}
 
 			const { parentElem, inputElem } = elements;
-			updateFieldValue( inputElem, value );
-			setAttribute.child( parentElem, '.hacu-button-set__item-btn', 'data-state', 'default' );
+			setAttribute.child( parentElem, '.hacu-image-radio__item', 'data-state', 'default' );
 			target.setAttribute( 'data-state', 'active' );
+			updateFieldValue( inputElem, value );
 		} );
 	},
 };
 
-export default ButtonSet;
+export default ImageRadio;

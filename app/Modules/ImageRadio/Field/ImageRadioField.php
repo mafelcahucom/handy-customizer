@@ -1,45 +1,53 @@
 <?php
-namespace Handy\Modules\CheckboxPill\Field;
+namespace Handy\Modules\ImageRadio\Field;
 
 use Handy\Core\Setting;
-use Handy\Inc\Helper;
 use Handy\Inc\Validator;
-use Handy\Modules\CheckboxPill\Control\CheckboxPillControl;
+use Handy\Modules\ImageRadio\Control\ImageRadioControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Checkbox Pill.
+ * Field > Image Radio.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class CheckboxPillField extends Setting {
+final class ImageRadioField extends Setting {
 
     /**
      * Return the validated default value.
      * 
      * @since 1.0.0
-     *
+     * 
      * @param  array  $validated  Contains the validated arguments.
-     * @return array
+     * @return string
      */
     private function get_validated_default( $validated ) {
-        return Helper::get_intersected( $validated['default'], array_keys( $validated['choices'] ) );
+        return ( array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : '' );
     }
 
     /**
-     * Return the validated shape value.
+     * Return the validated size value.
      * 
      * @since 1.0.0
      *
      * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_shape( $validated ) {
-        $is_valid_shape = ( isset( $validated['shape'] ) && in_array( $validated['shape'], [ 'square', 'round' ] ) );
-        return ( $is_valid_shape ? $validated['shape'] : 'square' );
+    private function get_validated_size( $validated ) {
+        if ( ! isset( $validated['size'] ) || empty( $validated['size'] ) ) {
+            return [
+                'width'  => 'max-content',
+                'height' => 'auto'
+            ];
+        }
+
+        return [
+            'width'  => ( isset( $validated['width'] ) ? $validated['width'] : 'max-content' ),
+            'height' => ( isset( $validated['height'] ) ? $validated['height'] : 'auto' )
+        ];
     }
 
     /**
@@ -56,6 +64,20 @@ final class CheckboxPillField extends Setting {
     }
 
     /**
+     * Return the validated choices value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return array
+     */
+    private function get_validated_choices( $validated ) {
+        return array_unique( array_filter( $validated['choices'], function( $choice ) {
+            return ( is_array( $choice ) && isset( $choice['image'] ) && isset( $choice['title'] ) );
+        } ), SORT_REGULAR );
+    }
+
+    /**
      * Return the predetermined default validations.
      * 
      * @since 1.0.0
@@ -65,7 +87,7 @@ final class CheckboxPillField extends Setting {
      */
     private function get_default_validations( $validated ) {
         $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
-        $validation  = "values_in_choices[{$parameters}]";
+        $validation  = "in_choices[{$parameters}]";
         $validations = [ $validation ];
         if ( isset( $validated['validations'] ) ) {
             $validations = $validated['validations'];
@@ -76,25 +98,25 @@ final class CheckboxPillField extends Setting {
     }
 
     /**
-     * Render Checkbox Multiple Control.
+     * Render Image Radio Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render checkbox multiple control.
+     * @param  array   $args       Contains the arguments needed to render image radio control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (array)   The default value of the control.
+     *      'default'           => (string)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
      *      'priority'          => (integer) The order of control appears in the section. 
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'choices'           => (array)   The list of choices.
-     *      'shape'             => (string)  The shape of the checkbox pills [ square, round ].
-     *      'display'           => (string)  The display of the checkbox pills [ block, inline ].
+     *      'display'           => (string)  The display of item choices, can contain block and inline only.
+     *      'size'              => (array)   The size of each item choices, must contain width and height.
+     *      'choices'           => (array)   The list of choices must contain image and title.
      * ]
      * @return void
      */
@@ -113,7 +135,7 @@ final class CheckboxPillField extends Setting {
                 'required' => true
             ],
             'default'           => [
-                'type'     => 'array',
+                'type'     => 'string',
                 'required' => false,
             ],
             'label'             => [
@@ -140,23 +162,23 @@ final class CheckboxPillField extends Setting {
                 'type'     => 'mixed',
                 'required' => false
             ],
-            'choices'           => [
-                'type'     => 'array',
-                'required' => true
-            ],
-            'shape'             => [
-                'type'     => 'string',
-                'required' => false
-            ],
             'display'           => [
                 'type'     => 'string',
                 'required' => false
+            ],
+            'size'              => [
+                'type'     => 'array',
+                'required' => false
+            ],
+            'choices'           => [
+                'type'     => 'array',
+                'required' => true
             ]
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            $validated['choices'] = array_unique( $validated['choices'] );
+            $validated['choices'] = $this->get_validated_choices( $validated );
             if ( empty( $validated['choices'] ) ) {
                 return;
             }
@@ -165,15 +187,15 @@ final class CheckboxPillField extends Setting {
                 $validated['default'] = $this->get_validated_default( $validated );
             }
 
-            $validated['shape']       = $this->get_validated_shape( $validated );
             $validated['display']     = $this->get_validated_display( $validated );
+            $validated['size']        = $this->get_validated_size( $validated );
             $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'checkbox_pill', $customize, $validated );
-            $customize->add_control( new CheckboxPillControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'image_radio', $customize, $validated );
+            $customize->add_control( new ImageRadioControl( $customize, $config['settings'], $config ) );
         }
     }
 }

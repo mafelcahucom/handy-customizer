@@ -1,0 +1,41 @@
+.hacu-image-radio {
+
+	&__container {
+		display: flex;
+		gap: 5px;
+
+		&[data-display="inline"] {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		&[data-display="block"] {
+			flex-direction: column;
+		}
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		border-radius: 4px;
+
+		* {
+			pointer-events: none;
+		}
+
+		&[data-state="active"] {
+			border: 1px solid $clr-blue-1;
+			box-shadow: 0 0 0 1px $clr-blue-1;
+		}
+	}
+
+	&__image {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		border-radius: inherit;
+	}
+}

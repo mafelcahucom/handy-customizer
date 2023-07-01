@@ -17,6 +17,24 @@ defined( 'ABSPATH' ) || exit;
 final class NumberField extends Setting {
 
     /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $validations = [ 'is_number' ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, 'is_number' );
+        }
+
+        return $validations;
+    }
+
+    /**
      * Render Number Control.
      * 
      * @since 1.0.0
@@ -87,11 +105,7 @@ final class NumberField extends Setting {
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], 'is_number' );
-            } else {
-                $validated['validations'] = [ 'is_number' ];
-            }
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );

@@ -21,15 +21,11 @@ final class ColorSetField extends Setting {
      * 
      * @since 1.0.0
      *
-     * @param  array  $args  Contains the arguments needed for default validation.
-     * $args = [
-     *      'default' => (array) The default value to be validated.
-     *      'colors'  => (array) The list of colors.
-     * ]
+     * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $args = [] ) {
-        return ( in_array( $args['default'], $args['colors'] ) ? $args['default'] : '' );
+    private function get_validated_default( $validated ) {
+        return ( in_array( $validated['default'], $validated['colors'] ) ? $validated['default'] : '' );
     }
 
     /**
@@ -37,11 +33,11 @@ final class ColorSetField extends Setting {
      * 
      * @since 1.0.0
      *
-     * @param  array  $colors  Contains the list of colors.
+     * @param  array  $validated  Contains the validated arguments.
      * @return array
      */
-    private function get_validated_colors( $colors ) {
-        return array_unique( array_filter( $colors, function( $color ) {
+    private function get_validated_colors( $validated ) {
+        return array_unique( array_filter( $validated['colors'], function( $color ) {
             return Validator::is_valid_hexa_color( $color );
         }));
     }
@@ -55,12 +51,8 @@ final class ColorSetField extends Setting {
      * @return string
      */
     private function get_validated_shape( $validated ) {
-        $shape = 'square';
-        if ( isset( $validated['shape'] ) && in_array( $validated['shape'], [ 'square', 'round' ] ) ) {
-            $shape = $validated['shape'];
-        }
-
-        return $shape;
+        $is_valid_shape = ( isset( $validated['shape'] ) && in_array( $validated['shape'], [ 'square', 'round' ] ) );
+        return ( $is_valid_shape ? $validated['shape'] : 'square' );
     }
 
     /**
@@ -72,14 +64,29 @@ final class ColorSetField extends Setting {
      * @return string
      */
     private function get_validated_size( $validated ) {
-        $size = '20px';
-        if ( isset( $validated['size'] ) ) {
-            if ( Validator::is_valid_size( $validated['size'], [ 'px', 'em', 'rem', 'ex' ] ) ) {
-                $size = $validated['size'];
-            }
+        $units         = [ 'px', 'em', 'rem', 'ex' ];
+        $is_valid_size = ( isset( $validated['size'] ) && Validator::is_valid_size( $validated['size'], $units ) );
+        return ( $is_valid_size ? $validated['size'] : '20px' );
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $parameters  = implode( ',', array_merge( $validated['colors'], [ '__' ] ) );
+        $validation  = "in_choices[{$parameters}]";
+        $validations = [ $validation ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, $validation );
         }
 
-        return $size;
+        return $validations;
     }
 
     /**
@@ -162,31 +169,19 @@ final class ColorSetField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['colors'] ) ) {
-            $validated['colors'] = $this->get_validated_colors( $validated['colors'] );
+        if ( ! empty( $validated ) ) {
+            $validated['colors'] = $this->get_validated_colors( $validated );
             if ( empty( $validated['colors'] ) ) {
                 return;
             }
-        }
-
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default([
-                'default' => $validated['default'],
-                'colors'  => $validated['colors']
-            ]);
-        }
-
-        if ( ! empty( $validated ) ) {
-            $validated['shape'] = $this->get_validated_shape( $validated );
-            $validated['size']  = $this->get_validated_size( $validated );
-
-            $parameters = implode( ',', array_merge( $validated['colors'], [ '__' ] ) );
-            $validation = "in_choices[{$parameters}]";
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], $validation );
-            } else {
-                $validated['validations'] = [ $validation ];
+            
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
+
+            $validated['shape']       = $this->get_validated_shape( $validated );
+            $validated['size']        = $this->get_validated_size( $validated );
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );

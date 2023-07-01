@@ -211,9 +211,8 @@ final class Uploader {
     private static function get_attachment() {
         $attachment    = [];
         $attachment_id = self::$data['value'];
-        $file          = get_attached_file( $attachment_id );
-
-        $file = Helper::get_file_meta( $attachment_id );
+        $file          = Helper::get_file_meta( $attachment_id );
+        
         if ( ! empty( $file ) ) {
             $attachment['filename']  = $file['filename'];
             $attachment['raw_name']  = $file['raw_name'];

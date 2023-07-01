@@ -1,5 +1,5 @@
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 import {
 	queryElement,
@@ -9,13 +9,13 @@ import {
 } from '../../../assets/src/js/helpers';
 
 /**
- * Checkbox Pill Field.
+ * Image Checkbox Field.
  *
  * @since 1.0.0
  *
  * @type {Object}
  */
-const CheckboxPill = {
+const ImageCheckbox = {
 
 	/**
 	 * Initialize.
@@ -41,7 +41,7 @@ const CheckboxPill = {
 				elements: {
 					input: {
 						isSingle: true,
-						selector: '.hacu-checkbox-pill__input',
+						selector: '.hacu-image-checkbox__input',
 					},
 				},
 			} );
@@ -54,32 +54,31 @@ const CheckboxPill = {
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-checkbox-pill__item-btn', function( e ) {
+		eventListener( 'click', '.hacu-image-checkbox__item', function( e ) {
 			e.preventDefault();
 			const target = e.target;
-			const state = target.getAttribute( 'data-state' );
 			const value = target.getAttribute( 'data-value' );
-			const elements = CheckboxPill.elements( target );
-			if ( ! elements || state.length === 0 || value.length === 0 ) {
+			const state = target.getAttribute( 'data-state' );
+			const elements = ImageCheckbox.elements( target );
+			if ( ! elements || value.length === 0 || state.length === 0 ) {
 				return;
 			}
 
 			const { inputElem } = elements;
 			const checked = getExplodedValue( inputElem.value );
-			switch ( state ) {
-				case 'default':
-					if ( ! checked.includes( value ) ) {
-						checked.push( value );
-						target.setAttribute( 'data-state', 'active' );
-					}
-					break;
-				case 'active':
-					const index = checked.indexOf( value );
-					if ( index !== -1 ) {
-						checked.splice( index, 1 );
-						target.setAttribute( 'data-state', 'default' );
-					}
-					break;
+			if ( state === 'default' ) {
+				if ( ! checked.includes( value ) ) {
+					checked.push( value );
+				}
+				target.setAttribute( 'data-state', 'active' );
+			}
+
+			if ( state === 'active' ) {
+				const index = checked.indexOf( value );
+				if ( index !== -1 ) {
+					checked.splice( index, 1 );
+				}
+				target.setAttribute( 'data-state', 'default' );
 			}
 
 			updateFieldValue( inputElem, checked.join( ',' ) );
@@ -87,4 +86,4 @@ const CheckboxPill = {
 	},
 };
 
-export default CheckboxPill;
+export default ImageCheckbox;

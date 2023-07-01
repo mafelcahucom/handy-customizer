@@ -22,7 +22,7 @@ const Radio = {
 	 * @since 1.0.0
 	 */
 	init() {
-		this.onChange();
+		this.onSelectRadio();
 	},
 
 	/**
@@ -52,11 +52,11 @@ const Radio = {
 	},
 
 	/**
-	 * Update hidden input value based on checked radio.
+	 * On selecting radio and update field value based on selected radio.
 	 *
 	 * @since 1.0.0
 	 */
-	onChange() {
+	onSelectRadio() {
 		eventListener( 'change', '.hacu-radio__box', function( e ) {
 			const target = e.target;
 			const value = target.value;

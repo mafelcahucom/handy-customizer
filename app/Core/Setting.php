@@ -134,10 +134,13 @@ class Setting {
             'dropdown_post'        => 'sanitize_choices',
             'email'                => 'sanitize_email',
             'file_uploader'        => 'sanitize_attachment',
+            'image_checkbox'       => 'sanitize_multiple',
+            'image_radio'          => 'sanitize_choices',
             'image_uploader'       => 'sanitize_attachment',
             'number'               => 'sanitize_number',
             'radio'                => 'sanitize_choices',
             'select'               => 'sanitize_choices',
+            'size'                 => 'sanitize_size',
             'switches'             => 'sanitize_boolean',
             'text'                 => 'sanitize_text',
             'textarea'             => 'sanitize_textarea',
@@ -236,6 +239,22 @@ class Setting {
         }
 
         return floatval( $input );
+    }
+
+    /**
+     * Return the sanitized size value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_size( $input, $setting ) {
+        $value = sanitize_text_field( $input );
+        $units = $setting->manager->get_control( $setting->id )->units;
+
+        return ( Validator::is_valid_size( $value, $units ) ? $value : '' );
     }
 
     /**

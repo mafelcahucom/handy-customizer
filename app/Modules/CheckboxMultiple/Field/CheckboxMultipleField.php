@@ -2,9 +2,9 @@
 namespace Handy\Modules\CheckboxMultiple\Field;
 
 use Handy\Core\Setting;
+use Handy\Inc\Helper;
 use Handy\Inc\Validator;
 use Handy\Modules\CheckboxMultiple\Control\CheckboxMultipleControl;
-use Handy\Inc\Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,15 +22,31 @@ final class CheckboxMultipleField extends Setting {
      * 
      * @since 1.0.0
      *
-     * @param  array  $args  Contains the arguments needed for default validation.
-     * $args = [
-     *      'default' => (array) The default value to be validated.
-     *      'choices' => (array) The list of choices.
-     * ]
+     * @param  array  $validated  Contains the validated arguments.
+     * @return array
+     */
+    private function get_validated_default( $validated ) {
+        return Helper::get_intersected( $validated['default'], array_keys( $validated['choices'] ) );
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $args = [] ) {
-        return Helper::get_intersected( $args['default'], array_keys( $args['choices'] ) );
+    private function get_default_validations( $validated ) {
+        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+        $validation  = "values_in_choices[{$parameters}]";
+        $validations = [ $validation ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, $validation );
+        }
+
+        return $validations;
     }
 
     /**
@@ -103,28 +119,17 @@ final class CheckboxMultipleField extends Setting {
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
-        if ( isset( $validated['choices'] ) ) {
+        if ( ! empty( $validated ) ) {
             $validated['choices'] = array_unique( $validated['choices'] );
             if ( empty( $validated['choices'] ) ) {
                 return;
             }
-        }
 
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default([
-                'default' => $validated['default'],
-                'choices' => $validated['choices']
-            ]);
-        }
-
-        if ( ! empty( $validated ) ) {
-            $parameters = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
-            $validation = "values_in_choices[{$parameters}]";
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], $validation );
-            } else {
-                $validated['validations'] = [ $validation ];
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
+
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );

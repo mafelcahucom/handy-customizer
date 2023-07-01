@@ -32,24 +32,20 @@ final class FileUploaderField extends Setting {
     }
 
     /**
-     * Return the validated default value. Validate attachment if contains a valid extension.
+     * Return the validated default value.
      * 
      * @since 1.0.0
      *
-     * @param  array  $args  Contains the arguments needed for default validation.
-     * $args = [
-     *      'default'    => (string) The default value to be validated.
-     *      'extensions' => (array)  The list of allowed extensions.
-     * ]
+     * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $args = [] ) {
-        $file = Helper::get_file_meta( $args['default'] );
-        return ( ! empty( $file ) && in_array( $file['extension'], $args['extensions'] ) ? $args['default'] : '' );
+    private function get_validated_default( $validated ) {
+        $file = Helper::get_file_meta( $validated['default'] );
+        return ( ! empty( $file ) && in_array( $file['extension'], $validated['extensions'] ) ? $validated['default'] : '' );
     }
 
     /**
-     * Return the validated extensions. Validate if defined extensions are valid.
+     * Return the validated extensions.
      * 
      * @since 1.0.0
      *
@@ -63,6 +59,26 @@ final class FileUploaderField extends Setting {
         }
 
         return ( ! empty( $extensions ) ? $extensions : $this->allowed_extensions() );
+    }
+    
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $parameters  = implode( ',', array_merge( $validated['extensions'], [ '__' ] ) );
+        $validation  = "valid_attachment[{$parameters}]";
+        $validations = [ $validation ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, $validation );
+        }
+
+        return $validations;
     }
 
     /**
@@ -141,23 +157,11 @@ final class FileUploaderField extends Setting {
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            $validated['extensions'] = $this->get_validated_extensions( $validated );
-        }
+            $validated['extensions']  = $this->get_validated_extensions( $validated );
+            $validated['validations'] = $this->get_default_validations( $validated );
 
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default([
-                'default'    => $validated['default'],
-                'extensions' => $validated['extensions']
-            ]);
-        }
-
-        if ( ! empty( $validated ) ) {
-            $parameters = implode( ',', $validated['extensions'] );
-            $validation = "valid_attachment[{$parameters}]";
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], $validation );
-            } else {
-                $validated['validations'] = [ $validation ];
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
         }
 

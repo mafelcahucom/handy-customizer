@@ -55,19 +55,35 @@ final class DropdownCustomPostField extends Setting {
     }
 
     /**
-     * Return the validated default value. Validate default if exist in custom posts.
+     * Return the validated default value.
      * 
      * @since 1.0.0
      *
-     * @param  array  $args  Contains the arguments needed for default validation.
-     * $args = [
-     *      'default' => (number) The default value to be validated.
-     *      'choices' => (array)  The list of posts.
-     * ]
+     * @param  array  $validated  Contains the validated arguments.
      * @return integer
      */
-    private function get_validated_default( $args = [] ) {
-        return ( array_key_exists( $args['default'], $args['choices'] ) ? $args['default'] : 0 );
+    private function get_validated_default( $validated ) {
+        return ( array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : 0 );
+    }
+
+    /**
+     * Return the predetermined default validations.
+     * 
+     * @since 1.0.0
+     *
+     * @param  array  $validated  Contains the validated arguments.
+     * @return string
+     */
+    private function get_default_validations( $validated ) {
+        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+        $validation  = "in_choices[{$parameters}]";
+        $validations = [ $validation ];
+        if ( isset( $validated['validations'] ) ) {
+            $validations = $validated['validations'];
+            array_unshift( $validations, $validation );
+        }
+
+        return $validations;
     }
 
     /**
@@ -162,23 +178,12 @@ final class DropdownCustomPostField extends Setting {
                 'order'       => ( isset( $validated['order'] ) ? $validated['order'] : 'asc' ),
                 'placeholder' => ( isset( $validated['placeholder'] ) ? $validated['placeholder'] : '' )
             ]);
-        }
 
-        if ( isset( $validated['default'] ) ) {
-            $validated['default'] = $this->get_validated_default([
-                'default' => $validated['default'],
-                'choices' => $validated['choices']
-            ]);
-        }
-
-        if ( ! empty( $validated ) ) {
-            $parameters = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
-            $validation = "in_choices[{$parameters}]";
-            if ( isset( $validated['validations'] ) ) {
-                array_unshift( $validated['validations'], $validation );
-            } else {
-                $validated['validations'] = [ $validation ];
+            if ( isset( $validated['default'] ) ) {
+                $validated['default'] = $this->get_validated_default( $validated );
             }
+
+            $validated['validations'] = $this->get_default_validations( $validated );
         }
 
         $validated = Helper::unset_keys( $validated, [ 'post_type', 'order', 'status', 'placeholder' ] );

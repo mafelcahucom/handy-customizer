@@ -23,7 +23,7 @@ const CheckboxMultiple = {
 	 * @since 1.0.0
 	 */
 	init() {
-		this.onChange();
+		this.onSelectCheckbox();
 	},
 
 	/**
@@ -49,11 +49,11 @@ const CheckboxMultiple = {
 	},
 
 	/**
-	 * Update hidden input value based on checked checkbox.
+	 * On selecting checkbox and update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
-	onChange() {
+	onSelectCheckbox() {
 		eventListener( 'change', '.hacu-checkbox-multiple__box', function( e ) {
 			const target = e.target;
 			const value = target.value;
