@@ -1,0 +1,20 @@
+.hacu-content-editor {
+
+	.hacu-content-editor__textarea {
+		width: 100%;
+		border: 0;
+
+		&:hover,
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+
+	.mce-btn.mce-active button,
+	.mce-btn.mce-active:hover button,
+	.mce-btn.mce-active i,
+	.mce-btn.mce-active:hover i {
+		color: #23282d;
+	}
+}

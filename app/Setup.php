@@ -47,7 +47,6 @@ final class Setup {
 
         wp_register_style( 'handy-main', $source, [], $version, 'all' );
 
-        wp_enqueue_style( 'wp-mediaelement' );
         wp_enqueue_style( 'handy-main' );
     }
 
@@ -61,7 +60,7 @@ final class Setup {
             return;
         }
 
-        $dependency = [ 'jquery', 'wp-mediaelement' ];
+        $dependency = [ 'jquery' ];
         $source     = Helper::get_asset_src( 'js/main.min.js' );
         $version    = Helper::get_asset_version( 'js/main.min.js' );
 

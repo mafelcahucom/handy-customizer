@@ -1,60 +1,60 @@
 <?php
-namespace Handy\Modules\ButtonSet\Field;
+namespace Handy\Modules\ContentEditor\Field;
 
 use Handy\Core\Setting;
+use Handy\Inc\Helper;
 use Handy\Inc\Validator;
-use Handy\Modules\ButtonSet\Control\ButtonSetControl;
+use Handy\Modules\ContentEditor\Control\ContentEditorControl;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Button Set.
+ * Field > Content Editor.
  *
  * @since   1.0.0
  * @version 1.0.0
  * @author  Mafel John Cahucom
  */
-final class ButtonSetField extends Setting {
+final class ContentEditorField extends Setting {
 
     /**
-     * Return the validated default value.
+     * Return the validated uploader value.
      * 
      * @since 1.0.0
      *
      * @param  array  $validated  Contains the validated arguments.
      * @return string
      */
-    private function get_validated_default( $validated ) {
-        return ( array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : '' );
+    private function get_validated_uploader( $validated ) {
+        return ( isset( $validated['uploader'] ) ? $validated['uploader'] : false );
     }
 
     /**
-     * Return the predetermined default validations.
+     * Return the validated and imploded toolbars value.
      * 
      * @since 1.0.0
      *
      * @param  array  $validated  Contains the validated arguments.
-     * @return string
+     * @return array
      */
-    private function get_default_validations( $validated ) {
-        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
-        $validation  = "in_choices[{$parameters}]";
-        $validations = [ $validation ];
-        if ( isset( $validated['validations'] ) ) {
-            $validations = $validated['validations'];
-            array_unshift( $validations, $validation );
-        }
+    private function get_validated_toolbars( $validated ) {
+        $toolbars = [ 
+            'bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 
+            'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv', 'formatselect', 'underline',  
+            'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' 
+        ];
 
-        return $validations;
+        $intersected = ( isset( $validated['toolbars'] ) ? Helper::get_intersected( $validated['toolbars'], $toolbars ) : [] ); 
+        return implode( ' ', $intersected );
     }
 
     /**
-     * Render Button Set Control.
+     * Render Content Editor Control.
      * 
      * @since 1.0.0
      *
      * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render button set control.
+     * @param  array   $args       Contains the arguments needed to render checkbox multiple control.
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
@@ -65,7 +65,8 @@ final class ButtonSetField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'choices'           => (array)   The list of choices.
+     *      'uploader'          => (boolean) The flag whether to show Add Media button.
+     *      'toolbars'          => (array)   The list of allowed controls in toolbar.
      * ]
      * @return void
      */
@@ -111,30 +112,26 @@ final class ButtonSetField extends Setting {
                 'type'     => 'mixed',
                 'required' => false
             ],
-            'choices'           => [
+            'uploader'          => [
+                'type'     => 'boolean',
+                'required' => false
+            ],
+            'toolbars'          => [
                 'type'     => 'array',
-                'required' => true
+                'required' => false
             ]
         ];
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            $validated['choices'] = array_unique( $validated['choices'] );
-            if ( empty( $validated['choices'] ) ) {
-                return;
-            }
-
-            if ( isset( $validated['default'] ) ) {
-                $validated['default'] = $this->get_validated_default( $validated );
-            }
-
-            $validated['validations'] = $this->get_default_validations( $validated );
+            $validated['uploader'] = $this->get_validated_uploader( $validated );
+            $validated['toolbars'] = $this->get_validated_toolbars( $validated );
         }
 
         $config = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
-            $this->setting( 'button_set', $customize, $validated );
-            $customize->add_control( new ButtonSetControl( $customize, $config['settings'], $config ) );
+            $this->setting( 'content_editor', $customize, $validated );
+            $customize->add_control( new ContentEditorControl( $customize, $config['settings'], $config ) );
         }
     }
 }

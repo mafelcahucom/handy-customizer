@@ -4,7 +4,9 @@
 import ButtonSet from '../../../../app/Modules/ButtonSet';
 import CheckboxMultiple from '../../../../app/Modules/CheckboxMultiple';
 import CheckboxPill from '../../../../app/Modules/CheckboxPill';
+import CodeEditor from '../../../../app/Modules/CodeEditor';
 import ColorSet from '../../../../app/Modules/ColorSet';
+import ContentEditor from '../../../../app/Modules/ContentEditor';
 import Counter from '../../../../app/Modules/Counter';
 import ImageCheckbox from '../../../../app/Modules/ImageCheckbox';
 import ImageRadio from '../../../../app/Modules/ImageRadio';
@@ -15,7 +17,9 @@ const Modules = [
 	ButtonSet,
 	CheckboxMultiple,
 	CheckboxPill,
+	CodeEditor,
 	ColorSet,
+	ContentEditor,
 	Counter,
 	ImageCheckbox,
 	ImageRadio,

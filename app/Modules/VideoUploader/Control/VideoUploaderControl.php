@@ -34,6 +34,21 @@ final class VideoUploaderControl extends \WP_Customize_Control {
     public $extensions;
 
     /**
+     * Enqueues style and scripts.
+     * 
+     * @since 1.0.0
+     */
+    public function enqueue() {
+        if ( ! wp_style_is( 'wp-mediaelement', 'enqueued' ) ) {
+            wp_enqueue_style( 'wp-mediaelement' );
+        }
+
+        if ( ! wp_script_is( 'wp-mediaelement', 'enqueued' ) ) {
+            wp_enqueue_script('wp-mediaelement');
+        }
+    }
+
+    /**
      * Return the ID with prefix.
      * 
      * @since 1.0.0
