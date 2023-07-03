@@ -139,9 +139,12 @@ class Setting {
             'image_uploader'       => 'sanitize_attachment',
             'number'               => 'sanitize_number',
             'radio'                => 'sanitize_choices',
+            'range'                => 'sanitize_range',
             'select'               => 'sanitize_choices',
             'size'                 => 'sanitize_size',
             'switches'             => 'sanitize_boolean',
+            'tagging'              => 'sanitize_tagging',
+            'tagging_select'       => 'sanitize_tagging_select',
             'text'                 => 'sanitize_text',
             'textarea'             => 'sanitize_textarea',
             'toggle'               => 'sanitize_boolean',
@@ -343,6 +346,32 @@ class Setting {
     }
 
     /**
+     * Return the sanitized range value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_range( $input, $setting ) {
+        $options = $setting->manager->get_control( $setting->id )->options;
+        $value   = $options['min'];
+        if ( is_numeric( $input ) ) {
+            $value = floatval( $input );
+            if ( $value < $options['min'] ) {
+                $value = $options['min'];
+            }
+
+            if ( $value > $options['max'] ) {
+                $value = $options['max'];
+            }
+        }
+        
+        return $value;
+    }
+
+    /**
      * Return the sanitize attachment value.
      * 
      * @since 1.0.0
@@ -365,6 +394,53 @@ class Setting {
         $extensions = $setting->manager->get_control( $setting->id )->extensions;
 
         return ( in_array( $file['extension'], $extensions ) ? $value : '' );
+    }
+
+    /**
+     * Return the sanitized tagging value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_tagging( $input, $setting ) {
+        if ( strlen( $input ) === 0 ) {
+            return [];
+        }
+
+        $maximum  = $setting->manager->get_control( $setting->id )->maximum;
+        $exploded = array_filter( array_unique( explode( ',', $input ) ) );
+        if ( $maximum > 0 && count( $exploded ) > $maximum ) {
+            $exploded = array_slice( $exploded, 0, $maximum );
+        }
+        
+        return array_map( 'sanitize_text_field', $exploded );
+    }
+
+    /**
+     * Return the sanitized tagging select value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_tagging_select( $input, $setting ) {
+        if ( strlen( $input ) === 0 ) {
+            return [];
+        }
+
+        $maximum  = $setting->manager->get_control( $setting->id )->maximum;
+        $choices  = $setting->manager->get_control( $setting->id )->choices;
+        $exploded = Helper::get_exploded_value( $input, array_keys( $choices ) );
+        if ( $maximum > 0 && count( $exploded ) > $maximum ) {
+            $exploded = array_slice( $exploded, 0, $maximum );
+        }
+        
+        return array_map( 'sanitize_text_field', $exploded );
     }
 
     /**

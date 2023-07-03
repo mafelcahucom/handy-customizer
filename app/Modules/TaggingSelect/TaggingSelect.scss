@@ -1,0 +1,47 @@
+.hacu-tagging-select {
+
+	.selectize-control.multi {
+
+		.selectize-input {
+			padding: 5px 8px !important;
+			color: $clr-black-1 !important;
+			border: 1px solid $clr-gray-1 !important;
+			border-radius: 4px !important;
+			box-shadow: 0 0 0 transparent !important;
+
+			&:hover,
+			&:focus {
+				border-color: $clr-blue-1 !important;
+				box-shadow: 0 0 0 1px $clr-blue-1 !important;
+				outline: 2px solid transparent !important;
+			}
+
+			div {
+				color: $clr-black-1 !important;
+				border-radius: 4px !important;
+				background: #f3f5f6 !important;
+				border: 1px solid $clr-gray-3 !important;
+
+				&:hover,
+				&:focus {
+					border-color: $clr-blue-1 !important;
+					box-shadow: 0 0 0 1px $clr-blue-1 !important;
+					outline: 2px solid transparent !important;
+				}
+
+				.remove {
+					border-left: 1px solid $clr-gray-3 !important;
+				}
+			}
+		}
+	}
+
+	.selectize-dropdown-content .option {
+
+		&:hover,
+		&:focus {
+			color: $clr-white-1 !important;
+			background: $clr-blue-1 !important;
+		}
+	}
+}

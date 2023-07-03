@@ -1,0 +1,44 @@
+.hacu-range {
+
+	&__container {
+		display: flex;
+		align-items: center;
+
+		.hacu-col__left {
+			width: 100%;
+		}
+	}
+
+	&__input {
+		padding: 0 !important;
+		width: 100%;
+		height: 3px;
+		background: $clr-gray-3;
+		outline: none;
+		appearance: none;
+
+		&::-webkit-slider-thumb {
+			width: 13px;
+			height: 13px;
+			cursor: pointer;
+			appearance: none;
+			background: $clr-blue-1;
+			border-radius: 50%;
+		}
+
+		&::-moz-range-thumb {
+			width: 13px;
+			height: 13px;
+			cursor: pointer;
+			background: $clr-blue-1;
+			border-radius: 50%;
+		}
+	}
+
+	&__output {
+		display: block;
+		padding-left: 8px;
+		width: 50px;
+		text-align: right;
+	}
+}

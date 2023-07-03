@@ -11,7 +11,10 @@ import Counter from '../../../../app/Modules/Counter';
 import ImageCheckbox from '../../../../app/Modules/ImageCheckbox';
 import ImageRadio from '../../../../app/Modules/ImageRadio';
 import Radio from '../../../../app/Modules/Radio';
+import Range from '../../../../app/Modules/Range';
 import Size from '../../../../app/Modules/Size';
+import Tagging from '../../../../app/Modules/Tagging';
+import TaggingSelect from '../../../../app/Modules/TaggingSelect';
 
 const Modules = [
 	ButtonSet,
@@ -24,7 +27,10 @@ const Modules = [
 	ImageCheckbox,
 	ImageRadio,
 	Radio,
+	Range,
 	Size,
+	Tagging,
+	TaggingSelect
 ];
 
 export default Modules;
