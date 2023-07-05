@@ -81,6 +81,24 @@ final class Validator {
     }
 
     /**
+     * Check if the date string contains a valid date based on defined format.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $date    The string date to be check.
+     * @param  string  $format  The date format used as referrence.
+     * @return boolean
+     */
+    public static function is_valid_date( $date, $format ) {
+        if ( empty( $date ) || empty( $format ) ) {
+            return false;
+        }
+        
+        $created_date = \DateTime::createFromFormat( $format, $date );
+        return $created_date && $created_date->format( $format ) === $date;
+    }
+
+    /**
      * Checks if the callback is invalid object or string type.
      * 
      * @since 1.0.0

@@ -1,0 +1,47 @@
+.hacu-time-picker {
+
+	&__container {
+		display: flex;
+		gap: 3px;
+		position: relative;
+		width: 100%;
+
+		&[data-state="visible"] {
+			height: 85px;
+
+			.flatpickr-calendar.inline {
+				display: block;
+			}
+		}
+
+		.hacu-col__left {
+			width: 100%;
+		}
+	}
+
+	.flatpickr-calendar {
+		box-shadow: none !important;
+
+		&.inline {
+			display: none;
+			position: absolute;
+			top: 35px;
+			width: 100%;
+			border: 1px solid $clr-gray-1;
+			border-radius: 4px;
+		}
+
+		.flatpickr-time {
+			border-radius: 4px;
+
+			.numInput {
+				border: 0;
+				border-radius: 0;
+
+				&:focus {
+					box-shadow: 0 0 0 1px transparent;
+				}
+			}
+		}
+	}
+}

@@ -2,6 +2,7 @@ import eventListener from './eventListener';
 import getExplodedValue from './getExplodedValue';
 import isNumber from './isNumber';
 import isObject from './isObject';
+import isValidDate from './isValidDate';
 import isValidHexaColor from './isValidHexaColor';
 import queryElement from './queryElement';
 import setAttribute from './setAttribute';
@@ -12,6 +13,7 @@ export {
 	getExplodedValue,
 	isNumber,
 	isObject,
+	isValidDate,
 	isValidHexaColor,
 	queryElement,
 	setAttribute,

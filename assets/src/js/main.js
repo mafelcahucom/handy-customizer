@@ -32,7 +32,7 @@ Handy.domReady = {
 	/**
 	 * Execute the code when dom is ready.
 	 *
-	 * @param {Function} func callback
+	 * @param {Function} func callback.
 	 * @return {Function} The callback function.
 	 */
 	execute( func ) {

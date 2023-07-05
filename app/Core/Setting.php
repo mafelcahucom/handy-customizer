@@ -129,6 +129,7 @@ class Setting {
             'checkbox_pill'        => 'sanitize_multiple',
             'color_set'            => 'sanitize_color_set',
             'counter'              => 'sanitize_counter',
+            'date_picker'          => 'sanitize_date_picker',
             'dropdown_custom_post' => 'sanitize_choices',
             'dropdown_page'        => 'sanitize_choices',
             'dropdown_post'        => 'sanitize_choices',
@@ -147,6 +148,7 @@ class Setting {
             'tagging_select'       => 'sanitize_tagging_select',
             'text'                 => 'sanitize_text',
             'textarea'             => 'sanitize_textarea',
+            'time_picker'          => 'sanitize_time_picker',
             'toggle'               => 'sanitize_boolean',
             'url'                  => 'sanitize_url',
             'video_uploader'       => 'sanitize_attachment'
@@ -346,6 +348,42 @@ class Setting {
     }
 
     /**
+     * Return the sanitized date picker value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_date_picker( $input, $setting ) {
+        if ( strlen( $input ) === 0 ) {
+            return [];
+        }
+
+        $enable_time = $setting->manager->get_control( $setting->id )->enable_time;
+        $mode        = $setting->manager->get_control( $setting->id )->mode;
+        $length      = ( $mode === 'single' ? 1 : 2 );
+        $format      = ( $enable_time ? 'Y-m-d H:i' : 'Y-m-d' );
+        $exploded    = explode( ',', $input );
+        
+        $has_invalid = false;
+        if ( count( $exploded ) !== $length ) {
+            $has_invalid = true;
+        }
+
+        if ( ! $has_invalid ) {
+            foreach ( $exploded as $value ) {
+                if ( ! Validator::is_valid_date( $value, $format ) ) {
+                    $has_invalid = true;
+                }
+            }
+        }
+
+        return ( ! $has_invalid ? $exploded : [] );
+    }
+
+    /**
      * Return the sanitized range value.
      * 
      * @since 1.0.0
@@ -444,6 +482,26 @@ class Setting {
     }
 
     /**
+     * Return the sanitized time picker value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_time_picker( $input, $setting ) {
+        if ( strlen( $input ) === 0 ) {
+            return '';
+        }
+
+        $format      = $setting->manager->get_control( $setting->id )->format;
+        $time_format = ( $format === 'civilian' ? 'h:i A' : 'H:i' );
+
+        return ( Validator::is_valid_date( $input, $time_format ) ? $input : '' );
+    }
+
+    /**
      * Perform a validation based on set of validations.
      * 
      * @since 1.0.0
@@ -536,6 +594,12 @@ class Setting {
                 'has_param' => true
             ],
             'valid_attachment'         => [
+                'has_param' => true
+            ],
+            'valid_dates'              => [
+                'has_param' => true
+            ],
+            'valid_time'               => [
                 'has_param' => true
             ]
         ];
@@ -1150,6 +1214,56 @@ class Setting {
                         $validity->add( 'error', $this->__p( "The specified file <strong><em>{$file['filename']}</em></strong> is not allowed. Only files with the following extensions are allowed: <strong><em>{$imploded}</em></strong>." ) );
                     }
                 }
+            }
+        }
+
+        return $validity;
+    }
+
+    /**
+     * Print an error message if the dates contains an invalid date
+     * based in predetermined date format.
+     * 
+     * @since 1.0.0
+     *
+     * @param  object  $validity  Contains the validation prompt.
+     * @param  mixed   $value     Contains the value of the field.
+     * @param  string  $format    Set of predetermined date format.
+     * @return object
+     */
+    private function valid_dates( $validity, $value, $format ) {
+        if ( ! Validator::is_empty( $value ) && ! Validator::is_empty( $format ) ) {
+            $has_invalid = false;
+            $exploded    = explode( ',', $value );
+            foreach ( $exploded as $date ) {
+                if ( ! Validator::is_valid_date( $date, $format ) ) {
+                    $has_invalid = true;
+                }
+            }
+
+            if ( $has_invalid === true ) {
+                $validity->add( 'error', $this->__p( "The selected dates contains an invalid date format. Only date with format <strong><em>{$format}</em></strong> are only allowed." ) );
+            }
+        }
+
+        return $validity;
+    }
+
+    /**
+     * Print an error message if the time contains an invalid time
+     * based in predetermined time format.
+     * 
+     * @since 1.0.0
+     *
+     * @param  object  $validity  Contains the validation prompt.
+     * @param  mixed   $value     Contains the value of the field.
+     * @param  string  $format    Set of predetermined time format.
+     * @return object
+     */
+    private function valid_time( $validity, $value, $format ) {
+        if ( ! Validator::is_empty( $value ) && ! Validator::is_empty( $format ) ) {
+            if ( ! Validator::is_valid_date( $value, $format ) ) {
+                $validity->add( 'error', $this->__p( "The selected time contains an invalid time format. Only time with format <strong><em>{$format}</em></strong> are only allowed." ) );
             }
         }
 

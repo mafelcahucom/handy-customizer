@@ -8,6 +8,7 @@ import CodeEditor from '../../../../app/Modules/CodeEditor';
 import ColorSet from '../../../../app/Modules/ColorSet';
 import ContentEditor from '../../../../app/Modules/ContentEditor';
 import Counter from '../../../../app/Modules/Counter';
+import DatePicker from '../../../../app/Modules/DatePicker';
 import ImageCheckbox from '../../../../app/Modules/ImageCheckbox';
 import ImageRadio from '../../../../app/Modules/ImageRadio';
 import Radio from '../../../../app/Modules/Radio';
@@ -15,6 +16,7 @@ import Range from '../../../../app/Modules/Range';
 import Size from '../../../../app/Modules/Size';
 import Tagging from '../../../../app/Modules/Tagging';
 import TaggingSelect from '../../../../app/Modules/TaggingSelect';
+import TimePicker from '../../../../app/Modules/TimePicker';
 
 const Modules = [
 	ButtonSet,
@@ -24,13 +26,15 @@ const Modules = [
 	ColorSet,
 	ContentEditor,
 	Counter,
+	DatePicker,
 	ImageCheckbox,
 	ImageRadio,
 	Radio,
 	Range,
 	Size,
 	Tagging,
-	TaggingSelect
+	TaggingSelect,
+	TimePicker,
 ];
 
 export default Modules;
