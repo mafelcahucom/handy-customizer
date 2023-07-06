@@ -143,6 +143,7 @@ class Setting {
             'range'                => 'sanitize_range',
             'select'               => 'sanitize_choices',
             'size'                 => 'sanitize_size',
+            'sortable'             => 'sanitize_multiple',
             'switches'             => 'sanitize_boolean',
             'tagging'              => 'sanitize_tagging',
             'tagging_select'       => 'sanitize_tagging_select',

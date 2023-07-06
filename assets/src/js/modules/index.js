@@ -14,6 +14,7 @@ import ImageRadio from '../../../../app/Modules/ImageRadio';
 import Radio from '../../../../app/Modules/Radio';
 import Range from '../../../../app/Modules/Range';
 import Size from '../../../../app/Modules/Size';
+import Sortable from '../../../../app/Modules/Sortable';
 import Tagging from '../../../../app/Modules/Tagging';
 import TaggingSelect from '../../../../app/Modules/TaggingSelect';
 import TimePicker from '../../../../app/Modules/TimePicker';
@@ -32,6 +33,7 @@ const Modules = [
 	Radio,
 	Range,
 	Size,
+	Sortable,
 	Tagging,
 	TaggingSelect,
 	TimePicker,

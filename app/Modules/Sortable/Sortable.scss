@@ -1,0 +1,113 @@
+.hacu-sortable {
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 15px 0;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		padding: 5px 10px;
+		fill: $clr-black-2;
+		color: $clr-black-2;
+		background-color: $clr-white-1;
+		border: 1px solid $clr-gray-1;
+		border-radius: 4px;
+
+		&[data-state="enabled"] {
+			cursor: grab;
+		}
+
+		&[data-state="disabled"] {
+			cursor: not-allowed;
+			fill: $clr-gray-4;
+			color: $clr-gray-4;
+			border-color: $clr-gray-4;
+		}
+
+		&[data-dragging="yes"] {
+			cursor: grabbing !important;
+			border-color: $clr-blue-1 !important;
+			box-shadow: 0 0 0 1px $clr-blue-1 !important;
+		}
+
+		&__handle {
+			padding-right: 10px;
+
+			svg {
+				display: block;
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		&__title {
+			width: 100%;
+		}
+
+		&__control {
+			display: flex;
+			align-items: center;
+			margin-left: 5px;
+		}
+
+		&__toggle-btn {
+			padding: 0;
+			cursor: pointer;
+			background-color: transparent;
+			border: 0;
+
+			&[data-state="disabled"] {
+
+				.hacu-sortable__eye {
+
+					&-on {
+						display: block;
+					}
+
+					&-off {
+						display: none;
+					}
+				}
+
+				&:hover {
+					fill: $clr-black-2;
+					color: $clr-black-2;
+
+					@include transition;
+				}
+			}
+
+			&[data-state="enabled"] {
+
+				.hacu-sortable__eye {
+
+					&-on {
+						display: none;
+					}
+
+					&-off {
+						display: block;
+					}
+				}
+			}
+
+			* {
+				pointer-events: none;
+			}
+
+			svg {
+				display: block;
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
+
+	.customize-control-description {
+		margin-bottom: 0 !important;
+	}
+}
