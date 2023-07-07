@@ -1,0 +1,44 @@
+.hacu-dashicons {
+
+	&__container {
+		height: 100%;
+		max-height: 300px;
+		overflow-x: auto;
+	}
+
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 2px;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		width: 30px;
+		height: 30px;
+		border-radius: 4px;
+
+		&[data-state="active"] {
+			border: 1px solid $clr-blue-1;
+			box-shadow: 0 0 0 1px $clr-blue-1;
+		}
+
+		* {
+			pointer-events: none;
+		}
+
+		.dashicons {
+			width: 22px;
+			height: 22px;
+			font-size: 22px;
+		}
+	}
+
+	&__group-label {
+		margin: 10px 0;
+		font-weight: 400;
+	}
+}

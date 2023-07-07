@@ -8,6 +8,7 @@ import CodeEditor from '../../../../app/Modules/CodeEditor';
 import ColorSet from '../../../../app/Modules/ColorSet';
 import ContentEditor from '../../../../app/Modules/ContentEditor';
 import Counter from '../../../../app/Modules/Counter';
+import Dashicons from '../../../../app/Modules/Dashicons';
 import DatePicker from '../../../../app/Modules/DatePicker';
 import ImageCheckbox from '../../../../app/Modules/ImageCheckbox';
 import ImageRadio from '../../../../app/Modules/ImageRadio';
@@ -27,6 +28,7 @@ const Modules = [
 	ColorSet,
 	ContentEditor,
 	Counter,
+	Dashicons,
 	DatePicker,
 	ImageCheckbox,
 	ImageRadio,

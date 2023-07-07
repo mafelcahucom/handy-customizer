@@ -129,6 +129,7 @@ class Setting {
             'checkbox_pill'        => 'sanitize_multiple',
             'color_set'            => 'sanitize_color_set',
             'counter'              => 'sanitize_counter',
+            'dashicons'            => 'sanitize_dashicons',
             'date_picker'          => 'sanitize_date_picker',
             'dropdown_custom_post' => 'sanitize_choices',
             'dropdown_page'        => 'sanitize_choices',
@@ -500,6 +501,22 @@ class Setting {
         $time_format = ( $format === 'civilian' ? 'h:i A' : 'H:i' );
 
         return ( Validator::is_valid_date( $input, $time_format ) ? $input : '' );
+    }
+
+    /**
+     * Return the sanitized dashicons value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_dashicons( $input, $setting ) {
+        $value   = sanitize_text_field( $input );
+        $choices = $setting->manager->get_control( $setting->id )->choices;
+        
+        return ( in_array( $value, $choices ) ? $value : '' );
     }
 
     /**
