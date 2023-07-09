@@ -81,6 +81,63 @@ final class Validator {
     }
 
     /**
+     * Check if the color string contains a valid HEXA color.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $color  The string color to be check.
+     * @return boolean
+     */
+    public static function is_hexa( $color = '' ) {
+        $is_valid = false;
+        if ( is_string( $color ) ) {
+            $is_valid_hex  = (bool) preg_match( '/^#([a-f0-9]{6})$/i', $color );
+            $is_valid_hexa = (bool) preg_match( '/^#([a-f0-9]{8})$/i', $color );
+            $is_valid      = ( $is_valid_hex || $is_valid_hexa ? true : false );
+        }
+        
+        return $is_valid;
+    }
+
+    /**
+     * Check if the color string contains a valid HSLA color.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $color  The string color to be check.
+     * @return boolean
+     */
+    public static function is_hsla( $color = '' ) {
+        $is_valid = false;
+        if ( is_string( $color ) ) {
+            $is_valid_hsl  = (bool) preg_match( '/^hsl\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)\)/', $color );
+            $is_valid_hsla = (bool) preg_match( '/^(hsla\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)(,\s*(0\.\d+|1))\))$/', $color );
+            $is_valid      = ( $is_valid_hsl || $is_valid_hsla ? true : false );
+        }
+        
+        return $is_valid;
+    }
+
+    /**
+     * Check if the color string contains a valid RGBA color.
+     * 
+     * @since 1.0.0
+     *
+     * @param  string  $color  The string color to be check.
+     * @return boolean
+     */
+    public static function is_rgba( $color = '' ) {
+        $is_valid = false;
+        if ( is_string( $color ) ) {
+            $is_valid_rgb  = (bool) preg_match( '/^rgb\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*)/', $color );
+            $is_valid_rgba = (bool) preg_match( '/^(rgba\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*(,\s*(0\.\d+|1))\)))$/', $color );
+            $is_valid      = ( $is_valid_rgb || $is_valid_rgba ? true : false );
+        }
+        
+        return $is_valid;
+    }
+
+    /**
      * Check if the date string contains a valid date based on defined format.
      * 
      * @since 1.0.0

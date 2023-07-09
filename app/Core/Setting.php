@@ -127,6 +127,7 @@ class Setting {
             'checkbox'             => 'sanitize_boolean',
             'checkbox_multiple'    => 'sanitize_multiple',
             'checkbox_pill'        => 'sanitize_multiple',
+            'color_picker'         => 'sanitize_color_picker',
             'color_set'            => 'sanitize_color_set',
             'counter'              => 'sanitize_counter',
             'dashicons'            => 'sanitize_dashicons',
@@ -262,6 +263,41 @@ class Setting {
         $units = $setting->manager->get_control( $setting->id )->units;
 
         return ( Validator::is_valid_size( $value, $units ) ? $value : '' );
+    }
+
+    /**
+     * Return the sanitized color picker value.
+     * 
+     * @since 1.0.0
+     *
+     * @param  mixed   $input    The value to sanitize.
+     * @param  object  $setting  WP_Customize_Setting instance.
+     * @return string
+     */
+    private function sanitize_color_picker( $input, $setting ) {
+        $value  = sanitize_text_field( $input );
+        $format = $setting->manager->get_control( $setting->id )->format;
+
+        $is_valid = false;
+        if ( in_array( $format, [ 'hex', 'hexa' ] ) ) {
+            if ( Validator::is_hexa( $value ) ) {
+                $is_valid = true;
+            }
+        }
+
+        if ( in_array( $format, [ 'hsl', 'hsla' ] ) ) {
+            if ( Validator::is_hsla( $value ) ) {
+                $is_valid = true;
+            }
+        }
+
+        if ( in_array( $format, [ 'rgb', 'rgba' ] ) ) {
+            if ( Validator::is_rgba( $value ) ) {
+               $is_valid = true;
+            }
+        }
+
+        return ( $is_valid ? $value : '' );
     }
 
     /**
@@ -548,6 +584,9 @@ class Setting {
             'valid_size'               => [
                 'has_param' => true
             ],
+            'valid_color'              => [
+                'has_param' => true
+            ],
             'is_number'                => [
                 'has_param' => false
             ],
@@ -746,6 +785,45 @@ class Setting {
             $exploded = explode( ',', $units );
             if ( ! Validator::is_valid_size( $value, $exploded ) ) {
                 $validity->add( 'error', $this->__p( 'Invalid size.' ) );
+            }
+        }
+
+        return $validity;
+    }
+
+    /**
+     * Print an error message if the value is an invalid color.
+     * 
+     * @since 1.0.0
+     *
+     * @param  object  $validity  Contains the validation prompt.
+     * @param  mixed   $value     Contains the value of the field.
+     * @param  string  $format    Contains the color format.
+     * @return object
+     */
+    private function valid_color( $validity, $value, $format ) {
+        if ( ! Validator::is_empty( $value ) ) {
+            $is_invalid = false;
+            if ( in_array( $format, [ 'hex', 'hexa' ] ) ) {
+                if ( ! Validator::is_hexa( $value ) ) {
+                    $is_invalid = true;
+                }
+            }
+
+            if ( in_array( $format, [ 'hsl', 'hsla' ] ) ) {
+                if ( ! Validator::is_hsla( $value ) ) {
+                    $is_invalid = true;
+                }
+            }
+
+            if ( in_array( $format, [ 'rgb', 'rgba' ] ) ) {
+                if ( ! Validator::is_rgba( $value ) ) {
+                    $is_invalid = true;
+                }
+            }
+            
+            if ( $is_invalid ) {
+                $validity->add( 'error', $this->__p( "The selected color contains an invalid color format. Only color with format <strong><em>{$format}</em></strong> are only allowed." ) );
             }
         }
 

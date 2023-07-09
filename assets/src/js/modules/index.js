@@ -5,6 +5,7 @@ import ButtonSet from '../../../../app/Modules/ButtonSet';
 import CheckboxMultiple from '../../../../app/Modules/CheckboxMultiple';
 import CheckboxPill from '../../../../app/Modules/CheckboxPill';
 import CodeEditor from '../../../../app/Modules/CodeEditor';
+import ColorPicker from '../../../../app/Modules/ColorPicker';
 import ColorSet from '../../../../app/Modules/ColorSet';
 import ContentEditor from '../../../../app/Modules/ContentEditor';
 import Counter from '../../../../app/Modules/Counter';
@@ -25,6 +26,7 @@ const Modules = [
 	CheckboxMultiple,
 	CheckboxPill,
 	CodeEditor,
+	ColorPicker,
 	ColorSet,
 	ContentEditor,
 	Counter,
