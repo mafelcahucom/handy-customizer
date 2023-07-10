@@ -47,8 +47,6 @@ final class Setup {
         $source  = Helper::get_asset_src( 'css/main.min.css' );
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
-        wp_enqueue_editor();
-
         wp_register_style( 'handy-main', $source, [], $version, 'all' );
         wp_enqueue_style( 'handy-main' );
     }
@@ -63,9 +61,14 @@ final class Setup {
             return;
         }
 
-        $dependency = [ 'jquery' ];
+        wp_enqueue_script( 'pickr-js', Helper::get_asset_src( 'pickr/pickr.min.js' ), [], '1.0.0', true );
+
+        $dependency = [ 'jquery', 'pickr-js' ];
         $source     = Helper::get_asset_src( 'js/main.min.js' );
         $version    = Helper::get_asset_version( 'js/main.min.js' );
+
+
+            
 
         wp_register_script( 'handy-main', $source, $dependency, $version, true );
         wp_enqueue_script( 'handy-main' );
