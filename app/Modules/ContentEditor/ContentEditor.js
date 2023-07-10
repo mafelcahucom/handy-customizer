@@ -59,10 +59,10 @@ const ContentEditor = {
 	 * @since 1.0.0
 	 */
 	onEditorUpdate() {
-		$( document ).on( 'tinymce-editor-init', function( event, editor ) {
+		jQuery( document ).on( 'tinymce-editor-init', function( event, editor ) {
 			editor.on( 'change', function() {
 				tinyMCE.triggerSave();
-				$( `#${ editor.id }` ).trigger( 'change' );
+				jQuery( `#${ editor.id }` ).trigger( 'change' );
 			} );
 		} );
 	},

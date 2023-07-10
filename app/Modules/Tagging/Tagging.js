@@ -64,7 +64,7 @@ const Tagging = {
 						return ( parsedMax !== NaN && parsedMax > 0 ? parsedMax : null );
 					};
 
-					$( taggingElem ).selectize( {
+					jQuery( taggingElem ).selectize( {
 						plugins: [ 'remove_button', 'drag_drop' ],
 						maxItems: getMaximum(),
 						delimiter: ',',
