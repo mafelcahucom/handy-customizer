@@ -6,7 +6,7 @@
         "browser": true
     },
     "rules": {
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": [ "error", "windows" ],
         "no-console": "off",
         "no-undef": 0
     }   

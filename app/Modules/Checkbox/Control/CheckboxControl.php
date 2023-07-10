@@ -26,7 +26,7 @@ final class CheckboxControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Checkbox Control Content.
+     * Render Checkbox Control Content
      * 
      * @since 1.0.0
      *

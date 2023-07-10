@@ -90,7 +90,7 @@ const ColorSet = {
 	},
 
 	/**
-	 * On setting to default and update field value based on set default.
+	 * On setting to default & update field value based on set default.
 	 *
 	 * @since 1.0.0
 	 */

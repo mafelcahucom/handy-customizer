@@ -116,7 +116,7 @@ final class ImageRadioField extends Setting {
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'display'           => (string)  The display of item choices, can contain block and inline only.
      *      'size'              => (array)   The size of each item choices, must contain width and height.
-     *      'choices'           => (array)   The list of choices must contain image and title.
+     *      'choices'           => (array)   The list of choices must contain image and title
      * ]
      * @return void
      */

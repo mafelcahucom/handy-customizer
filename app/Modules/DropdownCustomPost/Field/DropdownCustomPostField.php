@@ -106,7 +106,7 @@ final class DropdownCustomPostField extends Setting {
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'post_type'         => (string)  The post type slug of custom post.
      *      'status'            => (array)   The list of post status.
-     *      'order'             => (string)  The order of the posts.
+     *      'order'             => (string)  The order of the posts
      * ]
      * @return void
      */

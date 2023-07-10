@@ -52,7 +52,7 @@ final class ColorSetField extends Setting {
      */
     private function get_validated_shape( $validated ) {
         $is_valid_shape = ( isset( $validated['shape'] ) && in_array( $validated['shape'], [ 'square', 'round' ] ) );
-        return ( $is_valid_shape ? $validated['shape'] : 'square' );
+        return ( $is_valid_shape ? $validated['shape'] : 'round' );
     }
 
     /**
@@ -108,7 +108,7 @@ final class ColorSetField extends Setting {
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'colors'            => (array)   The list of color choices.
      *      'shape'             => (string)  The shape of the color items [ square, round ].
-     *      'size'              => (string)  The size or width and height of the color items.
+     *      'size'              => (string)  The size or width and height of the color items
      * ]
      * @return void
      */

@@ -79,7 +79,7 @@ final class SortableField extends Setting {
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'enable_handle'     => (boolean) The flag whether to use handler.
-     *      'choices'           => (array)   The list of choices.
+     *      'choices'           => (array)   The list of choices
      * ]
      * @return void
      */

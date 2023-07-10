@@ -61,7 +61,7 @@ final class CodeEditorField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'language'          => (string)  The type of programming language allowed.
+     *      'language'          => (string)  The type of programming language allowed
      * ]
      * @return void
      */

@@ -1,3 +1,4 @@
+// Uploader Component.
 .hacu-uploader {
 
 	[data-state="visible"] {
@@ -58,6 +59,7 @@
 		.mejs-container .mejs-controls,
 		.mejs-embed,
 		.mejs-embed body {
+			width: 100% !important;
 			border-bottom-left-radius: 4px;
 			border-bottom-right-radius: 4px;
 		}

@@ -16,6 +16,8 @@ final class Installer {
 
     /**
      * Inherit Singleton.
+     * 
+     * @since 1.0.0
      */
     use Singleton;
 

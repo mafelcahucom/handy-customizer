@@ -30,7 +30,7 @@ const Accordion = {
 	 * @since 1.0.0
 	 *
 	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @return {Object} The required elements
 	 */
 	elements( target ) {
 		if ( target ) {

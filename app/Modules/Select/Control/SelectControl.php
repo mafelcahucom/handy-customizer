@@ -44,7 +44,7 @@ final class SelectControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Select Control Content.
+     * Render Select Control Content
      * 
      * @since 1.0.0
      *

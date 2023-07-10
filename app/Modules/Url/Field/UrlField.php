@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 final class UrlField extends Setting {
 
     /**
-     * Return the validated default value.
+     * Return the validated default value
      * 
      * @since 1.0.0
      *

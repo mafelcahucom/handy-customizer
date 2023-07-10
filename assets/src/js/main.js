@@ -48,7 +48,7 @@ Handy.domReady = {
 };
 
 /**
- * Initialze App.
+ * Initialze Controls.
  *
  * @since 1.0.0
  */

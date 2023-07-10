@@ -66,7 +66,7 @@ final class SelectField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'choices'           => (array)   The list of choices.
+     *      'choices'           => (array)   The list of choices
      * ]
      * @return void
      */

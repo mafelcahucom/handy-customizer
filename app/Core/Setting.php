@@ -69,7 +69,7 @@ class Setting {
         
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( $validated ) {
-            // Set "validate_callback".
+            // Set validate_callback.
             if ( isset( $validated['validations'] ) ) {
                 $validations = array_unique( $validated['validations'] );
                 if ( ! empty( $validations ) ) {

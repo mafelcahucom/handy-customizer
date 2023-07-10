@@ -1,7 +1,6 @@
 <?php
 namespace Handy\Core;
 
-use Handy\Inc\Helper;
 use Handy\Inc\Validator;
 
 defined( 'ABSPATH' ) || exit;

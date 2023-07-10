@@ -35,7 +35,7 @@ final class ButtonSetControl extends \WP_Customize_Control {
     }
 
     /**
-     * Return the item button state based on the current value and item value.
+     * Return the item button state based on the current value & item value.
      * 
      * @since 1.0.0
      *

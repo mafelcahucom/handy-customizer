@@ -36,7 +36,7 @@ final class CounterControl extends \WP_Customize_Control {
     }
 
     /**
-     * Return the control button state based on value and option max and min.
+     * Return the control button state based on value and option max and min
      * 
      * @since 1.0.0
      *
@@ -90,11 +90,11 @@ final class CounterControl extends \WP_Customize_Control {
             ?>
 
             <div class="hacu-counter__container">
-                <button class="hacu-counter__control-btn" data-event="-" data-state="<?php echo $this->get_control_state( '-' ); ?>" title="Decrement">
+                <button class="hacu-counter__control-btn hacu-btn-small" data-event="-" data-state="<?php echo $this->get_control_state( '-' ); ?>" title="Decrement">
                     <?php echo Icon::get( 'dash' ); ?>
                 </button>
                 <input type="text" class="hacu-counter__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" data-min="<?php echo esc_attr( $this->options['min'] ); ?>" data-max="<?php echo esc_attr( $this->options['max'] ); ?>" data-step="<?php echo esc_attr( $this->options['step'] ); ?>" <?php $this->link(); ?> />
-                <button class="hacu-counter__control-btn" data-event="+" data-state="<?php echo $this->get_control_state( '+' ); ?>" title="Increment">
+                <button class="hacu-counter__control-btn hacu-btn-small" data-event="+" data-state="<?php echo $this->get_control_state( '+' ); ?>" title="Increment">
                     <?php echo Icon::get( 'plus' ); ?>
                 </button>
             </div>

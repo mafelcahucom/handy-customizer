@@ -4,7 +4,7 @@
  * @since 1.0.0
  *
  * @param {string} color The string color to be check.
- * @return {boolean} Flag if color is valid hexadecimal color.
+ * @return {boolean} Flag if color is valid hexadecimal color
  */
 const isValidHexaColor = function( color ) {
 	let isValid = false;

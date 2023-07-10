@@ -1,53 +1,8 @@
+// Counter Field.
 .hacu-counter {
 
 	&__container {
 		display: flex;
 		gap: 3px;
-	}
-
-	&__control-btn {
-		padding: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 30px;
-		min-height: 30px;
-		cursor: pointer;
-		color: $clr-black-2;
-		background-color: $clr-white-2;
-		border: 1px solid $clr-gray-1;
-		border-radius: 4px;
-
-		* {
-			pointer-events: none;
-		}
-
-		svg {
-			display: block;
-			width: 18px;
-			height: 18px;
-		}
-
-		&[data-state="disabled"] {
-			cursor: not-allowed;
-			opacity: 0.7;
-		}
-
-		&[data-state="default"]:hover,
-		&[data-state="default"]:focus {
-			color: $clr-blue-1;
-			background-color: $clr-white-3;
-			border-color: $clr-blue-1;
-
-			@include transition;
-		}
-	}
-
-	@include media-sm {
-
-		&__control-btn {
-			min-width: 34px;
-			min-height: 34px;
-		}
 	}
 }

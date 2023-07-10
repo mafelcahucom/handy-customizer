@@ -47,7 +47,7 @@ const Range = {
 	},
 
 	/**
-	 * On updating the value and update output text content.
+	 * On updating the value and update output text content
 	 *
 	 * @since 1.0.0
 	 */

@@ -24,7 +24,7 @@ final class TextareaControl extends \WP_Customize_Control {
     public $placeholder;
 
     /**
-     * Return the ID with prefix.
+     * Return the ID with prefix
      * 
      * @since 1.0.0
      *

@@ -28,7 +28,7 @@ final class MarkupField extends Setting {
      *      'section'           => (string)  The section where the control belongs to.
      *      'priority'          => (integer) The order of control appears in the section. 
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'html'              => (string)  The HTML markup to be render.
+     *      'html'              => (string)  The HTML markup to be render
      * ]
      * @return void
      */

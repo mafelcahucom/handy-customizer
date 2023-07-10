@@ -1,5 +1,5 @@
 /**
- * Gulp Task.
+ * Gulp Tasks.
  *
  * @since 1.0.0
  */

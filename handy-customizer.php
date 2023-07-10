@@ -11,8 +11,6 @@
  * License:              GPLv2 or later
  */
 
-use Handy\Inc\Handy;
-
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -60,5 +58,5 @@ if ( class_exists( 'Handy\\Setup' ) ) {
     call_user_func( [ 'Handy\\Setup', 'get_instance' ] );
 }
 
-// Load.
+// Load Main Class.
 require dirname( __FILE__ ) .'/app/Handy.php';

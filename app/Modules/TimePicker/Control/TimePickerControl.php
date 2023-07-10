@@ -25,7 +25,7 @@ final class TimePickerControl extends \WP_Customize_Control {
     public $placeholder;
 
     /**
-     * Holds the format whether civilian or military.
+     * Holds the format whether civilian or military
      * 
      * @since 1.0.0
      *

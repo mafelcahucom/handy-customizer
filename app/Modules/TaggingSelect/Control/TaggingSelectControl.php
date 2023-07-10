@@ -90,7 +90,7 @@ final class TaggingSelectControl extends \WP_Customize_Control {
      * 
      * @since 1.0.0
      *
-     * @param  string  $value  The option's value.
+     * @param  string  $value  The option's value
      * @return string
      */
     private function selected( $value ) {

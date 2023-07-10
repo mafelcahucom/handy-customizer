@@ -4,7 +4,7 @@
  * @since 1.0.0
  *
  * @param {*} value The value to be checked.
- * @return {boolean} Flag if value is number.
+ * @return {boolean} Flag if value is number
  */
 const isNumber = function( value ) {
 	if ( value === null || value === undefined || value.length === 0 ) {

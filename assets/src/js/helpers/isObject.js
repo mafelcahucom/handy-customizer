@@ -26,7 +26,7 @@ const isObject = {
 	 * @since 1.0.0
 	 *
 	 * @param {Array}  keys   The list of keys use as referrence.
-	 * @param {Object} object The object to be checked.
+	 * @param {Object} object The object to be checked
 	 */
 	hasMissingKey( keys, object ) {
 		if ( keys.length === 0 || this.empty( object ) ) {

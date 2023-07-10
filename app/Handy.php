@@ -7,7 +7,7 @@ use Handy\Core\Section;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Handy.
+ * Main Customizer Class.
  *
  * @since   1.0.0
  * @version 1.0.0
@@ -92,13 +92,11 @@ final class Handy {
         }
 
         $module = Helper::get_module( $type );
-        if ( empty( $module ) ) {
-            return;
-        }
-
-        $class_field = "Handy\\Modules\\{$module['dir']}\\Field\\{$module['field']}";
-        if ( class_exists( $class_field ) ) {
-            ( new $class_field )->render( self::wp_customize(), $args );
+        if ( ! empty( $module ) ) {
+            $class_field = "Handy\\Modules\\{$module['dir']}\\Field\\{$module['field']}";
+            if ( class_exists( $class_field ) ) {
+                ( new $class_field )->render( self::wp_customize(), $args );
+            }
         }
     }
 }

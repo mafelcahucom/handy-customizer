@@ -35,7 +35,7 @@ final class DropdownPostControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Dropdown Post Control Content.
+     * Render Dropdown Post Control Content
      * 
      * @since 1.0.0
      *

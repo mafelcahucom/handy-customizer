@@ -102,7 +102,7 @@ final class DropdownPageField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'status'            => (array)   The list of page status.
+     *      'status'            => (array)   The list of page status
      *      'order'             => (string)  The order of the pages.
      * ]
      * @return void

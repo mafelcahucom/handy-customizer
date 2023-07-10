@@ -66,7 +66,7 @@ final class ColorPickerControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-color-picker">
             <?php
-                // Input Hidden
+                // Input Hidden.
                 echo Helper::get_hidden_input([
                     'key_link'   => $this->get_link(),
                     'attributes' => [

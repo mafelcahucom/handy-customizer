@@ -34,7 +34,7 @@ const Uploader = {
 	 *
 	 * @param {Object} target The target element.
 	 * @param {string} type   The type of attachment.
-	 * @return {Object} The required elements.
+	 * @return {Object} The required elements
 	 */
 	elements( target, type ) {
 		if ( target ) {

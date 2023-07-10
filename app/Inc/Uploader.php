@@ -17,6 +17,8 @@ final class Uploader {
 
     /**
      * Inherit Singleton.
+     * 
+     * @since 1.0.0
      */
     use Singleton;
 

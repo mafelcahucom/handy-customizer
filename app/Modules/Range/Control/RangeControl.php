@@ -51,7 +51,7 @@ final class RangeControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Range Control Content.
+     * Render Range Control Content
      * 
      * @since 1.0.0
      *

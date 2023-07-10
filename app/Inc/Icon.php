@@ -16,6 +16,8 @@ final class Icon {
 
     /**
      * Inherit Singleton.
+     * 
+     * @since 1.0.0
      */
     use Singleton;
 

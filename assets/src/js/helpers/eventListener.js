@@ -5,7 +5,7 @@
  *
  * @param {string}   type     Event type can be multiple seperate with space.
  * @param {string}   selector Target element.
- * @param {Function} callback Callback function.
+ * @param {Function} callback Callback function
  */
 const eventListener = async function( type, selector, callback ) {
 	const events = type.split( ' ' );

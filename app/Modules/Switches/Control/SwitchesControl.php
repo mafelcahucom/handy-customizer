@@ -35,7 +35,7 @@ final class SwitchesControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Switch Control Content.
+     * Render Switch Control Content
      * 
      * @since 1.0.0
      *

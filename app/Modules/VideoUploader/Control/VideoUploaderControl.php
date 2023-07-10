@@ -34,7 +34,7 @@ final class VideoUploaderControl extends \WP_Customize_Control {
     public $extensions;
 
     /**
-     * Enqueues style and scripts.
+     * Enqueues style and scripts
      * 
      * @since 1.0.0
      */

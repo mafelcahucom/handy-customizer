@@ -18,7 +18,7 @@ const ContentEditor = {
 	},
 
 	/**
-	 * Initialize TinyMCE content editor using wp_content_editor().
+	 * Initialize TinyMCE content editor using wp_content_editor.
 	 *
 	 * @since 1.0.0
 	 */

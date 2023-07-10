@@ -2,7 +2,6 @@
 namespace Handy\Inc;
 
 use Handy\Lib\Singleton;
-use Handy\Inc\Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,6 +16,8 @@ final class Validator {
 
     /**
      * Inherit Singleton.
+     * 
+     * @since 1.0.0
      */
     use Singleton;
 

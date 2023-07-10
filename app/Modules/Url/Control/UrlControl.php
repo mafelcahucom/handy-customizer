@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 final class UrlControl extends \WP_Customize_Control {
 
     /**
-     * Holds placeholder.
+     * Holds placeholder
      * 
      * @since 1.0.0
      *

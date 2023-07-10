@@ -51,7 +51,7 @@ final class NumberField extends Setting {
      *      'priority'          => (integer) The order of control appears in the section. 
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
+     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database
      * ]
      * @return void
      */

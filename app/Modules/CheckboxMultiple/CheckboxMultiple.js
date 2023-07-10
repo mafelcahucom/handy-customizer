@@ -49,7 +49,7 @@ const CheckboxMultiple = {
 	},
 
 	/**
-	 * On selecting checkbox and update field value based on selected item.
+	 * On selecting checkbox & update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */

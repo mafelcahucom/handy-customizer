@@ -82,7 +82,7 @@ const Sortable = {
 	 * @since 1.0.0
 	 *
 	 * @param {Object} container The container element.
-	 * @param {number} yAxis     The current Y Axis of the container element.
+	 * @param {number} yAxis     The current Y Axis of the container element
 	 */
 	getDragAfterElement( container, yAxis ) {
 		const draggableElements = [

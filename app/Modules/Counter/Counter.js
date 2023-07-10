@@ -67,7 +67,7 @@ const Counter = {
 	},
 
 	/**
-	 * Execute the event decrementing and incrementing.
+	 * Execute the event decrementing and incrementing
 	 *
 	 * @since 1.0.0
 	 */

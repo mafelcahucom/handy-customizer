@@ -83,7 +83,7 @@ final class ImageRadioControl extends \WP_Customize_Control {
                     'description' => $this->description
                 ]);
 
-                // Input Hidden
+                // Input Hidden.
                 echo Helper::get_hidden_input([
                     'key_link'   => $this->get_link(),
                     'attributes' => [

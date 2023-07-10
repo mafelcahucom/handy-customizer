@@ -34,7 +34,7 @@ final class ImageUploaderControl extends \WP_Customize_Control {
     public $extensions;
 
     /**
-     * Return the ID with prefix.
+     * Return the ID with prefix
      * 
      * @since 1.0.0
      *

@@ -59,7 +59,7 @@ final class SwitchesField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'choices'           => (array)   The choices label of the control.
+     *      'choices'           => (array)   The choices label of the control
      * ]
      * @return void
      */

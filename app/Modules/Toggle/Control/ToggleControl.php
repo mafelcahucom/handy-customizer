@@ -26,7 +26,7 @@ final class ToggleControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Toggle Control Content.
+     * Render Toggle Control Content
      * 
      * @since 1.0.0
      *

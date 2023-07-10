@@ -18,6 +18,8 @@ final class Setup {
 
     /**
      * Inherit Singleton.
+     * 
+     * @since 1.0.0
      */
     use Singleton;
 
@@ -46,7 +48,6 @@ final class Setup {
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
         wp_register_style( 'handy-main', $source, [], $version, 'all' );
-
         wp_enqueue_style( 'handy-main' );
     }
 

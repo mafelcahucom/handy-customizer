@@ -52,7 +52,7 @@ const Radio = {
 	},
 
 	/**
-	 * On selecting radio and update field value based on selected radio.
+	 * On selecting radio and update field value based on selected radio
 	 *
 	 * @since 1.0.0
 	 */

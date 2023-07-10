@@ -35,7 +35,7 @@ final class EmailControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Email Control Content.
+     * Render Email Control Content
      * 
      * @since 1.0.0
      *

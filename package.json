@@ -1,7 +1,7 @@
 {
   "name": "handy-customizer",
   "version": "1.0.0",
-  "description": "Handy Customizer is an open-source WordPress toolkit build for WP Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
+  "description": "Handy Customizer is an open-source WordPress toolkit build for WordPress Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
   "main": "app.js",
   "scripts": {
     "lint-scss": "wp-scripts lint-style assets/src/scss/**/*.scss",

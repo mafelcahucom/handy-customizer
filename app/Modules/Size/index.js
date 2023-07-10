@@ -1,5 +1,7 @@
 /**
  * Index Exporter.
+ * 
+ * @since 1.0.0
  */
 import Size from './Size';
 

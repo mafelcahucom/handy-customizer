@@ -47,7 +47,7 @@ const CodeEditor = {
 	},
 
 	/**
-	 * Initialize code editor using defaut wordpress code editor (code mirror).
+	 * Initialize code editor using defaut wordpress code editor (code mirror)
 	 *
 	 * @since 1.0.0
 	 */

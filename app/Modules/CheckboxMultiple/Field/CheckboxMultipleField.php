@@ -30,7 +30,7 @@ final class CheckboxMultipleField extends Setting {
     }
 
     /**
-     * Return the predetermined default validations.
+     * Return the predetermined default validations
      * 
      * @since 1.0.0
      *

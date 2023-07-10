@@ -66,7 +66,7 @@ final class ContentEditorField extends Setting {
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
      *      'uploader'          => (boolean) The flag whether to show Add Media button.
-     *      'toolbars'          => (array)   The list of allowed controls in toolbar.
+     *      'toolbars'          => (array)   The list of allowed controls in toolbar
      * ]
      * @return void
      */

@@ -35,7 +35,7 @@ final class DropdownPageControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Dropdown Page Control Content.
+     * Render Dropdown Page Control Content
      * 
      * @since 1.0.0
      *

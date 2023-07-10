@@ -35,7 +35,7 @@ final class TextControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Text Control Content.
+     * Render Text Control Content
      * 
      * @since 1.0.0
      *

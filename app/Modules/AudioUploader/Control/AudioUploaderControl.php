@@ -49,7 +49,7 @@ final class AudioUploaderControl extends \WP_Customize_Control {
     }
 
     /**
-     * Return the ID with prefix.
+     * Return the ID with prefix
      * 
      * @since 1.0.0
      *

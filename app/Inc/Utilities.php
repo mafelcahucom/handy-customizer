@@ -92,7 +92,7 @@ trait Utilities {
     }
 
     /**
-     * Returns a set of colors can be used in color-set field.
+     * Returns a set of colors can be used in color set field.
      * 
      * @since 1.0.0
      *

@@ -90,7 +90,7 @@ final class RangeField extends Setting {
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'options'           => (array)   The set of options minimum, maximum and stepper.
+     *      'options'           => (array)   The set of options minimum, maximum and stepper
      * ]
      * @return void
      */

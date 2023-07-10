@@ -22,7 +22,7 @@ final class MarkupControl extends \WP_Customize_Control {
     public $html;
 
     /**
-     * Render Markup Control Content.
+     * Render Markup Control Content
      * 
      * @since 1.0.0
      *

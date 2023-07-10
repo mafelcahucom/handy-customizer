@@ -144,7 +144,7 @@ final class DashiconsField extends Setting {
      * 
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array  $validated  Contains the validated arguments
      * @return string
      */
     private function get_default_validations( $validated ) {

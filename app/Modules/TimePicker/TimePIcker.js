@@ -53,7 +53,7 @@ const TimePicker = {
 	},
 
 	/**
-	 * Initialize time picker using flatpickr.js.
+	 * Initialize time picker using flatpickr.js
 	 *
 	 * @since 1.0.0
 	 */

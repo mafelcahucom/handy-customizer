@@ -35,7 +35,7 @@ final class NumberControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Number Control Content.
+     * Render Number Control Content
      * 
      * @since 1.0.0
      *

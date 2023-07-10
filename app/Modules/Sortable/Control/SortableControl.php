@@ -91,7 +91,7 @@ final class SortableControl extends \WP_Customize_Control {
      * 
      * @since 1.0.0
      *
-     * @param  string  $status  The current item's status.
+     * @param  string  $status  The current item's status
      * @return boolean
      */
     private function is_draggable( $status ) {

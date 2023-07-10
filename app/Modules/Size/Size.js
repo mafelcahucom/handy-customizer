@@ -84,7 +84,7 @@ const Size = {
 	},
 
 	/**
-	 * On toggle dropdown button control.
+	 * On toggle dropdown button control
 	 *
 	 * @since 1.0.0
 	 */

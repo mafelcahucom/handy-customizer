@@ -14,7 +14,7 @@ const setAttribute = {
 	 *
 	 * @param {string} selector  The element selector.
 	 * @param {string} attribute The Attribute to be set.
-	 * @param {string} value     The value of the attribute.
+	 * @param {string} value     The value of the attribute
 	 */
 	elem( selector, attribute, value ) {
 		if ( ! selector || ! attribute ) {

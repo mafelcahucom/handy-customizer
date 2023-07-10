@@ -49,7 +49,7 @@ const ImageCheckbox = {
 	},
 
 	/**
-	 * On selecting item and update field value based on selected item.
+	 * On selecting item and update field value based on selected item
 	 *
 	 * @since 1.0.0
 	 */

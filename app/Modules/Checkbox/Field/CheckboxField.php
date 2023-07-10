@@ -29,7 +29,7 @@ final class CheckboxField extends Setting {
      *      'default'           => (boolean) The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
-     *      'priority'          => (integer) The order of control appears in the section. 
+     *      'priority'          => (integer) The order of control appear in the section. 
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
      *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.

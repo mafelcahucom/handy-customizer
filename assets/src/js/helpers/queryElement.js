@@ -10,7 +10,7 @@ import isObject from './isObject';
  *
  * @param {Object} params          Contains the parameters needed required element of field.
  * @param {Object} params.target   The target element.
- * @param {Object} params.elements The list of required elements.
+ * @param {Object} params.elements The list of required elements
  * @return {Object} The required elements.
  */
 const queryElement = function( params = {} ) {

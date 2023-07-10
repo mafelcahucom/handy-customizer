@@ -104,7 +104,7 @@ final class ColorSetControl extends \WP_Customize_Control {
                     'description' => $this->description
                 ]);
 
-                // Input Hidden
+                // Input Hidden.
                 echo Helper::get_hidden_input([
                     'key_link'   => $this->get_link(),
                     'attributes' => [
@@ -120,7 +120,9 @@ final class ColorSetControl extends \WP_Customize_Control {
                 <div class="hacu-accordion__head" data-state="closed">
                     <div class="hacu-accordion__title">
                         <div class="hacu-flex hacu-flex-ai-c">
-                            <div class="hacu-color-set__preview" data-shape="<?php echo esc_attr( $this->shape ); ?>" style="background-color: <?php echo esc_attr( $this->get_value() ); ?>"></div>
+                            <div class="hacu-color-set__border" data-shape="<?php echo esc_attr( $this->shape ); ?>">
+                                <div class="hacu-color-set__preview" style="background-color: <?php echo esc_attr( $this->get_value() ); ?>"></div>
+                            </div>
                             <span class="hacu-color-set__label">
                                 <?php echo esc_attr( $this->value() ); ?>
                             </span>

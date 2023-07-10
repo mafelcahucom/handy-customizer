@@ -2,7 +2,6 @@
 namespace Handy\Modules\TimePicker\Field;
 
 use Handy\Core\Setting;
-use Handy\Inc\Helper;
 use Handy\Inc\Validator;
 use Handy\Modules\TimePicker\Control\TimePickerControl;
 

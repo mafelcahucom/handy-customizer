@@ -55,7 +55,7 @@ final class ContentEditorControl extends \WP_Customize_Control {
     }
 
     /**
-     * Render Content Editor Control Content.
+     * Render Content Editor Control Content
      * 
      * @since 1.0.0
      *

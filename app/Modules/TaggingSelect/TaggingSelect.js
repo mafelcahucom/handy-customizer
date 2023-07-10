@@ -47,7 +47,7 @@ const TaggingSelect = {
 	},
 
 	/**
-	 * Initialize tagging select using selectize.js.
+	 * Initialize tagging select using selectize.js
 	 *
 	 * @since 1.0.0
 	 */

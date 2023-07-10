@@ -54,7 +54,7 @@ const DatePicker = {
 	},
 
 	/**
-	 * Initialize date picker using flatpickr.js.
+	 * Initialize date picker using flatpickr.js
 	 *
 	 * @since 1.0.0
 	 */
