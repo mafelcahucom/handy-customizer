@@ -47,6 +47,8 @@ final class Setup {
         $source  = Helper::get_asset_src( 'css/main.min.css' );
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
+        wp_enqueue_editor();
+
         wp_register_style( 'handy-main', $source, [], $version, 'all' );
         wp_enqueue_style( 'handy-main' );
     }
