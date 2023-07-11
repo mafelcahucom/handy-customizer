@@ -117,7 +117,7 @@ const Uploader = {
 			mediaPlayerElems.forEach( function( mediaPlayerElem ) {
 				const id = mediaPlayerElem.getAttribute( 'id' );
 				if ( id ) {
-					$( `#${ id }` ).mediaelementplayer();
+					jQuery( `#${ id }` ).mediaelementplayer();
 				}
 			} );
 		}
@@ -181,7 +181,7 @@ const Uploader = {
 	 * @param {Object} attachment The attachment meta data.
 	 */
 	setMediaPlayerSource( id, attachment ) {
-		const mediaPlayer = $( `#${ id }-media-player` );
+		const mediaPlayer = jQuery( `#${ id }-media-player` );
 		mediaPlayer[ 0 ].setSrc( attachment.url );
 	},
 

@@ -47,8 +47,8 @@ final class Setup {
         $source  = Helper::get_asset_src( 'css/main.min.css' );
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
-        wp_register_style( 'handy-main', $source, [], $version, 'all' );
-        wp_enqueue_style( 'handy-main' );
+        wp_register_style( 'handy-main-css', $source, [], $version, 'all' );
+        wp_enqueue_style( 'handy-main-css' );
     }
 
     /**
@@ -61,16 +61,11 @@ final class Setup {
             return;
         }
 
-        wp_enqueue_script( 'pickr-js', Helper::get_asset_src( 'pickr/pickr.min.js' ), [], '1.0.0', true );
-
-        $dependency = [ 'jquery', 'pickr-js' ];
+        $dependency = [ 'jquery' ];
         $source     = Helper::get_asset_src( 'js/main.min.js' );
         $version    = Helper::get_asset_version( 'js/main.min.js' );
 
-
-            
-
-        wp_register_script( 'handy-main', $source, $dependency, $version, true );
-        wp_enqueue_script( 'handy-main' );
+        wp_register_script( 'handy-main-js', $source, $dependency, $version, true );
+        wp_enqueue_script( 'handy-main-js' );
     }
 }

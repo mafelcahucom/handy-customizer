@@ -1,6 +1,6 @@
 /**
  * Index Exporter.
- * 
+ *
  * @since 1.0.0
  */
 import eventListener from './eventListener';

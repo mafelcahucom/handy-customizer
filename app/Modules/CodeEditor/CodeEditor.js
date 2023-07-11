@@ -52,26 +52,28 @@ const CodeEditor = {
 	 * @since 1.0.0
 	 */
 	initCodeMirror() {
-		const textareaElems = document.querySelectorAll( '.hacu-code-editor__textarea' );
-		if ( textareaElems.length > 0 ) {
-			textareaElems.forEach( function( textareaElem ) {
-				const elements = CodeEditor.elements( textareaElem );
-				if ( elements ) {
-					const { inputElem } = elements;
-					const mime = textareaElem.getAttribute( 'data-language' );
-					const editorSettings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
-					editorSettings.codemirror = _.extend( {}, editorSettings.codemirror, {
-						mode: ( mime.length > 0 ? mime : 'text/html' ),
-					} );
+		jQuery( function() {
+			const textareaElems = document.querySelectorAll( '.hacu-code-editor__textarea' );
+			if ( textareaElems.length > 0 ) {
+				textareaElems.forEach( function( textareaElem ) {
+					const elements = CodeEditor.elements( textareaElem );
+					if ( elements ) {
+						const { inputElem } = elements;
+						const mime = textareaElem.getAttribute( 'data-language' );
+						const editorSettings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
+						editorSettings.codemirror = _.extend( {}, editorSettings.codemirror, {
+							mode: ( mime.length > 0 ? mime : 'text/html' ),
+						} );
 
-					const editor = wp.codeEditor.initialize( textareaElem, editorSettings );
-					editor.codemirror.setValue( inputElem.value );
-					editor.codemirror.on( 'blur', function() {
-						updateFieldValue( inputElem, editor.codemirror.getValue() );
-					} );
-				}
-			} );
-		}
+						const editor = wp.codeEditor.initialize( textareaElem, editorSettings );
+						editor.codemirror.setValue( inputElem.value );
+						editor.codemirror.on( 'blur', function() {
+							updateFieldValue( inputElem, editor.codemirror.getValue() );
+						} );
+					}
+				} );
+			}
+		} );
 	},
 };
 

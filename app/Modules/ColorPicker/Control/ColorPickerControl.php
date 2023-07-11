@@ -36,12 +36,12 @@ final class ColorPickerControl extends \WP_Customize_Control {
             wp_enqueue_style( 'pickr-css', $source, [], $version );
         }
 
-        /**if ( ! wp_script_is( 'pickr-js', 'enqueued' ) ) {
+        if ( ! wp_script_is( 'pickr-js', 'enqueued' ) ) {
             $source  = Helper::get_asset_src( 'pickr/pickr.min.js' );
             $version = Helper::get_asset_version( 'pickr/pickr.min.js' );
 
             wp_enqueue_script( 'pickr-js', $source, [], $version, true );
-        }**/
+        }
     }
 
     /**

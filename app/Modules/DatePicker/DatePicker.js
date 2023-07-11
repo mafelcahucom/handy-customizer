@@ -59,73 +59,75 @@ const DatePicker = {
 	 * @since 1.0.0
 	 */
 	initFlatpickr() {
-		const datePickerElems = document.querySelectorAll( '.hacu-date-picker__picker' );
-		if ( datePickerElems.length > 0 ) {
-			datePickerElems.forEach( function( datePickerElem ) {
-				const target = datePickerElem;
-				const dates = target.getAttribute( 'data-dates' );
-				const mode = target.getAttribute( 'data-mode' );
-				const enableTime = target.getAttribute( 'data-enable-time' );
-				const elements = DatePicker.elements( target );
-				if ( elements ) {
-					const { inputElem } = elements;
-					const isEnabledTime = function() {
-						return ( enableTime ? true : false );
-					};
+		jQuery( function() {
+			const datePickerElems = document.querySelectorAll( '.hacu-date-picker__picker' );
+			if ( datePickerElems.length > 0 ) {
+				datePickerElems.forEach( function( datePickerElem ) {
+					const target = datePickerElem;
+					const dates = target.getAttribute( 'data-dates' );
+					const mode = target.getAttribute( 'data-mode' );
+					const enableTime = target.getAttribute( 'data-enable-time' );
+					const elements = DatePicker.elements( target );
+					if ( elements ) {
+						const { inputElem } = elements;
+						const isEnabledTime = function() {
+							return ( enableTime ? true : false );
+						};
 
-					const getMode = function() {
-						return ( [ 'single', 'range' ].includes( mode ) ? mode : 'single' );
-					};
+						const getMode = function() {
+							return ( [ 'single', 'range' ].includes( mode ) ? mode : 'single' );
+						};
 
-					const getDateFormat = function() {
-						return ( isEnabledTime() ? 'Y-m-d H:i' : 'Y-m-d' );
-					};
+						const getDateFormat = function() {
+							return ( isEnabledTime() ? 'Y-m-d H:i' : 'Y-m-d' );
+						};
 
-					const getAltFormat = function() {
-						return ( isEnabledTime() ? 'F j, Y H:i' : 'F j, Y' );
-					};
+						const getAltFormat = function() {
+							return ( isEnabledTime() ? 'F j, Y H:i' : 'F j, Y' );
+						};
 
-					const getDefaultDates = function() {
-						const defaultDates = [];
-						if ( dates.length > 0 ) {
-							const currentDates = dates.split( ',' );
-							currentDates.forEach( function( currentDate ) {
-								const newDate = new Date( currentDate );
-								if ( isValidDate( newDate ) ) {
-									const getFullDate = function() {
-										const date = `${ newDate.getFullYear() }-${ newDate.getMonth() + 1 }-${ newDate.getDate() }`;
-										const time = `${ newDate.getHours() }:${ newDate.getMinutes() }`;
-										return ( isEnabledTime() ? `${ date } ${ time }` : date );
-									};
+						const getDefaultDates = function() {
+							const defaultDates = [];
+							if ( dates.length > 0 ) {
+								const currentDates = dates.split( ',' );
+								currentDates.forEach( function( currentDate ) {
+									const newDate = new Date( currentDate );
+									if ( isValidDate( newDate ) ) {
+										const getFullDate = function() {
+											const date = `${ newDate.getFullYear() }-${ newDate.getMonth() + 1 }-${ newDate.getDate() }`;
+											const time = `${ newDate.getHours() }:${ newDate.getMinutes() }`;
+											return ( isEnabledTime() ? `${ date } ${ time }` : date );
+										};
 
-									defaultDates.push( getFullDate() );
-								}
-							} );
-						}
+										defaultDates.push( getFullDate() );
+									}
+								} );
+							}
 
-						return ( defaultDates.length > 0 ? defaultDates : 'today' );
-					};
+							return ( defaultDates.length > 0 ? defaultDates : 'today' );
+						};
 
-					target.flatpickr( {
-						inline: true,
-						altInput: true,
-						mode: getMode(),
-						enableTime: isEnabledTime(),
-						dateFormat: getDateFormat(),
-						defaultDate: getDefaultDates(),
-						altFormat: getAltFormat(),
-						time_24hr: true,
-						onChange( selected ) {
-							const selectedDates = selected.map( function( date ) {
-								return flatpickr.formatDate( date, getDateFormat() );
-							} );
+						target.flatpickr( {
+							inline: true,
+							altInput: true,
+							mode: getMode(),
+							enableTime: isEnabledTime(),
+							dateFormat: getDateFormat(),
+							defaultDate: getDefaultDates(),
+							altFormat: getAltFormat(),
+							time_24hr: true,
+							onChange( selected ) {
+								const selectedDates = selected.map( function( date ) {
+									return flatpickr.formatDate( date, getDateFormat() );
+								} );
 
-							updateFieldValue( inputElem, selectedDates.join( ',' ) );
-						},
-					} );
-				}
-			} );
-		}
+								updateFieldValue( inputElem, selectedDates.join( ',' ) );
+							},
+						} );
+					}
+				} );
+			}
+		} );
 	},
 
 	/**

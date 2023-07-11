@@ -52,31 +52,33 @@ const TaggingSelect = {
 	 * @since 1.0.0
 	 */
 	initSelectize() {
-		const taggingSelectElems = document.querySelectorAll( '.hacu-tagging-select__selectize' );
-		if ( taggingSelectElems.length > 0 ) {
-			taggingSelectElems.forEach( function( taggingSelectElem ) {
-				const maximum = taggingSelectElem.getAttribute( 'data-maximum' );
-				const elements = TaggingSelect.elements( taggingSelectElem );
-				if ( elements ) {
-					const { inputElem } = elements;
-					const getMaximum = function() {
-						const parsedMax = parseInt( maximum );
-						return ( parsedMax !== NaN && parsedMax > 0 ? parsedMax : null );
-					};
+		jQuery( function() {
+			const taggingSelectElems = document.querySelectorAll( '.hacu-tagging-select__selectize' );
+			if ( taggingSelectElems.length > 0 ) {
+				taggingSelectElems.forEach( function( taggingSelectElem ) {
+					const maximum = taggingSelectElem.getAttribute( 'data-maximum' );
+					const elements = TaggingSelect.elements( taggingSelectElem );
+					if ( elements ) {
+						const { inputElem } = elements;
+						const getMaximum = function() {
+							const parsedMax = parseInt( maximum );
+							return ( parsedMax !== NaN && parsedMax > 0 ? parsedMax : null );
+						};
 
-					jQuery( taggingSelectElem ).selectize( {
-						plugins: [ 'remove_button', 'drag_drop' ],
-						maxItems: getMaximum(),
-						delimiter: ',',
-						persist: true,
-						create: false,
-						onChange( value ) {
-							updateFieldValue( inputElem, value );
-						},
-					} );
-				}
-			} );
-		}
+						jQuery( taggingSelectElem ).selectize( {
+							plugins: [ 'remove_button', 'drag_drop' ],
+							maxItems: getMaximum(),
+							delimiter: ',',
+							persist: true,
+							create: false,
+							onChange( value ) {
+								updateFieldValue( inputElem, value );
+							},
+						} );
+					}
+				} );
+			}
+		} );
 	},
 };
 

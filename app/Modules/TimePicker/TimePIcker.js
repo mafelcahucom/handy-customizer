@@ -58,40 +58,42 @@ const TimePicker = {
 	 * @since 1.0.0
 	 */
 	initFlatpickr() {
-		const timePickerElems = document.querySelectorAll( '.hacu-time-picker__picker' );
-		if ( timePickerElems.length > 0 ) {
-			timePickerElems.forEach( function( timePickerElem ) {
-				const target = timePickerElem;
-				const time = target.getAttribute( 'data-time' );
-				const format = target.getAttribute( 'data-format' );
-				const elements = TimePicker.elements( target );
-				if ( elements ) {
-					const { inputElem } = elements;
-					const is24HourFormat = function() {
-						return ( format === 'military' ? true : false );
-					};
+		jQuery( function() {
+			const timePickerElems = document.querySelectorAll( '.hacu-time-picker__picker' );
+			if ( timePickerElems.length > 0 ) {
+				timePickerElems.forEach( function( timePickerElem ) {
+					const target = timePickerElem;
+					const time = target.getAttribute( 'data-time' );
+					const format = target.getAttribute( 'data-format' );
+					const elements = TimePicker.elements( target );
+					if ( elements ) {
+						const { inputElem } = elements;
+						const is24HourFormat = function() {
+							return ( format === 'military' ? true : false );
+						};
 
-					const getFormat = function() {
-						return ( is24HourFormat() ? 'H:i' : 'h:i K' );
-					};
+						const getFormat = function() {
+							return ( is24HourFormat() ? 'H:i' : 'h:i K' );
+						};
 
-					target.flatpickr( {
-						inline: true,
-						altInput: true,
-						enableTime: true,
-						noCalendar: true,
-						dateFormat: getFormat(),
-						altFormat: getFormat(),
-						time_24hr: is24HourFormat(),
-						defaultDate: time,
-						onChange( selected ) {
-							const updatedTime = ( selected.length > 0 ? flatpickr.formatDate( selected[ 0 ], getFormat() ) : '' );
-							updateFieldValue( inputElem, updatedTime );
-						},
-					} );
-				}
-			} );
-		}
+						target.flatpickr( {
+							inline: true,
+							altInput: true,
+							enableTime: true,
+							noCalendar: true,
+							dateFormat: getFormat(),
+							altFormat: getFormat(),
+							time_24hr: is24HourFormat(),
+							defaultDate: time,
+							onChange( selected ) {
+								const updatedTime = ( selected.length > 0 ? flatpickr.formatDate( selected[ 0 ], getFormat() ) : '' );
+								updateFieldValue( inputElem, updatedTime );
+							},
+						} );
+					}
+				} );
+			}
+		} );
 	},
 
 	/**
