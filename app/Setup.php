@@ -47,6 +47,7 @@ final class Setup {
         $source  = Helper::get_asset_src( 'css/main.min.css' );
         $version = Helper::get_asset_version( 'css/main.min.css' );
 
+        wp_enqueue_style( 'wp-mediaelement' );
         wp_register_style( 'handy-main-css', $source, [], $version, 'all' );
         wp_enqueue_style( 'handy-main-css' );
     }
@@ -65,6 +66,7 @@ final class Setup {
         $source     = Helper::get_asset_src( 'js/main.min.js' );
         $version    = Helper::get_asset_version( 'js/main.min.js' );
 
+        wp_enqueue_script( 'wp-mediaelement' );
         wp_register_script( 'handy-main-js', $source, $dependency, $version, true );
         wp_enqueue_script( 'handy-main-js' );
     }

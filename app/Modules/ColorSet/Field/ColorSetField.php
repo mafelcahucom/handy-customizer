@@ -66,7 +66,7 @@ final class ColorSetField extends Setting {
     private function get_validated_size( $validated ) {
         $units         = [ 'px', 'em', 'rem', 'ex' ];
         $is_valid_size = ( isset( $validated['size'] ) && Validator::is_valid_size( $validated['size'], $units ) );
-        return ( $is_valid_size ? $validated['size'] : '20px' );
+        return ( $is_valid_size ? $validated['size'] : '25px' );
     }
 
     /**

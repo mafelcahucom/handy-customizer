@@ -129,8 +129,6 @@ const Sortable = {
 
 			e.target.setAttribute( 'data-dragging', 'no' );
 
-			console.log( elements );
-
 			// Update sortable value.
 			Sortable.updateValue( elements );
 		} );

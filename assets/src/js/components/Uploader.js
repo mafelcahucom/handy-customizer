@@ -22,7 +22,7 @@ const Uploader = {
 	 * @since 1.0.0
 	 */
 	init() {
-		this.initMediaPlayer();
+		this.initMediaPlayer( 2000 );
 		this.onSelectAttachment();
 		this.onRemoveAttachment();
 	},
@@ -110,17 +110,31 @@ const Uploader = {
 	 * Initialize media player using MediaElement.js.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param {number} delay The delay of initialization.
 	 */
-	initMediaPlayer() {
-		const mediaPlayerElems = document.querySelectorAll( '.hacu-media-player' );
-		if ( mediaPlayerElems.length > 0 ) {
-			mediaPlayerElems.forEach( function( mediaPlayerElem ) {
-				const id = mediaPlayerElem.getAttribute( 'id' );
-				if ( id ) {
-					jQuery( `#${ id }` ).mediaelementplayer();
-				}
-			} );
-		}
+	initMediaPlayer( delay = 0 ) {
+		setTimeout( function() {
+			const playerElems = document.querySelectorAll( '.hacu-media-player' );
+			if ( playerElems.length > 0 ) {
+				playerElems.forEach( function( playerElem ) {
+					const id = playerElem.getAttribute( 'data-id' );
+					const src = playerElem.getAttribute( 'data-src' );
+					const type = playerElem.getAttribute( 'data-type' );
+					if ( ! id || ! [ 'audio', 'video' ].includes( type ) ) {
+						return;
+					}
+
+					let player = `<audio id="${ id }-player" src="${ src }"></audio>`;
+					if ( type === 'video' ) {
+						player = `<video id="${ id }-player" src="${ src }" preload="true" style="width: 100%; height: 100%;"></video>`;
+					}
+
+					playerElem.innerHTML = player;
+					jQuery( `#${ id }-player` ).mediaelementplayer();
+				} );
+			}
+		}, delay );
 	},
 
 	/**
@@ -173,19 +187,6 @@ const Uploader = {
 	},
 
 	/**
-	 * Set the media player new source.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param {string} id         The ID of the uploader.
-	 * @param {Object} attachment The attachment meta data.
-	 */
-	setMediaPlayerSource( id, attachment ) {
-		const mediaPlayer = jQuery( `#${ id }-media-player` );
-		mediaPlayer[ 0 ].setSrc( attachment.url );
-	},
-
-	/**
 	 * On selecting attachment.
 	 *
 	 * @since 1.0.0
@@ -203,7 +204,7 @@ const Uploader = {
 				return;
 			}
 
-			const { inputElem, uploaderElem, thumbnailElem } = elements;
+			const { inputElem, uploaderElem, thumbnailElem, mediaPlayerElem } = elements;
 			const currentValue = inputElem.value;
 			const getParsedMimes = function( mimes ) {
 				let parsedMimes;
@@ -236,14 +237,21 @@ const Uploader = {
 				},
 				multiple: false,
 			} ).on( 'open', function() {
+				// On opening media library.
 				if ( currentValue.length > 0 ) {
 					const selection = mediaUploader.state().get( 'selection' );
 					const attachment = wp.media.attachment( currentValue );
 					selection.add( attachment ? [ attachment ] : [] );
 				}
+			} ).on( 'close', function() {
+				// On closing media library.
+				Uploader.initMediaPlayer( 0 );
+			} ).on( 'selection:toggle', function() {
+				// On selecting toggle item media library.
+				Uploader.initMediaPlayer( 0 );
 			} ).on( 'select', function() {
+				// On select item media library.
 				const attachment = mediaUploader.state().get( 'selection' ).first().toJSON();
-				console.log( attachment );
 				if ( ! attachment || attachment.id === parseInt( currentValue ) ) {
 					return;
 				}
@@ -263,7 +271,7 @@ const Uploader = {
 				}
 
 				if ( [ 'audio', 'video' ].includes( definedType ) ) {
-					Uploader.setMediaPlayerSource( definedId, attachment );
+					mediaPlayerElem.setAttribute( 'data-src', attachment.url );
 				}
 
 				if ( [ 'audio', 'application' ].includes( definedType ) ) {

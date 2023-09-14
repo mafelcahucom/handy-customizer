@@ -78,15 +78,15 @@ final class Handy {
     }
 
     /**
-     * Render Field.
+     * Render Control.
      * 
      * @since 1.0.0
      *
-     * @param  string  $type  The type of field to be render.
-     * @param  array   $args  Contains the arguments needed to render a certain field.
+     * @param  string  $type  The type of control to be render.
+     * @param  array   $args  Contains the arguments needed to render a certain control.
      * @return void
      */
-    public static function field( $type, $args = [] ) {
+    public static function control( $type, $args = [] ) {
         if ( empty( $type ) || ! Helper::is_continue( $args ) ) {
             return;
         }

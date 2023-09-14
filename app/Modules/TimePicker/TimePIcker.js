@@ -86,7 +86,19 @@ const TimePicker = {
 							time_24hr: is24HourFormat(),
 							defaultDate: time,
 							onChange( selected ) {
-								const updatedTime = ( selected.length > 0 ? flatpickr.formatDate( selected[ 0 ], getFormat() ) : '' );
+								let updatedTime = ( selected.length > 0 ? flatpickr.formatDate( selected[ 0 ], getFormat() ) : '' );
+								if ( ! is24HourFormat() ) {
+									if ( updatedTime.length > 0 ) {
+										const splitted = updatedTime.split( ':' );
+										if ( splitted.length === 2 ) {
+											const hour = parseInt( splitted[ 0 ] );
+											if ( hour >= 0 && hour <= 9 ) {
+												updatedTime = '0' + updatedTime;
+											}
+										}
+									}
+								}
+
 								updateFieldValue( inputElem, updatedTime );
 							},
 						} );

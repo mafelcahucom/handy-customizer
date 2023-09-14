@@ -63,7 +63,7 @@ final class TimePickerField extends Setting {
     }
 
     /**
-     * Render Date Picker Control.
+     * Render Time Picker Control.
      * 
      * @since 1.0.0
      *

@@ -369,12 +369,12 @@ final class Uploader {
                     <?php if ( self::$data['type'] === 'audio' ): ?>
                         <div class="hacu-uploader__audio-thumbnail">
                             <?php echo self::get_file_thumbnail_component( $source ); ?>
-                            <audio class="hacu-media-player" id="<?php echo esc_attr( self::$data['id'] .'-media-player' ); ?>" src="<?php echo esc_attr( $source['url'] ); ?>"></audio>
+                            <div class="hacu-media-player" data-type="audio" data-id="<?php echo esc_attr( self::$data['id'] ); ?>" data-src="<?php echo esc_attr( $source['url'] ); ?>"></div>
                         </div>
                     <?php endif; ?>
                     <?php if ( self::$data['type'] === 'video' ): ?>
                         <div class="hacu-uploader__video-thumbnail">
-                            <video class="hacu-media-player" id="<?php echo esc_attr( self::$data['id'] .'-media-player' ); ?>" src="<?php echo esc_attr( $source['url'] ); ?>" preload="true" style="width: 100%; height: 100%;"></video>
+                            <div class="hacu-media-player" data-type="video" data-id="<?php echo esc_attr( self::$data['id'] ); ?>" data-src="<?php echo esc_attr( $source['url'] ); ?>"></div>
                         </div>
                     <?php endif; ?>
                     <div class="hacu-uploader__thumbnail__controls">

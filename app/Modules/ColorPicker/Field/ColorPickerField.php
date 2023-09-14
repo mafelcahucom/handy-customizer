@@ -89,10 +89,9 @@ final class ColorPickerField extends Setting {
      * $args = [
      *      'id'                => (string)  The unique slug like string to be used as an id.
      *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (string)   The default value of the control.
+     *      'default'           => (string)  The default value of the control.
      *      'label'             => (string)  The label of the control.
      *      'description'       => (string)  The description of the control.
-     *      'placeholder'       => (string)  The placeholder of the control.
      *      'priority'          => (integer) The order of control appears in the section. 
      *      'validations'       => (array)   The list of built-in and custom validations.
      *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
@@ -124,10 +123,6 @@ final class ColorPickerField extends Setting {
                 'required' => false,
             ],
             'description'       => [
-                'type'     => 'string',
-                'required' => false
-            ],
-            'placeholder'       => [
                 'type'     => 'string',
                 'required' => false
             ],

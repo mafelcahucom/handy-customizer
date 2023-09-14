@@ -1,7 +1,6 @@
 <?php
 namespace Handy\Modules\ColorSet\Control;
 
-use Handy\Inc\Icon;
 use Handy\Inc\Helper;
 
 defined( 'ABSPATH' ) || exit;
@@ -63,17 +62,6 @@ final class ColorSetControl extends \WP_Customize_Control {
     }
 
     /**
-     * Return the value with alternative value.
-     * 
-     * @sinc 1.0.0
-     *
-     * @return string
-     */
-    private function get_value() {
-        return ( ! empty( $this->value() ) ? $this->value() : '#ffffff' );
-    }
-
-    /**
      * Return the item state based on the current color and item color.
      * 
      * @since 1.0.0
@@ -116,40 +104,12 @@ final class ColorSetControl extends \WP_Customize_Control {
                 ]);
             ?>
 
-            <div class="hacu-accordion">
-                <div class="hacu-accordion__head" data-state="closed">
-                    <div class="hacu-accordion__title">
-                        <div class="hacu-flex hacu-flex-ai-c">
-                            <div class="hacu-color-set__border" data-shape="<?php echo esc_attr( $this->shape ); ?>">
-                                <div class="hacu-color-set__preview" style="background-color: <?php echo esc_attr( $this->get_value() ); ?>"></div>
-                            </div>
-                            <span class="hacu-color-set__label">
-                                <?php echo esc_attr( $this->value() ); ?>
-                            </span>
-                        </div>
+            <div class="hacu-color-set__container" data-shape="<?php echo esc_attr( $this->shape ); ?>">
+                <?php foreach ( $this->colors as $color ): ?>
+                    <div class="hacu-color-set__item" data-value="<?php echo esc_attr( $color ); ?>" data-shape="<?php echo esc_attr( $this->shape ); ?>" data-state="<?php echo $this->get_item_state( $color ); ?>" style="width: <?php echo esc_attr( $this->size ); ?>; height: <?php echo esc_attr( $this->size ); ?>">
+                        <div class="hacu-color-set__color" style="background-color: <?php echo esc_attr( $color ); ?>"></div>
                     </div>
-                    <div class="hacu-accordion__control">
-                        <?php echo Icon::get( 'caret-down' ); ?>
-                    </div>
-                </div>
-                <div class="hacu-accordion__body" data-state="closed">
-                    <div class="hacu-accordion__content">
-                        <div class="hacu-accordion__main">
-                            <div class="hacu-color-set__container" data-shape="<?php echo esc_attr( $this->shape ); ?>">
-                                <?php foreach ( $this->colors as $color ): ?>
-                                    <div class="hacu-color-set__item" data-value="<?php echo esc_attr( $color ); ?>" data-shape="<?php echo esc_attr( $this->shape ); ?>" data-state="<?php echo $this->get_item_state( $color ); ?>" style="width: <?php echo esc_attr( $this->size ); ?>; height: <?php echo esc_attr( $this->size ); ?>">
-                                        <div class="hacu-color-set__color" style="background-color: <?php echo esc_attr( $color ); ?>"></div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        <?php if ( ! empty( $this->default ) ): ?>
-                            <div class="hacu-accordion__footer">
-                                <button type="button" class="hacu-color-set__default-btn hacu-btn" data-value="<?php echo esc_attr( $this->default ); ?>">Default</button>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
         <?php

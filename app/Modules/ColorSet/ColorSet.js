@@ -25,7 +25,6 @@ const ColorSet = {
 	 */
 	init() {
 		this.onSelectItem();
-		this.onSetToDefault();
 	},
 
 	/**
@@ -44,14 +43,6 @@ const ColorSet = {
 					input: {
 						isSingle: true,
 						selector: '.hacu-color-set__input',
-					},
-					preview: {
-						isSingle: true,
-						selector: '.hacu-color-set__preview',
-					},
-					label: {
-						isSingle: true,
-						selector: '.hacu-color-set__label',
 					},
 				},
 			} );
@@ -74,47 +65,10 @@ const ColorSet = {
 				return;
 			}
 
-			if ( ! isValidHexaColor( value ) ) {
-				return;
-			}
-
-			const { parentElem, inputElem, labelElem, previewElem } = elements;
-			labelElem.textContent = value;
-			previewElem.style.backgroundColor = value;
-
-			setAttribute.child( parentElem, '.hacu-color-set__item', 'data-state', 'default' );
-			target.setAttribute( 'data-state', 'active' );
-
-			updateFieldValue( inputElem, value );
-		} );
-	},
-
-	/**
-	 * On setting to default & update field value based on set default.
-	 *
-	 * @since 1.0.0
-	 */
-	onSetToDefault() {
-		eventListener( 'click', '.hacu-color-set__default-btn', function( e ) {
-			e.preventDefault();
-			const target = e.target;
-			const value = target.getAttribute( 'data-value' );
-			const elements = ColorSet.elements( target );
-			if ( ! elements || value.length === 0 ) {
-				return;
-			}
-
-			if ( ! isValidHexaColor( value ) ) {
-				return;
-			}
-
-			const { parentElem, inputElem, labelElem, previewElem } = elements;
-			if ( inputElem.value !== value ) {
-				labelElem.textContent = value;
-				previewElem.style.backgroundColor = value;
-
+			if ( isValidHexaColor( value ) ) {
+				const { parentElem, inputElem } = elements;
 				setAttribute.child( parentElem, '.hacu-color-set__item', 'data-state', 'default' );
-				setAttribute.child( parentElem, `.hacu-color-set__item[data-value="${ value }"]`, 'data-state', 'active' );
+				target.setAttribute( 'data-state', 'active' );
 
 				updateFieldValue( inputElem, value );
 			}

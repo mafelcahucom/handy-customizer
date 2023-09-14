@@ -53,7 +53,7 @@ Handy.domReady = {
  * @since 1.0.0
  */
 Handy.domReady.execute( function() {
-	const Fragments = Components.concat( Modules );
+	const Fragments = [ ...Components, ...Modules ];
 	Fragments.forEach( function( Fragment ) {
 		if ( 'init' in Fragment ) {
 			Fragment.init();
