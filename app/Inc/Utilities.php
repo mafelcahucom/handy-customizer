@@ -20,7 +20,7 @@ trait Utilities {
     protected function __construct() {}
 
     /**
-     * Returns all published pages.
+     * Returns all published pages, format: 'ID' => 'post_title'.
      * 
      * @since 1.0.0
      *
@@ -36,23 +36,23 @@ trait Utilities {
     }
 
     /**
-     * Returns all published posts.
+     * Returns all published posts, format: 'ID' => 'post_title'.
      * 
      * @since 1.0.0
      *
      * @return array.
      */
     final public static function __get_posts() {
-        $posts = get_posts([
+        $_posts = get_posts([
             'post_status' => 'publish',
             'order'       => 'desc'
         ]);
 
-        return wp_list_pluck( $posts, 'post_title', 'ID' );
+        return wp_list_pluck( $_posts, 'post_title', 'ID' );
     }
 
     /**
-     * Returns all published posts from a custom post type.
+     * Returns all published posts from a custom post type, format: 'ID' => 'post_title'.
      * 
      * @since 1.0.0
      *
@@ -60,17 +60,50 @@ trait Utilities {
      * @return array
      */
     final public static function __get_custom_posts( $post_type = '' ) {
-        $posts = get_posts([
+        $_posts = get_posts([
             'post_type'   => $post_type,
             'post_status' => 'publish',
             'order'       => 'desc'
         ]);
 
-        return wp_list_pluck( $posts, 'post_title', 'ID' );
+        return wp_list_pluck( $_posts, 'post_title', 'ID' );
     }
 
     /**
-     * Returns all taxonomy name and slug.
+     * Returns all post types, format: 'post_type_name' => 'post_type_name'.
+     * 
+     * @since 1.0.0
+     *
+     * @return array
+     */
+    final public static function __get_post_types() {
+        return get_post_types();
+    }
+
+    /**
+     * Returns all available categories, format: 'term_id' => 'name'.
+     * 
+     * @since 1.0.0
+     *
+     * @return array
+     */
+    final public static function __get_categories() {
+        return wp_list_pluck( get_categories(), 'name', 'term_id' );
+    }
+
+    /**
+     * Returns all available tags, format: 'term_id' => 'name'.
+     * 
+     * @since 1.0.0
+     *
+     * @return array
+     */
+    final public static function __get_tags() {
+        return wp_list_pluck( get_tags(), 'name', 'term_id' );
+    }
+
+    /**
+     * Returns all taxonomy, format: 'taxonomy_name' => 'taxonomy_name'.
      * 
      * @since 1.0.0
      *
@@ -81,14 +114,45 @@ trait Utilities {
     }
 
     /**
-     * Returns all post types name and slug.
+     * Returns all terms of a certain taxonomy, format: 'term_id' => 'name'.
+     *
+     * @since 1.0.0
+     * 
+     * @param  string  $taxonomy  Contains the name of taxonomy.
+     * @return array
+     */
+    final public static function __get_terms( $taxonomy = '' ) {
+        return wp_list_pluck( get_terms( $taxonomy ), 'name', 'term_id' );
+    }
+
+    /**
+     * Returns all registered users, format: 'ID' => 'user_nicename'.
+     *
+     * @since 1.0.0
+     * 
+     * @return array
+     */
+    final public static function __get_users() {
+        return wp_list_pluck( get_users(), 'user_nicename', 'ID' );
+    }
+
+    /**
+     * Returns all registered image sizes, format: 'size_name' => 'size_name'.
      * 
      * @since 1.0.0
      *
-     * @return array
+     * @return araray
      */
-    final public static function __get_post_types() {
-        return get_post_types();
+    final public static function __get_image_sizes() {
+        $sizes       = [];
+        $image_sizes = get_intermediate_image_sizes();
+        if ( ! empty( $image_sizes ) ) {
+            foreach ( $image_sizes as $image_size ) {
+                $sizes[ $image_size ] = $image_size;
+            }
+        }
+
+        return $sizes;
     }
 
     /**
