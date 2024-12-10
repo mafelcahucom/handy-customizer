@@ -1,11 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-	eventListener,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue, eventListener } from '../../../resources/scripts/helpers';
 
 /**
  * Sortable Field.
@@ -15,7 +11,6 @@ import {
  * @type {Object}
  */
 const Sortable = {
-
 	/**
 	 * Initialize.
 	 *
@@ -33,8 +28,8 @@ const Sortable = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -54,7 +49,7 @@ const Sortable = {
 	 * Update the value of the hidden input.
 	 *
 	 * @since 1.0.0
-	 * @param {Object} elements The required elements.
+	 * @param {Object} elements Contains the required elements.
 	 */
 	updateValue( elements ) {
 		if ( ! elements ) {
@@ -63,11 +58,13 @@ const Sortable = {
 
 		const values = [];
 		const { parentElem, inputElem } = elements;
-		const enabledItemElems = parentElem.querySelectorAll( '.hacu-sortable__item[data-state="enabled"]' );
-		if ( enabledItemElems.length > 0 ) {
-			enabledItemElems.forEach( function( enabledItemElem ) {
+		const enabledItemElems = parentElem.querySelectorAll(
+			'.hacu-sortable__item[data-state="enabled"]'
+		);
+		if ( 0 < enabledItemElems.length ) {
+			enabledItemElems.forEach( ( enabledItemElem ) => {
 				const itemValue = enabledItemElem.getAttribute( 'data-value' );
-				if ( itemValue.length > 0 && ! values.includes( itemValue ) ) {
+				if ( 0 < itemValue.length && ! values.includes( itemValue ) ) {
 					values.push( itemValue );
 				}
 			} );
@@ -81,27 +78,31 @@ const Sortable = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} container The container element.
-	 * @param {number} yAxis     The current Y Axis of the container element
+	 * @param {Object} container Contains the container element.
+	 * @param {number} yAxis     Contains the current Y Axis of the container element
+	 * @return {Object} The draggable elements.
 	 */
 	getDragAfterElement( container, yAxis ) {
 		const draggableElements = [
 			...container.querySelectorAll( '[draggable="true"]:not([data-dragging="yes"])' ),
 		];
 
-		return draggableElements.reduce( function( closest, child ) {
-			const box = child.getBoundingClientRect();
-			const offset = yAxis - box.top - box.height / 2;
-			if ( offset < 0 && offset > closest.offset ) {
-				return {
-					offset,
-					element: child,
-				};
+		return draggableElements.reduce(
+			( closest, child ) => {
+				const box = child.getBoundingClientRect();
+				const offset = yAxis - box.top - box.height / 2;
+				if ( 0 > offset && offset > closest.offset ) {
+					return {
+						offset,
+						element: child,
+					};
+				}
+				return closest;
+			},
+			{
+				offset: Number.NEGATIVE_INFINITY,
 			}
-			return closest;
-		}, {
-			offset: Number.NEGATIVE_INFINITY,
-		} ).element;
+		).element;
 	},
 
 	/**
@@ -110,7 +111,7 @@ const Sortable = {
 	 * @since 1.0.0
 	 */
 	onItemDragStart() {
-		eventListener( 'dragstart', '.hacu-sortable__item', function( e ) {
+		eventListener( 'dragstart', '.hacu-sortable__item', ( e ) => {
 			e.target.setAttribute( 'data-dragging', 'yes' );
 		} );
 	},
@@ -121,7 +122,7 @@ const Sortable = {
 	 * @since 1.0.0
 	 */
 	onItemDragStop() {
-		eventListener( 'dragend', '.hacu-sortable__item', function( e ) {
+		eventListener( 'dragend', '.hacu-sortable__item', ( e ) => {
 			const elements = Sortable.elements( e.target );
 			if ( ! elements ) {
 				return;
@@ -140,12 +141,13 @@ const Sortable = {
 	 * @since 1.0.0
 	 */
 	onContainerDragOver() {
-		eventListener( 'dragover', '.hacu-sortable__container', function( e ) {
+		eventListener( 'dragover', '.hacu-sortable__container', ( e ) => {
 			e.preventDefault();
 			const container = e.target;
 			const afterElement = Sortable.getDragAfterElement( container, e.clientY );
 			const draggable = document.querySelector( '[data-dragging="yes"]' );
-			if ( afterElement == null ) {
+			// eslint-disable-next-line eqeqeq
+			if ( null == afterElement ) {
 				container.appendChild( draggable );
 			} else {
 				container.insertBefore( draggable, afterElement );
@@ -159,7 +161,7 @@ const Sortable = {
 	 * @since 1.0.0
 	 */
 	onItemToggleControl() {
-		eventListener( 'click', '.hacu-sortable__item__toggle-btn', function( e ) {
+		eventListener( 'click', '.hacu-sortable__item__toggle-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
@@ -173,9 +175,9 @@ const Sortable = {
 				return;
 			}
 
-			itemElem.setAttribute( 'draggable', ( state === 'enabled' ? 'false' : true ) );
-			itemElem.setAttribute( 'data-state', ( state === 'enabled' ? 'disabled' : 'enabled' ) );
-			target.setAttribute( 'data-state', ( state === 'enabled' ? 'disabled' : 'enabled' ) );
+			itemElem.setAttribute( 'draggable', 'enabled' === state ? 'false' : true );
+			itemElem.setAttribute( 'data-state', 'enabled' === state ? 'disabled' : 'enabled' );
+			target.setAttribute( 'data-state', 'enabled' === state ? 'disabled' : 'enabled' );
 
 			// Update sortable value.
 			Sortable.updateValue( elements );

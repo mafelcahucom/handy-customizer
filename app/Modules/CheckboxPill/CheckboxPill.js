@@ -6,7 +6,7 @@ import {
 	getExplodedValue,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Checkbox Pill Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const CheckboxPill = {
-
 	/**
 	 * Initialize.
 	 *
@@ -31,8 +30,8 @@ const CheckboxPill = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -49,23 +48,24 @@ const CheckboxPill = {
 	},
 
 	/**
-	 * On selecting item & update field value based on selected item.
+	 * On select item & update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-checkbox-pill__item-btn', function( e ) {
+		eventListener( 'click', '.hacu-checkbox-pill__item-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
 			const value = target.getAttribute( 'data-value' );
 			const elements = CheckboxPill.elements( target );
-			if ( ! elements || state.length === 0 || value.length === 0 ) {
+			if ( ! elements || 0 === state.length || 0 === value.length ) {
 				return;
 			}
 
 			const { inputElem } = elements;
 			const checked = getExplodedValue( inputElem.value );
+			/* eslint-disable indent */
 			switch ( state ) {
 				case 'default':
 					if ( ! checked.includes( value ) ) {
@@ -75,12 +75,13 @@ const CheckboxPill = {
 					break;
 				case 'active':
 					const index = checked.indexOf( value );
-					if ( index !== -1 ) {
+					if ( -1 !== index ) {
 						checked.splice( index, 1 );
 						target.setAttribute( 'data-state', 'default' );
 					}
 					break;
 			}
+			/* eslint-enable */
 
 			updateFieldValue( inputElem, checked.join( ',' ) );
 		} );

@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Sortable > Control > Sortable Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Sortable\Control;
 
 use Handy\Inc\Icon;
@@ -7,17 +17,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Sortable.
+ * The `SortableControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class SortableControl extends \WP_Customize_Control {
 
     /**
      * Holds the list of choices.
-     * 
+     *
      * @since 1.0.0
      *
      * @var array
@@ -33,53 +42,53 @@ final class SortableControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-sortable-'. $this->id;
+        return 'hacu-sortable-' . $this->id;
     }
 
     /**
      * Return the value in array format.
-     * 
+     *
      * @since 1.0.0
      *
      * @return array
      */
     private function get_value() {
-        return ( ! empty( $this->value() ) && is_array( $this->value() ) ? $this->value() : [] );
+        return ! empty( $this->value() ) && is_array( $this->value() ) ? $this->value() : array();
     }
-    
+
     /**
      * Return the choices items with correspoding order and status.
-     * 
+     *
      * @since 1.0.0
      *
      * @return array
      */
     private function get_items() {
-        $items = [];
+        $items = array();
         $intersected = array_intersect( $this->get_value(), array_keys( $this->choices ) );
         if ( ! empty( $intersected ) ) {
             foreach ( $intersected as $value ) {
-                $items[ $value ] = [
+                $items[ $value ] = array(
                     'status' => 'enabled',
-                    'title'  => $this->choices[ $value ] 
-                ];
+                    'title'  => $this->choices[ $value ],
+                );
             }
         }
 
         $difference = array_diff( array_keys( $this->choices ), $intersected );
         if ( ! empty( $difference ) ) {
-            $status = ( empty( $intersected ) ? 'enabled' : 'disabled' );
+            $status = empty( $intersected ) ? 'enabled' : 'disabled';
             foreach ( $difference as $value ) {
-                $items[ $value ] = [
+                $items[ $value ] = array(
                     'status' => $status,
-                    'title'  => $this->choices[ $value ] 
-                ];
+                    'title'  => $this->choices[ $value ],
+                );
             }
         }
 
@@ -88,31 +97,31 @@ final class SortableControl extends \WP_Customize_Control {
 
     /**
      * Return appropriate draggable attribute value based on item' status.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  string  $status  The current item's status
+     * @param  string $status Contains the current item's status
      * @return boolean
      */
     private function is_draggable( $status ) {
-        return ( $status === 'enabled' ? 'true' : 'false' );
+        return $status === 'enabled' ? 'true' : 'false';
     }
 
     /**
      * Return the item control button's title attribute value based on item's status.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  string  $status  The current item's status.
+     * @param  string $status Contains the current item's status.
      * @return string
      */
     private function get_control_title( $status ) {
-        return ( $status === 'enabled' ? 'Disable' : 'Enable' );
+        return $status === 'enabled' ? 'Disable' : 'Enable';
     }
 
     /**
      * Render Sortable Control Content.
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -121,30 +130,28 @@ final class SortableControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-sortable">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
 
-                // Input Hidden
-                echo Helper::get_hidden_input([
+                echo Helper::get_hidden_input(array(
                     'key_link'   => $this->get_link(),
-                    'attributes' => [
+                    'attributes' => array(
                         'class' => 'hacu-sortable__input',
                         'id'    => $this->prefix_id(),
                         'name'  => $this->id,
-                        'value' => Helper::get_imploded_value( $this->get_value(), array_keys( $this->choices ) )
-                    ]
-                ]);
+                        'value' => Helper::get_imploded_value( $this->get_value(), array_keys( $this->choices ) ),
+                    ),
+                ));
             ?>
 
             <div class="hacu-sortable__container">
-                <?php foreach ( $this->get_items() as $key => $item ): ?>
+                <?php foreach ( $this->get_items() as $key => $item ) : ?>
                     <div class="hacu-sortable__item" data-dragging="no" data-value="<?php echo esc_attr( $key ); ?>" data-state="<?php echo esc_attr( $item['status'] ); ?>" draggable="<?php echo $this->is_draggable( $item['status'] ); ?>">
-                        <?php if ( $this->enable_handle ): ?>
+                        <?php if ( $this->enable_handle ) : ?>
                             <div class="hacu-sortable__item__handle">
                                 <?php echo Icon::get( 'drag' ); ?>
                             </div>

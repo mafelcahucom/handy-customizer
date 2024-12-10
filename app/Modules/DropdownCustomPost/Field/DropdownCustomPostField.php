@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Dropdown Custom Post > Field > Dropdown Custom Post Field.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\DropdownCustomPost\Field;
 
 use Handy\Core\Setting;
@@ -9,37 +19,36 @@ use Handy\Modules\DropdownCustomPost\Control\DropdownCustomPostControl;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Dropdown Custom Post.
+ * The `DropdownCustomPostField` class contains the settings,
+ * sanitization and validation.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class DropdownCustomPostField extends Setting {
 
     /**
      * Return an array of custom post.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $args  Contains arguments to retrieve custom posts.
+     * @param  array $args Contains arguments to retrieve custom posts.
      * $args = [
-     *      'post_type'   => (string) The post type slug of custom post.
-     *      'status'      => (array)  The status of the custom post.
-     *      'order'       => (string) The order of custom posts.
-     *      'placeholder' => (string) The placeholder of the control.
+     *     'post_type'   => (string) Contains the post type slug of custom post.
+     *     'status'      => (array)  Contains the status of the custom post.
+     *     'order'       => (string) Contains the order of custom posts.
+     *     'placeholder' => (string) Contains the placeholder of the control.
      * ]
      * @return array
      */
-    private function get_posts( $args = [] ) {
-        $value  = [];
+    private function get_posts( $args = array() ) {
+        $value  = array();
         $order  = Validator::get_sort_order( $args['order'] );
         $status = Validator::get_post_status( $args['status'] );
-        $posts  = get_posts([
+        $posts  = get_posts(array(
             'post_type'   => $args['post_type'],
             'post_status' => $status,
-            'order'       => $order
-        ]);
+            'order'       => $order,
+        ));
 
         if ( strlen( $args['placeholder'] ) > 0 ) {
             $value[0] = $args['placeholder'];
@@ -56,28 +65,28 @@ final class DropdownCustomPostField extends Setting {
 
     /**
      * Return the validated default value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return integer
      */
     private function get_validated_default( $validated ) {
-        return ( array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : 0 );
+        return array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : 0;
     }
 
     /**
      * Return the predetermined default validations.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_default_validations( $validated ) {
-        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), array( '__' ) ) );
         $validation  = "in_choices[{$parameters}]";
-        $validations = [ $validation ];
+        $validations = array( $validation );
         if ( isset( $validated['validations'] ) ) {
             $validations = $validated['validations'];
             array_unshift( $validations, $validation );
@@ -88,96 +97,96 @@ final class DropdownCustomPostField extends Setting {
 
     /**
      * Render Dropdown Post Control.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render dropdown post control.
+     * @param  object $customize Contains the instance of WP_Customize_Manager.
+     * @param  array  $args      Contains the necessary arguments to render dropdown post control.
      * $args = [
-     *      'id'                => (string)  The unique slug like string to be used as an id.
-     *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (number)  The default value of the control.
-     *      'label'             => (string)  The label of the control.
-     *      'description'       => (string)  The description of the control.
-     *      'placeholder'       => (string)  The placeholder of the control.
-     *      'priority'          => (integer) The order of control appears in the section. 
-     *      'validations'       => (array)   The list of built-in and custom validations.
-     *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'post_type'         => (string)  The post type slug of custom post.
-     *      'status'            => (array)   The list of post status.
-     *      'order'             => (string)  The order of the posts
+     *     'id'                => (string)  Contains the unique slug like string to be used as an id.
+     *     'section'           => (string)  Contains the section where the control belongs to.
+     *     'default'           => (number)  Contains the default value of the control.
+     *     'label'             => (string)  Contains the label of the control.
+     *     'description'       => (string)  Contains the description of the control.
+     *     'placeholder'       => (string)  Contains the placeholder of the control.
+     *     'priority'          => (integer) Contains the order of control appears in the section.
+     *     'validations'       => (array)   Contains the list of built-in and custom validations.
+     *     'active_callback'   => (object)  Contains the callback function whether to show control, must always return true.
+     *     'sanitize_callback' => (object)  Contains the callback function to sanitize the value before saving in database.
+     *     'post_type'         => (string)  Contains the post type slug of custom post.
+     *     'status'            => (array)   Contains the list of post status.
+     *     'order'             => (string)  Contains the order of the posts
      * ]
      * @return void
      */
-    public function render( $customize, $args = [] ) {
+    public function render( $customize, $args = array() ) {
         if ( empty( $customize ) || empty( $args ) ) {
             return;
         }
 
-        $schema = [
-            'id'                => [
+        $schema = array(
+            'id'                => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'section'           => [
+                'required' => true,
+            ),
+            'section'           => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'default'           => [
+                'required' => true,
+            ),
+            'default'           => array(
                 'type'     => 'number',
                 'required' => false,
-            ],
-            'label'             => [
+            ),
+            'label'             => array(
                 'type'     => 'string',
                 'required' => false,
-            ],
-            'description'       => [
+            ),
+            'description'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'placeholder'       => [
+                'required' => false,
+            ),
+            'placeholder'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'priority'          => [
+                'required' => false,
+            ),
+            'priority'          => array(
                 'type'     => 'integer',
-                'required' => false
-            ],
-            'validations'       => [
+                'required' => false,
+            ),
+            'validations'       => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'active_callback'   => [
+                'required' => false,
+            ),
+            'active_callback'   => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'sanitize_callback' => [
+                'required' => false,
+            ),
+            'sanitize_callback' => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'post_type'         => [
+                'required' => false,
+            ),
+            'post_type'         => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'status'            => [
+                'required' => true,
+            ),
+            'status'            => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'order'             => [
+                'required' => false,
+            ),
+            'order'             => array(
                 'type'     => 'string',
-                'required' => false
-            ]
-        ];
+                'required' => false,
+            ),
+        );
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
-            $validated['choices'] = $this->get_posts([
-                'post_type'   => ( isset( $validated['post_type'] ) ? $validated['post_type'] : '' ),
-                'status'      => ( isset( $validated['status'] ) ? $validated['status'] : [ 'publish' ] ),
-                'order'       => ( isset( $validated['order'] ) ? $validated['order'] : 'asc' ),
-                'placeholder' => ( isset( $validated['placeholder'] ) ? $validated['placeholder'] : '' )
-            ]);
+            $validated['choices'] = $this->get_posts(array(
+                'post_type'   => isset( $validated['post_type'] ) ? $validated['post_type'] : '',
+                'status'      => isset( $validated['status'] ) ? $validated['status'] : array( 'publish' ),
+                'order'       => isset( $validated['order'] ) ? $validated['order'] : 'asc',
+                'placeholder' => isset( $validated['placeholder'] ) ? $validated['placeholder'] : '',
+            ));
 
             if ( isset( $validated['default'] ) ) {
                 $validated['default'] = $this->get_validated_default( $validated );
@@ -186,7 +195,7 @@ final class DropdownCustomPostField extends Setting {
             $validated['validations'] = $this->get_default_validations( $validated );
         }
 
-        $validated = Helper::unset_keys( $validated, [ 'post_type', 'order', 'status', 'placeholder' ] );
+        $validated = Helper::unset_keys( $validated, array( 'post_type', 'order', 'status', 'placeholder' ) );
         $config    = Validator::get_configuration( 'field', $validated );
         if ( $validated && $config ) {
             $this->setting( 'dropdown_custom_post', $customize, $validated );

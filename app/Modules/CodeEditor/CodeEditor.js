@@ -1,10 +1,7 @@
 /**
  * Internal Dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue } from '../../../resources/scripts/helpers';
 
 /**
  * Code Editor Field.
@@ -14,7 +11,6 @@ import {
  * @type {Object}
  */
 const CodeEditor = {
-
 	/**
 	 * Initialize.
 	 *
@@ -29,8 +25,8 @@ const CodeEditor = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -52,22 +48,24 @@ const CodeEditor = {
 	 * @since 1.0.0
 	 */
 	initCodeMirror() {
-		jQuery( function() {
+		jQuery( () => {
 			const textareaElems = document.querySelectorAll( '.hacu-code-editor__textarea' );
-			if ( textareaElems.length > 0 ) {
-				textareaElems.forEach( function( textareaElem ) {
+			if ( 0 < textareaElems.length ) {
+				textareaElems.forEach( ( textareaElem ) => {
 					const elements = CodeEditor.elements( textareaElem );
 					if ( elements ) {
 						const { inputElem } = elements;
 						const mime = textareaElem.getAttribute( 'data-language' );
-						const editorSettings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
+						const editorSettings = wp.codeEditor.defaultSettings
+							? _.clone( wp.codeEditor.defaultSettings )
+							: {};
 						editorSettings.codemirror = _.extend( {}, editorSettings.codemirror, {
-							mode: ( mime.length > 0 ? mime : 'text/html' ),
+							mode: 0 < mime.length ? mime : 'text/html',
 						} );
 
 						const editor = wp.codeEditor.initialize( textareaElem, editorSettings );
 						editor.codemirror.setValue( inputElem.value );
-						editor.codemirror.on( 'blur', function() {
+						editor.codemirror.on( 'blur', () => {
 							updateFieldValue( inputElem, editor.codemirror.getValue() );
 						} );
 					}

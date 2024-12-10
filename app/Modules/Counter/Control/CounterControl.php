@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Counter > Control > Counter Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Counter\Control;
 
 use Handy\Inc\Icon;
@@ -7,17 +17,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Counter.
+ * The `CounterControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class CounterControl extends \WP_Customize_Control {
 
     /**
      * Holds the option settings.
-     * 
+     *
      * @since 1.0.0
      *
      * @var array
@@ -26,21 +35,21 @@ final class CounterControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-counter-'. $this->id;
+        return 'hacu-counter-' . $this->id;
     }
 
     /**
      * Return the control button state based on value and option max and min
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  string  $event  The type of event [-,+].
+     * @param  string $event Contains the type of event [-,+].
      * @return string
      */
     private function get_control_state( $event ) {
@@ -71,7 +80,7 @@ final class CounterControl extends \WP_Customize_Control {
 
     /**
      * Render Counter Control Content.
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -80,21 +89,20 @@ final class CounterControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-counter">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
             ?>
 
             <div class="hacu-counter__container">
-                <button class="hacu-counter__control-btn hacu-btn-small" data-event="-" data-state="<?php echo $this->get_control_state( '-' ); ?>" title="Decrement">
+                <button class="hacu-counter__control-btn hacu-btn-small" data-event="-" data-state="<?php echo $this->get_control_state( '-' ); ?>" title="<?php echo __( 'Decrement', 'handy-customizer' ); ?>">
                     <?php echo Icon::get( 'dash' ); ?>
                 </button>
                 <input type="text" class="hacu-counter__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" data-min="<?php echo esc_attr( $this->options['min'] ); ?>" data-max="<?php echo esc_attr( $this->options['max'] ); ?>" data-step="<?php echo esc_attr( $this->options['step'] ); ?>" <?php $this->link(); ?> />
-                <button class="hacu-counter__control-btn hacu-btn-small" data-event="+" data-state="<?php echo $this->get_control_state( '+' ); ?>" title="Increment">
+                <button class="hacu-counter__control-btn hacu-btn-small" data-event="+" data-state="<?php echo $this->get_control_state( '+' ); ?>" title="<?php echo __( 'Increment', 'handy-customizer' ); ?>">
                     <?php echo Icon::get( 'plus' ); ?>
                 </button>
             </div>

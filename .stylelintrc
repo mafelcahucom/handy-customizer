@@ -1,16 +1,33 @@
 {
-    "extends": [
-        "@wordpress/stylelint-config/scss"
-    ],
-    "ignoreFiles": [
-        "sass/_normalize.scss"
-    ],
-    "rules": {
-        "font-family-no-missing-generic-family-keyword": null,
-        "no-descending-specificity": null,
-        "block-no-empty": null,
-        "no-duplicate-selectors": null,
-        "selector-class-pattern": null,
-        "font-family-no-duplicate-names": null
-    }
+	"extends": "@wordpress/stylelint-config/scss",
+	"rules": {
+		"at-rule-empty-line-before": null,
+		"block-no-empty": true,
+		"color-hex-case": "upper",
+		"color-no-invalid-hex": true,
+		"comment-no-empty": true,
+		"declaration-block-no-shorthand-property-overrides": true,
+		"declaration-colon-space-before": "never",
+		"declaration-no-important": null,
+		"font-family-name-quotes": "always-where-recommended",
+		"font-family-no-duplicate-names": null,
+		"font-weight-notation": "numeric",
+		"function-url-quotes": "always",
+		"indentation": "tab",
+		"max-empty-lines": 1,
+		"no-descending-specificity": null,
+		"no-duplicate-selectors": null,
+		"no-empty-source": null,
+		"no-missing-end-of-source-newline": true,
+		"number-leading-zero": "always",
+		"rule-empty-line-before": null,
+		"selector-id-pattern": null,
+		"selector-class-pattern": null,
+		"selector-combinator-space-after": "always",
+		"selector-list-comma-newline-after": null,
+		"selector-pseudo-element-colon-notation": "double",
+		"scss/selector-no-redundant-nesting-selector": null,
+		"unit-no-unknown": true
+	},
+    "ignoreFiles": [ "**/*.css" ]
 }

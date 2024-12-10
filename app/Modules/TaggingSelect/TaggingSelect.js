@@ -1,10 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue } from '../../../resources/scripts/helpers';
 
 /**
  * Tagging Select Field.
@@ -14,7 +11,6 @@ import {
  * @type {Object}
  */
 const TaggingSelect = {
-
 	/**
 	 * Initialize.
 	 *
@@ -29,8 +25,8 @@ const TaggingSelect = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -52,17 +48,21 @@ const TaggingSelect = {
 	 * @since 1.0.0
 	 */
 	initSelectize() {
-		jQuery( function() {
-			const taggingSelectElems = document.querySelectorAll( '.hacu-tagging-select__selectize' );
-			if ( taggingSelectElems.length > 0 ) {
-				taggingSelectElems.forEach( function( taggingSelectElem ) {
+		jQuery( () => {
+			const taggingSelectElems = document.querySelectorAll(
+				'.hacu-tagging-select__selectize'
+			);
+
+			if ( 0 < taggingSelectElems.length ) {
+				taggingSelectElems.forEach( ( taggingSelectElem ) => {
 					const maximum = taggingSelectElem.getAttribute( 'data-maximum' );
 					const elements = TaggingSelect.elements( taggingSelectElem );
 					if ( elements ) {
 						const { inputElem } = elements;
-						const getMaximum = function() {
+						// eslint-disable-next-line require-jsdoc
+						const getMaximum = () => {
 							const parsedMax = parseInt( maximum );
-							return ( parsedMax !== NaN && parsedMax > 0 ? parsedMax : null );
+							return parsedMax !== NaN && 0 < parsedMax ? parsedMax : null;
 						};
 
 						jQuery( taggingSelectElem ).selectize( {
@@ -71,6 +71,7 @@ const TaggingSelect = {
 							delimiter: ',',
 							persist: true,
 							create: false,
+							// eslint-disable-next-line require-jsdoc
 							onChange( value ) {
 								updateFieldValue( inputElem, value );
 							},

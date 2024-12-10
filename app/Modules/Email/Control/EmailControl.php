@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Email > Control > Email Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Email\Control;
 
 use Handy\Inc\Helper;
@@ -6,17 +16,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Email.
+ * The `EmailControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class EmailControl extends \WP_Customize_Control {
 
     /**
      * Holds placeholder.
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -25,18 +34,18 @@ final class EmailControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-email-'. $this->id;
+        return 'hacu-email-' . $this->id;
     }
 
     /**
      * Render Email Control Content
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -45,13 +54,12 @@ final class EmailControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-email">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
             ?>
 
             <input type="email" class="hacu-email__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" <?php $this->link(); ?> />

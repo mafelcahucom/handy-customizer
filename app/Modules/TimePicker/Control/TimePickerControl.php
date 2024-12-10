@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Time Picker > Control > Time Picker Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\TimePicker\Control;
 
 use Handy\Inc\Icon;
@@ -7,17 +17,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Time Picker.
+ * The `TimePickerControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class TimePickerControl extends \WP_Customize_Control {
 
     /**
      * Holds the placeholder.
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -26,7 +35,7 @@ final class TimePickerControl extends \WP_Customize_Control {
 
     /**
      * Holds the format whether civilian or military
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -35,39 +44,37 @@ final class TimePickerControl extends \WP_Customize_Control {
 
     /**
      * Enqueue styles and scripts.
-     * 
+     *
      * @since 1.0.0
+     *
+     * @return void
      */
     public function enqueue() {
-        if ( ! wp_style_is( 'flatpickr-css', 'enqueued' ) ) {
-            $source  = Helper::get_asset_src( 'flatpickr/flatpickr.min.css' );
-            $version = Helper::get_asset_version( 'flatpickr/flatpickr.min.css' );
-
-            wp_enqueue_style( 'flatpickr-css', $source, [], $version );
+        if ( ! wp_style_is( 'flatpickr', 'enqueued' ) ) {
+            wp_register_style( 'flatpickr', Helper::get_resource_src( 'flatpickr/flatpickr.min.css' ), array(), '1.0.0', 'all' );
+            wp_enqueue_style( 'flatpickr' );
         }
 
-        if ( ! wp_script_is( 'flatpickr-js', 'enqueued' ) ) {
-            $source  = Helper::get_asset_src( 'flatpickr/flatpickr.min.js' );
-            $version = Helper::get_asset_version( 'flatpickr/flatpickr.min.js' );
-
-            wp_enqueue_script( 'flatpickr-js', $source, [], $version, true );
+        if ( ! wp_script_is( 'flatpickr', 'enqueued' ) ) {
+            wp_register_script( 'flatpickr', Helper::get_resource_src( 'flatpickr/flatpickr.min.js' ), array(), '1.0.0', true );
+            wp_enqueue_script( 'flatpickr' );
         }
     }
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-time-picker-'. $this->id;
+        return 'hacu-time-picker-' . $this->id;
     }
 
     /**
      * Render Time Picker Control Content.
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -76,38 +83,30 @@ final class TimePickerControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-time-picker">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
 
-                // Input Hidden
-                echo Helper::get_hidden_input([
+                echo Helper::get_hidden_input(array(
                     'key_link'   => $this->get_link(),
-                    'attributes' => [
+                    'attributes' => array(
                         'class' => 'hacu-time-picker__input',
                         'id'    => $this->prefix_id(),
                         'name'  => $this->id,
-                        'value' => $this->value()
-                    ]
-                ]);
+                        'value' => $this->value(),
+                    ),
+                ));
             ?>
             
             <div class="hacu-time-picker__container" data-state="hidden">
                 <div class="hacu-col__left">
-                    <input
-                        type="text"
-                        class="hacu-time-picker__picker"
-                        placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-                        data-time="<?php echo esc_attr( $this->value() ); ?>"
-                        data-format="<?php echo esc_attr( $this->format ); ?>"
-                    />
+                    <input type="text" class="hacu-time-picker__picker" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" data-time="<?php echo esc_attr( $this->value() ); ?>" data-format="<?php echo esc_attr( $this->format ); ?>">
                 </div>
                 <div class="hacu-col__right">
-                    <button type="button" class="hacu-time-picker__toggle-btn hacu-btn-small" data-state="default" title="Open">
+                    <button type="button" class="hacu-time-picker__toggle-btn hacu-btn-small" data-state="default" title="<?php echo __( 'Open', 'handy-customizer' ); ?>">
                         <?php echo Icon::get( 'clock' ); ?>
                     </button>
                 </div>

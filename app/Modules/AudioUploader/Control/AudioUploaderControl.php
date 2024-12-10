@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Audio Uploader > Control > Audio Uploader Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\AudioUploader\Control;
 
 use Handy\Inc\Helper;
@@ -7,17 +17,16 @@ use Handy\Inc\Uploader;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Audio Uploader.
+ * The `AudioUploaderControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class AudioUploaderControl extends \WP_Customize_Control {
 
     /**
      * Holds placeholder.
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -26,7 +35,7 @@ final class AudioUploaderControl extends \WP_Customize_Control {
 
     /**
      * Holds defined extensions.
-     * 
+     *
      * @since 1.0.0
      *
      * @var array
@@ -35,8 +44,10 @@ final class AudioUploaderControl extends \WP_Customize_Control {
 
     /**
      * Enqueues style and scripts.
-     * 
+     *
      * @since 1.0.0
+     *
+     * @return void
      */
     public function enqueue() {
         if ( ! wp_style_is( 'wp-mediaelement', 'enqueued' ) ) {
@@ -44,24 +55,24 @@ final class AudioUploaderControl extends \WP_Customize_Control {
         }
 
         if ( ! wp_script_is( 'wp-mediaelement', 'enqueued' ) ) {
-            wp_enqueue_script('wp-mediaelement');
+            wp_enqueue_script( 'wp-mediaelement' );
         }
     }
 
     /**
      * Return the ID with prefix
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-audio-uploader-'. $this->id;
+        return 'hacu-audio-uploader-' . $this->id;
     }
 
     /**
      * Render Audio Uploader Control Content.
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -70,24 +81,22 @@ final class AudioUploaderControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-audio-uploader">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
 
-                // Render Uploader.
-                echo Uploader::render([
+                echo Uploader::render(array(
                     'type'        => 'audio',
                     'id'          => $this->prefix_id(),
                     'name'        => $this->id,
                     'value'       => $this->value(),
                     'key_link'    => $this->get_link(),
                     'extensions'  => $this->extensions,
-                    'placeholder' => $this->placeholder
-                ]);
+                    'placeholder' => $this->placeholder,
+                ));
             ?>
         </div>
         <?php

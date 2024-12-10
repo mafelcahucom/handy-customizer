@@ -7,7 +7,7 @@ import {
 	setAttribute,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Color Set Field.
@@ -17,7 +17,6 @@ import {
  * @type {Object}
  */
 const ColorSet = {
-
 	/**
 	 * Initialize.
 	 *
@@ -32,8 +31,8 @@ const ColorSet = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -50,18 +49,18 @@ const ColorSet = {
 	},
 
 	/**
-	 * On selecting item and update field value based on selected item.
+	 * On select item and update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-color-set__item', function( e ) {
+		eventListener( 'click', '.hacu-color-set__item', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
 			const value = target.getAttribute( 'data-value' );
 			const elements = ColorSet.elements( target );
-			if ( ! elements || state !== 'default' || value.length === 0 ) {
+			if ( ! elements || 'default' !== state || 0 === value.length ) {
 				return;
 			}
 

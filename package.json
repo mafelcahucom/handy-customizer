@@ -1,38 +1,31 @@
 {
-  "name": "handy-customizer",
-  "version": "1.0.0",
-  "description": "Handy Customizer is an open-source WordPress toolkit build for WordPress Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
-  "main": "app.js",
-  "scripts": {
-    "start": "gulp watch",
-    "lint-scss": "wp-scripts lint-style assets/src/scss/**/*.scss",
-    "lint-scss-fix": "wp-scripts lint-style assets/src/scss/**/*.scss --fix",
-    "lint-js": "wp-scripts lint-js assets/src/js/**/*.js",
-    "lint-js-fix": "wp-scripts lint-js assets/src/js/**/*.js --fix",
-    "lint-app-scss": "wp-scripts lint-style app/**/*.scss",
-    "lint-app-scss-fix": "wp-scripts lint-style app/**/*.scss --fix",
-    "lint-app-js": "wp-scripts lint-js app/**/*.js",
-    "lint-app-js-fix": "wp-scripts lint-js app/**/*.js --fix"
-  },
-  "author": "Mafel John Cahucom",
-  "license": "GPL-3.0-or-later",
-  "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.4",
-    "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.11.0",
-    "@wordpress/scripts": "^23.6.0",
-    "babelify": "^10.0.0",
-    "browserify": "^16.5.2",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-include": "^2.4.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.2",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
-  }
+	"name": "handy-customizer",
+	"version": "1.0.0",
+	"description": "Handy Customizer is an open-source WordPress toolkit build for WordPress Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code only.",
+	"main": "app.js",
+	"scripts": {
+		"build": "wp-scripts build --webpack-src-dir=resources --output-path=public",
+		"start": "wp-scripts start --webpack-src-dir=resources --output-path=public",
+		"lint:js": "wp-scripts lint-js",
+		"lint:js:fix": "wp-scripts lint-js --fix",
+		"lint:scss": "wp-scripts lint-style",
+		"lint:scss:fix": "wp-scripts lint-style --fix",
+		"lint:php": "cd vendor/bin/ && phpcs -s ",
+		"lint:php:fix": "cd vendor/bin/ && phpcbf ",
+		"lint:md:docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"test:unit:js": "wp-scripts test-unit-js",
+		"test:unit:php": "php vendor/bin/phpunit",
+		"format": "wp-scripts format ./resources/",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"author": "Mafel John Cahucom",
+	"license": "GPL-3.0-or-later",
+	"devDependencies": {
+		"@wordpress/scripts": "^29.0.0",
+		"path": "^0.12.7",
+		"webpack-remove-empty-scripts": "^1.0.4"
+	}
 }

@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Number > Control > Number Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Number\Control;
 
 use Handy\Inc\Helper;
@@ -6,17 +16,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Number.
+ * The `NumberControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class NumberControl extends \WP_Customize_Control {
 
     /**
      * Holds placeholder.
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -25,18 +34,18 @@ final class NumberControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-number-'. $this->id;
+        return 'hacu-number-' . $this->id;
     }
 
     /**
      * Render Number Control Content
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -45,13 +54,12 @@ final class NumberControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-number">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
             ?>
 
             <input type="number" class="hacu-number__input" id="<?php echo esc_attr( $this->prefix_id() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" placeholder="<?php echo esc_attr( $this->placeholder ); ?>" <?php $this->link(); ?> />

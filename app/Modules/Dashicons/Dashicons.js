@@ -6,7 +6,7 @@ import {
 	setAttribute,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Dashicons Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const Dashicons = {
-
 	/**
 	 * Initialize.
 	 *
@@ -31,8 +30,8 @@ const Dashicons = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -49,18 +48,18 @@ const Dashicons = {
 	},
 
 	/**
-	 * On selecting item and update field value based on selected item
+	 * On select item and update field value based on selected item
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-dashicons__item', function( e ) {
+		eventListener( 'click', '.hacu-dashicons__item', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const value = target.getAttribute( 'data-value' );
 			const state = target.getAttribute( 'data-state' );
 			const elements = Dashicons.elements( target );
-			if ( ! elements || value.length === 0 || state !== 'default' ) {
+			if ( ! elements || 0 === value.length || 'default' !== state ) {
 				return;
 			}
 

@@ -23,8 +23,8 @@
 		border-radius: 4px;
 
 		&[data-state="active"] {
-			border: 1px solid $clr-blue-1;
-			box-shadow: 0 0 0 1px $clr-blue-1;
+			border: 1px solid $color-blue-1;
+			box-shadow: 0 0 0 1px $color-blue-1;
 		}
 
 		* {

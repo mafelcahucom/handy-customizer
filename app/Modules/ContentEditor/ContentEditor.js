@@ -6,7 +6,6 @@
  * @type {Object}
  */
 const ContentEditor = {
-
 	/**
 	 * Initialize.
 	 *
@@ -23,21 +22,24 @@ const ContentEditor = {
 	 * @since 1.0.0
 	 */
 	initTinyMCE() {
-		jQuery( function() {
+		jQuery( () => {
 			const textareaElems = document.querySelectorAll( '.hacu-content-editor__textarea' );
-			if ( textareaElems.length > 0 ) {
-				textareaElems.forEach( function( textareaElem ) {
+			if ( 0 < textareaElems.length ) {
+				textareaElems.forEach( ( textareaElem ) => {
 					const id = textareaElem.getAttribute( 'id' );
-					if ( id.length > 0 ) {
-						const getUploader = function() {
+					if ( 0 < id.length ) {
+						// eslint-disable-next-line require-jsdoc
+						const getUploader = () => {
 							const uploader = textareaElem.getAttribute( 'data-uploader' );
-							return ( uploader.length === 0 || ! uploader ? false : true );
+							return 0 === uploader.length || ! uploader ? false : true;
 						};
 
-						const getToolbars = function() {
+						// eslint-disable-next-line require-jsdoc
+						const getToolbars = () => {
 							const toolbars = textareaElem.getAttribute( 'data-toolbars' );
-							const defaultToolbars = 'bold italic bullist numlist alignleft aligncenter alignright link unlink wp_more spellchecker underline alignjustify forecolor formatselect';
-							return ( toolbars.length === 0 ? defaultToolbars : toolbars );
+							const defaultToolbars =
+								'bold italic bullist numlist alignleft aligncenter alignright link unlink wp_more spellchecker underline alignjustify forecolor formatselect';
+							return 0 === toolbars.length ? defaultToolbars : toolbars;
 						};
 
 						wp.editor.initialize( id, {
@@ -56,13 +58,14 @@ const ContentEditor = {
 	},
 
 	/**
-	 * Trigger event on editor updated or changed value.
+	 * On trigger event on editor updated or changed value.
 	 *
 	 * @since 1.0.0
 	 */
 	onEditorUpdate() {
-		jQuery( document ).on( 'tinymce-editor-init', function( event, editor ) {
-			editor.on( 'change', function() {
+		jQuery( document ).on( 'tinymce-editor-init', ( event, editor ) => {
+			editor.on( 'change', () => {
+				// eslint-disable-next-line no-undef
 				tinyMCE.triggerSave();
 				jQuery( `#${ editor.id }` ).trigger( 'change' );
 			} );

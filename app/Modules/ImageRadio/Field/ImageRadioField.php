@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Image Radio > Field > Image Radio Field.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\ImageRadio\Field;
 
 use Handy\Core\Setting;
@@ -8,67 +18,66 @@ use Handy\Modules\ImageRadio\Control\ImageRadioControl;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Image Radio.
+ * The `ImageRadioField` class contains the settings,
+ * sanitization and validation.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class ImageRadioField extends Setting {
 
     /**
      * Return the validated default value.
-     * 
+     *
      * @since 1.0.0
-     * 
-     * @param  array  $validated  Contains the validated arguments.
+     *
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_default( $validated ) {
-        return ( array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : '' );
+        return array_key_exists( $validated['default'], $validated['choices'] ) ? $validated['default'] : '';
     }
 
     /**
      * Return the validated size value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_size( $validated ) {
         if ( ! isset( $validated['size'] ) || empty( $validated['size'] ) ) {
-            return [
+            return array(
                 'width'  => 'max-content',
-                'height' => 'auto'
-            ];
+                'height' => 'auto',
+            );
         }
 
-        return [
-            'width'  => ( isset( $validated['width'] ) ? $validated['width'] : 'max-content' ),
-            'height' => ( isset( $validated['height'] ) ? $validated['height'] : 'auto' )
-        ];
+        return array(
+            'width'  => isset( $validated['size']['width'] ) ? $validated['size']['width'] : 'max-content',
+            'height' => isset( $validated['size']['height'] ) ? $validated['size']['height'] : 'auto',
+        );
     }
 
     /**
      * Return the validated display value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_display( $validated ) {
-        $is_valid_display = ( isset( $validated['display'] ) && in_array( $validated['display'], [ 'inline', 'block' ] ) );
-        return ( $is_valid_display ? $validated['display'] : 'inline' );
+        $is_valid_display = isset( $validated['display'] ) && in_array( $validated['display'], array( 'inline', 'block' ), true );
+        return $is_valid_display ? $validated['display'] : 'inline';
     }
 
     /**
      * Return the validated choices value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return array
      */
     private function get_validated_choices( $validated ) {
@@ -79,16 +88,16 @@ final class ImageRadioField extends Setting {
 
     /**
      * Return the predetermined default validations.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_default_validations( $validated ) {
-        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), [ '__' ] ) );
+        $parameters  = implode( ',', array_merge( array_keys( $validated['choices'] ), array( '__' ) ) );
         $validation  = "in_choices[{$parameters}]";
-        $validations = [ $validation ];
+        $validations = array( $validation );
         if ( isset( $validated['validations'] ) ) {
             $validations = $validated['validations'];
             array_unshift( $validations, $validation );
@@ -99,82 +108,82 @@ final class ImageRadioField extends Setting {
 
     /**
      * Render Image Radio Control.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render image radio control.
+     * @param  object $customize Contains the instance of WP_Customize_Manager.
+     * @param  array  $args      Contains the necessary arguments to render image radio control.
      * $args = [
-     *      'id'                => (string)  The unique slug like string to be used as an id.
-     *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (string)  The default value of the control.
-     *      'label'             => (string)  The label of the control.
-     *      'description'       => (string)  The description of the control.
-     *      'priority'          => (integer) The order of control appears in the section. 
-     *      'validations'       => (array)   The list of built-in and custom validations.
-     *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'display'           => (string)  The display of item choices, can contain block and inline only.
-     *      'size'              => (array)   The size of each item choices, must contain width and height.
-     *      'choices'           => (array)   The list of choices must contain image and title
+     *     'id'                => (string)  Contais the unique slug like string to be used as an id.
+     *     'section'           => (string)  Contais the section where the control belongs to.
+     *     'default'           => (string)  Contais the default value of the control.
+     *     'label'             => (string)  Contais the label of the control.
+     *     'description'       => (string)  Contais the description of the control.
+     *     'priority'          => (integer) Contais the order of control appears in the section.
+     *     'validations'       => (array)   Contais the list of built-in and custom validations.
+     *     'active_callback'   => (object)  Contais the callback function whether to show control, must always return true.
+     *     'sanitize_callback' => (object)  Contais the callback function to sanitize the value before saving in database.
+     *     'display'           => (string)  Contais the display of item choices, can contain block and inline only.
+     *     'size'              => (array)   Contais the size of each item choices, must contain width and height.
+     *     'choices'           => (array)   Contais the list of choices must contain image and title
      * ]
      * @return void
      */
-    public function render( $customize, $args = [] ) {
+    public function render( $customize, $args = array() ) {
         if ( empty( $customize ) || empty( $args ) ) {
             return;
         }
 
-        $schema = [
-            'id'                => [
+        $schema = array(
+            'id'                => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'section'           => [
+                'required' => true,
+            ),
+            'section'           => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'default'           => [
-                'type'     => 'string',
-                'required' => false,
-            ],
-            'label'             => [
+                'required' => true,
+            ),
+            'default'           => array(
                 'type'     => 'string',
                 'required' => false,
-            ],
-            'description'       => [
+            ),
+            'label'             => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'priority'          => [
+                'required' => false,
+            ),
+            'description'       => array(
+                'type'     => 'string',
+                'required' => false,
+            ),
+            'priority'          => array(
                 'type'     => 'integer',
-                'required' => false
-            ],
-            'validations'       => [
+                'required' => false,
+            ),
+            'validations'       => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'active_callback'   => [
+                'required' => false,
+            ),
+            'active_callback'   => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'sanitize_callback' => [
+                'required' => false,
+            ),
+            'sanitize_callback' => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'display'           => [
+                'required' => false,
+            ),
+            'display'           => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'size'              => [
+                'required' => false,
+            ),
+            'size'              => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'choices'           => [
+                'required' => false,
+            ),
+            'choices'           => array(
                 'type'     => 'array',
-                'required' => true
-            ]
-        ];
+                'required' => true,
+            ),
+        );
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {

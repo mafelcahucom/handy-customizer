@@ -6,7 +6,7 @@ import {
 	isValidDate,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Date Picker Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const DatePicker = {
-
 	/**
 	 * Initialize.
 	 *
@@ -32,8 +31,8 @@ const DatePicker = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -59,10 +58,10 @@ const DatePicker = {
 	 * @since 1.0.0
 	 */
 	initFlatpickr() {
-		jQuery( function() {
+		jQuery( () => {
 			const datePickerElems = document.querySelectorAll( '.hacu-date-picker__picker' );
-			if ( datePickerElems.length > 0 ) {
-				datePickerElems.forEach( function( datePickerElem ) {
+			if ( 0 < datePickerElems.length ) {
+				datePickerElems.forEach( ( datePickerElem ) => {
 					const target = datePickerElem;
 					const dates = target.getAttribute( 'data-dates' );
 					const mode = target.getAttribute( 'data-mode' );
@@ -70,33 +69,41 @@ const DatePicker = {
 					const elements = DatePicker.elements( target );
 					if ( elements ) {
 						const { inputElem } = elements;
-						const isEnabledTime = function() {
-							return ( enableTime ? true : false );
+						// eslint-disable-next-line require-jsdoc
+						const isEnabledTime = () => {
+							return enableTime ? true : false;
 						};
 
-						const getMode = function() {
-							return ( [ 'single', 'range' ].includes( mode ) ? mode : 'single' );
+						// eslint-disable-next-line require-jsdoc
+						const getMode = () => {
+							return [ 'single', 'range' ].includes( mode ) ? mode : 'single';
 						};
 
-						const getDateFormat = function() {
-							return ( isEnabledTime() ? 'Y-m-d H:i' : 'Y-m-d' );
+						// eslint-disable-next-line require-jsdoc
+						const getDateFormat = () => {
+							return isEnabledTime() ? 'Y-m-d H:i' : 'Y-m-d';
 						};
 
-						const getAltFormat = function() {
-							return ( isEnabledTime() ? 'F j, Y H:i' : 'F j, Y' );
+						// eslint-disable-next-line require-jsdoc
+						const getAltFormat = () => {
+							return isEnabledTime() ? 'F j, Y H:i' : 'F j, Y';
 						};
 
-						const getDefaultDates = function() {
+						// eslint-disable-next-line require-jsdoc
+						const getDefaultDates = () => {
 							const defaultDates = [];
-							if ( dates.length > 0 ) {
+							if ( 0 < dates.length ) {
 								const currentDates = dates.split( ',' );
-								currentDates.forEach( function( currentDate ) {
+								currentDates.forEach( ( currentDate ) => {
 									const newDate = new Date( currentDate );
 									if ( isValidDate( newDate ) ) {
-										const getFullDate = function() {
-											const date = `${ newDate.getFullYear() }-${ newDate.getMonth() + 1 }-${ newDate.getDate() }`;
+										// eslint-disable-next-line require-jsdoc
+										const getFullDate = () => {
+											const date = `${ newDate.getFullYear() }-${
+												newDate.getMonth() + 1
+											}-${ newDate.getDate() }`;
 											const time = `${ newDate.getHours() }:${ newDate.getMinutes() }`;
-											return ( isEnabledTime() ? `${ date } ${ time }` : date );
+											return isEnabledTime() ? `${ date } ${ time }` : date;
 										};
 
 										defaultDates.push( getFullDate() );
@@ -104,7 +111,7 @@ const DatePicker = {
 								} );
 							}
 
-							return ( defaultDates.length > 0 ? defaultDates : 'today' );
+							return 0 < defaultDates.length ? defaultDates : 'today';
 						};
 
 						target.flatpickr( {
@@ -116,8 +123,10 @@ const DatePicker = {
 							defaultDate: getDefaultDates(),
 							altFormat: getAltFormat(),
 							time_24hr: true,
+							// eslint-disable-next-line require-jsdoc
 							onChange( selected ) {
-								const selectedDates = selected.map( function( date ) {
+								const selectedDates = selected.map( ( date ) => {
+									// eslint-disable-next-line no-undef
 									return flatpickr.formatDate( date, getDateFormat() );
 								} );
 
@@ -136,7 +145,7 @@ const DatePicker = {
 	 * @since 1.0.0
 	 */
 	onTogglePicker() {
-		eventListener( 'click', '.hacu-date-picker__toggle-btn', function( e ) {
+		eventListener( 'click', '.hacu-date-picker__toggle-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
@@ -146,9 +155,9 @@ const DatePicker = {
 			}
 
 			const { containerElem } = elements;
-			containerElem.setAttribute( 'data-state', ( state === 'default' ? 'visible' : 'hidden' ) );
-			target.setAttribute( 'data-state', ( state === 'default' ? 'active' : 'default' ) );
-			target.setAttribute( 'title', ( state === 'default' ? 'Close' : 'Open' ) );
+			containerElem.setAttribute( 'data-state', 'default' === state ? 'visible' : 'hidden' );
+			target.setAttribute( 'data-state', 'default' === state ? 'active' : 'default' );
+			target.setAttribute( 'title', 'default' === state ? 'Close' : 'Open' );
 		} );
 	},
 };

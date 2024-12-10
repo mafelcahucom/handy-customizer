@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Audio Uploader > Field > Audio Uploader Field.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\AudioUploader\Field;
 
 use Handy\Core\Setting;
@@ -9,67 +19,67 @@ use Handy\Modules\AudioUploader\Control\AudioUploaderControl;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Audio Uploader.
+ * The `AudioUploaderField` class contains the settings,
+ * sanitization and validation.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class AudioUploaderField extends Setting {
 
     /**
      * Return the list of allowed extensions.
-     * 
+     *
      * @since 1.0.0
      *
      * @return array
      */
     private function allowed_extensions() {
-        return [ 'mp3', 'mpg', 'm4a', 'ogg', 'wav' ];
+        return array( 'mp3', 'mpg', 'm4a', 'ogg', 'wav' );
     }
 
     /**
      * Return the validated default value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_default( $validated ) {
         $file = Helper::get_file_meta( $validated['default'] );
-        return ( ! empty( $file ) && in_array( $file['extension'], $validated['extensions'] ) ? $validated['default'] : '' );
+        // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+        return ! empty( $file ) && in_array( $file['extension'], $validated['extensions'] ) ? $validated['default'] : '';
     }
 
     /**
      * Return the validated extensions value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return array
      */
     private function get_validated_extensions( $validated ) {
-        $extensions = [];
+        $extensions = array();
         if ( isset( $validated['extensions'] ) ) {
             $extensions = Helper::get_intersected( $validated['extensions'], $this->allowed_extensions() );
         }
 
-        return ( ! empty( $extensions ) ? $extensions : $this->allowed_extensions() );
+        return ! empty( $extensions ) ? $extensions : $this->allowed_extensions();
     }
 
     /**
      * Return the predetermined default validations.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_default_validations( $validated ) {
-        $parameters  = implode( ',', array_merge( $validated['extensions'], [ '__' ] ) );
+        $parameters  = implode( ',', array_merge( $validated['extensions'], array( '__' ) ) );
         $validation  = "valid_attachment[{$parameters}]";
-        $validations = [ $validation ];
+        $validations = array( $validation );
         if ( isset( $validated['validations'] ) ) {
             $validations = $validated['validations'];
             array_unshift( $validations, $validation );
@@ -80,77 +90,77 @@ final class AudioUploaderField extends Setting {
 
     /**
      * Render Audio Uploader Control.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render audio uploader control.
+     * @param  object $customize Contains the instance of WP_Customize_Manager.
+     * @param  array  $args      Contains the necessary arguments to render audio uploader control.
      * $args = [
-     *      'id'                => (string)  The unique slug like string to be used as an id.
-     *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (number)  The default value of the control.
-     *      'label'             => (string)  The label of the control.
-     *      'description'       => (string)  The description of the control.
-     *      'placeholder'       => (string)  The placeholder of the control.
-     *      'priority'          => (integer) The order of control appears in the section. 
-     *      'validations'       => (array)   The list of built-in and custom validations.
-     *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'extensions'        => (array)   The defined extensions that are allowed
+     *     'id'                => (string)  Contains the unique slug like string to be used as an id.
+     *     'section'           => (string)  Contains the section where the control belongs to.
+     *     'default'           => (number)  Contains the default value of the control.
+     *     'label'             => (string)  Contains the label of the control.
+     *     'description'       => (string)  Contains the description of the control.
+     *     'placeholder'       => (string)  Contains the placeholder of the control.
+     *     'priority'          => (integer) Contains the order of control appears in the section.
+     *     'validations'       => (array)   Contains the list of built-in and custom validations.
+     *     'active_callback'   => (object)  Contains the callback function whether to show control, must always return true.
+     *     'sanitize_callback' => (object)  Contains the callback function to sanitize the value before saving in database.
+     *     'extensions'        => (array)   Contains the defined extensions that are allowed
      * ]
      * @return void
      */
-    public function render( $customize, $args = [] ) {
+    public function render( $customize, $args = array() ) {
         if ( empty( $customize ) || empty( $args ) ) {
             return;
         }
 
-        $schema = [
-            'id'                => [
+        $schema = array(
+            'id'                => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'section'           => [
+                'required' => true,
+            ),
+            'section'           => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'default'           => [
+                'required' => true,
+            ),
+            'default'           => array(
                 'type'     => 'number',
                 'required' => false,
-            ],
-            'label'             => [
+            ),
+            'label'             => array(
                 'type'     => 'string',
                 'required' => false,
-            ],
-            'description'       => [
+            ),
+            'description'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'placeholder'       => [
+                'required' => false,
+            ),
+            'placeholder'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'priority'          => [
+                'required' => false,
+            ),
+            'priority'          => array(
                 'type'     => 'integer',
-                'required' => false
-            ],
-            'validations'       => [
+                'required' => false,
+            ),
+            'validations'       => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'active_callback'   => [
+                'required' => false,
+            ),
+            'active_callback'   => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'sanitize_callback' => [
+                'required' => false,
+            ),
+            'sanitize_callback' => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'extensions'        => [
+                'required' => false,
+            ),
+            'extensions'        => array(
                 'type'     => 'array',
-                'required' => false
-            ]
-        ];
+                'required' => false,
+            ),
+        );
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {

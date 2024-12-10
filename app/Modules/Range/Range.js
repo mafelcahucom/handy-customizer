@@ -1,10 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	eventListener,
-} from '../../../assets/src/js/helpers';
+import { queryElement, eventListener } from '../../../resources/scripts/helpers';
 
 /**
  * Range Field.
@@ -14,7 +11,6 @@ import {
  * @type {Object}
  */
 const Range = {
-
 	/**
 	 * Initialize.
 	 *
@@ -29,8 +25,8 @@ const Range = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -47,12 +43,12 @@ const Range = {
 	},
 
 	/**
-	 * On updating the value and update output text content
+	 * On update the value and update output text content
 	 *
 	 * @since 1.0.0
 	 */
 	onUpdateValue() {
-		eventListener( 'input', '.hacu-range__input', function( e ) {
+		eventListener( 'input', '.hacu-range__input', ( e ) => {
 			const target = e.target;
 			const elements = Range.elements( target );
 			if ( ! elements ) {

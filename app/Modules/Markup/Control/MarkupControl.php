@@ -1,20 +1,29 @@
 <?php
+/**
+ * App > Modules > Markup > Control > Markup Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Markup\Control;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Markup.
+ * The `MarkupControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class MarkupControl extends \WP_Customize_Control {
 
     /**
      * Holds HTML Markup.
-     * 
+     *
      * @since 1.0.0
      *
      * @var string
@@ -23,7 +32,7 @@ final class MarkupControl extends \WP_Customize_Control {
 
     /**
      * Render Markup Control Content
-     * 
+     *
      * @since 1.0.0
      *
      * @return void

@@ -1,10 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue } from '../../../resources/scripts/helpers';
 
 /**
  * Tagging Field.
@@ -14,7 +11,6 @@ import {
  * @type {Object}
  */
 const Tagging = {
-
 	/**
 	 * Initialize.
 	 *
@@ -29,8 +25,8 @@ const Tagging = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -52,17 +48,18 @@ const Tagging = {
 	 * @since 1.0.0
 	 */
 	initSelectize() {
-		jQuery( function() {
+		jQuery( () => {
 			const taggingElems = document.querySelectorAll( '.hacu-tagging__selectize' );
-			if ( taggingElems.length > 0 ) {
-				taggingElems.forEach( function( taggingElem ) {
+			if ( 0 < taggingElems.length ) {
+				taggingElems.forEach( ( taggingElem ) => {
 					const maximum = taggingElem.getAttribute( 'data-maximum' );
 					const elements = Tagging.elements( taggingElem );
 					if ( elements ) {
 						const { inputElem } = elements;
-						const getMaximum = function() {
+						// eslint-disable-next-line require-jsdoc
+						const getMaximum = () => {
 							const parsedMax = parseInt( maximum );
-							return ( parsedMax !== NaN && parsedMax > 0 ? parsedMax : null );
+							return parsedMax !== NaN && 0 < parsedMax ? parsedMax : null;
 						};
 
 						jQuery( taggingElem ).selectize( {
@@ -70,12 +67,14 @@ const Tagging = {
 							maxItems: getMaximum(),
 							delimiter: ',',
 							persist: false,
+							// eslint-disable-next-line require-jsdoc
 							create( value ) {
 								return {
 									value,
 									text: value,
 								};
 							},
+							// eslint-disable-next-line require-jsdoc
 							onChange( value ) {
 								updateFieldValue( inputElem, value );
 							},

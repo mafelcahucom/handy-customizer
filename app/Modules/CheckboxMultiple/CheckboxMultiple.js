@@ -6,7 +6,7 @@ import {
 	getExplodedValue,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Checkbox Multiple Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const CheckboxMultiple = {
-
 	/**
 	 * Initialize.
 	 *
@@ -31,8 +30,8 @@ const CheckboxMultiple = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -49,16 +48,16 @@ const CheckboxMultiple = {
 	},
 
 	/**
-	 * On selecting checkbox & update field value based on selected item.
+	 * On select checkbox & update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectCheckbox() {
-		eventListener( 'change', '.hacu-checkbox-multiple__box', function( e ) {
+		eventListener( 'change', '.hacu-checkbox-multiple__box', ( e ) => {
 			const target = e.target;
 			const value = target.value;
 			const elements = CheckboxMultiple.elements( target );
-			if ( ! elements || value.length === 0 ) {
+			if ( ! elements || 0 === value.length ) {
 				return;
 			}
 
@@ -70,7 +69,7 @@ const CheckboxMultiple = {
 				}
 			} else {
 				const index = checked.indexOf( value );
-				if ( index !== -1 ) {
+				if ( -1 !== index ) {
 					checked.splice( index, 1 );
 				}
 			}

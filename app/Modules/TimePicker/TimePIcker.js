@@ -1,11 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-	eventListener,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue, eventListener } from '../../../resources/scripts/helpers';
 
 /**
  * Time Picker Field.
@@ -15,7 +11,6 @@ import {
  * @type {Object}
  */
 const TimePicker = {
-
 	/**
 	 * Initialize.
 	 *
@@ -31,8 +26,8 @@ const TimePicker = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -58,22 +53,24 @@ const TimePicker = {
 	 * @since 1.0.0
 	 */
 	initFlatpickr() {
-		jQuery( function() {
+		jQuery( () => {
 			const timePickerElems = document.querySelectorAll( '.hacu-time-picker__picker' );
-			if ( timePickerElems.length > 0 ) {
-				timePickerElems.forEach( function( timePickerElem ) {
+			if ( 0 < timePickerElems.length ) {
+				timePickerElems.forEach( ( timePickerElem ) => {
 					const target = timePickerElem;
 					const time = target.getAttribute( 'data-time' );
 					const format = target.getAttribute( 'data-format' );
 					const elements = TimePicker.elements( target );
 					if ( elements ) {
 						const { inputElem } = elements;
-						const is24HourFormat = function() {
-							return ( format === 'military' ? true : false );
+						// eslint-disable-next-line require-jsdoc
+						const is24HourFormat = () => {
+							return 'military' === format ? true : false;
 						};
 
-						const getFormat = function() {
-							return ( is24HourFormat() ? 'H:i' : 'h:i K' );
+						// eslint-disable-next-line require-jsdoc
+						const getFormat = () => {
+							return is24HourFormat() ? 'H:i' : 'h:i K';
 						};
 
 						target.flatpickr( {
@@ -85,14 +82,20 @@ const TimePicker = {
 							altFormat: getFormat(),
 							time_24hr: is24HourFormat(),
 							defaultDate: time,
+							// eslint-disable-next-line require-jsdoc
 							onChange( selected ) {
-								let updatedTime = ( selected.length > 0 ? flatpickr.formatDate( selected[ 0 ], getFormat() ) : '' );
+								/* eslint-disable no-undef */
+								let updatedTime =
+									0 < selected.length
+										? flatpickr.formatDate( selected[ 0 ], getFormat() )
+										: '';
+								/* eslint-enable */
 								if ( ! is24HourFormat() ) {
-									if ( updatedTime.length > 0 ) {
+									if ( 0 < updatedTime.length ) {
 										const splitted = updatedTime.split( ':' );
-										if ( splitted.length === 2 ) {
+										if ( 2 === splitted.length ) {
 											const hour = parseInt( splitted[ 0 ] );
-											if ( hour >= 0 && hour <= 9 ) {
+											if ( 0 <= hour && 9 >= hour ) {
 												updatedTime = '0' + updatedTime;
 											}
 										}
@@ -114,7 +117,7 @@ const TimePicker = {
 	 * @since 1.0.0
 	 */
 	onTogglePicker() {
-		eventListener( 'click', '.hacu-time-picker__toggle-btn', function( e ) {
+		eventListener( 'click', '.hacu-time-picker__toggle-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
@@ -124,9 +127,9 @@ const TimePicker = {
 			}
 
 			const { containerElem } = elements;
-			containerElem.setAttribute( 'data-state', ( state === 'default' ? 'visible' : 'hidden' ) );
-			target.setAttribute( 'data-state', ( state === 'default' ? 'active' : 'default' ) );
-			target.setAttribute( 'title', ( state === 'default' ? 'Close' : 'Open' ) );
+			containerElem.setAttribute( 'data-state', 'default' === state ? 'visible' : 'hidden' );
+			target.setAttribute( 'data-state', 'default' === state ? 'active' : 'default' );
+			target.setAttribute( 'title', 'default' === state ? 'Close' : 'Open' );
 		} );
 	},
 };

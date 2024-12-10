@@ -6,7 +6,7 @@ import {
 	isNumber,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Counter Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const Counter = {
-
 	/**
 	 * Holds the keypress timer.
 	 *
@@ -41,8 +40,8 @@ const Counter = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -67,18 +66,18 @@ const Counter = {
 	},
 
 	/**
-	 * Execute the event decrementing and incrementing
+	 * on execute the event decrementing and incrementing
 	 *
 	 * @since 1.0.0
 	 */
 	onExecuteEvent() {
-		eventListener( 'click', '.hacu-counter__control-btn', function( e ) {
+		eventListener( 'click', '.hacu-counter__control-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const state = target.getAttribute( 'data-state' );
 			const event = target.getAttribute( 'data-event' );
 			const elements = Counter.elements( target );
-			if ( ! elements || state !== 'default' || ! [ '-', '+' ].includes( event ) ) {
+			if ( ! elements || 'default' !== state || ! [ '-', '+' ].includes( event ) ) {
 				return;
 			}
 
@@ -87,13 +86,14 @@ const Counter = {
 			let min = inputElem.getAttribute( 'data-min' );
 			let max = inputElem.getAttribute( 'data-max' );
 			let step = inputElem.getAttribute( 'data-step' );
-			const isValidMinMax = ( isNumber( min ) && isNumber( max ) );
+			const isValidMinMax = isNumber( min ) && isNumber( max );
 
-			value = ( isNumber( value ) ? parseFloat( value ) : 0 );
-			min = ( isNumber( min ) ? parseFloat( min ) : 0 );
-			max = ( isNumber( max ) ? parseFloat( max ) : 0 );
-			step = ( isNumber( step ) ? parseFloat( step ) : 1 );
+			value = isNumber( value ) ? parseFloat( value ) : 0;
+			min = isNumber( min ) ? parseFloat( min ) : 0;
+			max = isNumber( max ) ? parseFloat( max ) : 0;
+			step = isNumber( step ) ? parseFloat( step ) : 1;
 
+			/* eslint-disable indent */
 			switch ( event ) {
 				case '-':
 					if ( isValidMinMax ) {
@@ -126,18 +126,20 @@ const Counter = {
 					}
 					break;
 			}
+			/* eslint-enable */
 
 			updateFieldValue( inputElem, value );
 		} );
 	},
 
 	/**
-	 * Execute event when input value change.
+	 * On execute event when input value change.
 	 *
 	 * @since 1.0.0
 	 */
 	onInputChange() {
-		const callback = function( e ) {
+		// eslint-disable-next-line require-jsdoc
+		const callback = ( e ) => {
 			const target = e.target;
 			const elements = Counter.elements( target );
 			if ( ! elements ) {
@@ -147,10 +149,10 @@ const Counter = {
 			const { decrementBtnElem, incrementBtnElem } = elements;
 			let min = target.getAttribute( 'data-min' );
 			let max = target.getAttribute( 'data-max' );
-			const isValidMinMax = ( isNumber( min ) && isNumber( max ) );
+			const isValidMinMax = isNumber( min ) && isNumber( max );
 
 			clearTimeout( Counter.timer );
-			Counter.timer = setTimeout( function() {
+			Counter.timer = setTimeout( () => {
 				let value = target.value;
 				if ( isNumber( value ) ) {
 					if ( isValidMinMax ) {
@@ -176,7 +178,7 @@ const Counter = {
 						}
 					}
 				} else {
-					target.value = ( isValidMinMax ? min : 0 );
+					target.value = isValidMinMax ? min : 0;
 				}
 			}, 500 );
 		};

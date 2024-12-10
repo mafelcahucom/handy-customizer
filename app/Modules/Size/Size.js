@@ -7,7 +7,7 @@ import {
 	updateFieldValue,
 	eventListener,
 	setAttribute,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Size Field.
@@ -17,7 +17,6 @@ import {
  * @type {Object}
  */
 const Size = {
-
 	/**
 	 * Holds the keypress timer.
 	 *
@@ -43,8 +42,8 @@ const Size = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -73,7 +72,7 @@ const Size = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} input The hidden input element.
+	 * @param {Object} input Contains the hidden input element.
 	 */
 	updateValue( input ) {
 		if ( input ) {
@@ -89,7 +88,7 @@ const Size = {
 	 * @since 1.0.0
 	 */
 	onToggleDropdown() {
-		eventListener( 'click', '.hacu-size__dropdown-btn', function( e ) {
+		eventListener( 'click', '.hacu-size__dropdown-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const elements = Size.elements( target );
@@ -100,7 +99,7 @@ const Size = {
 			const { dropdownElem } = elements;
 			const state = target.getAttribute( 'data-state' );
 			if ( [ 'closed', 'opened' ].includes( state ) ) {
-				const updatedState = ( state === 'closed' ? 'opened' : 'closed' );
+				const updatedState = 'closed' === state ? 'opened' : 'closed';
 				target.setAttribute( 'data-state', updatedState );
 				dropdownElem.setAttribute( 'data-state', updatedState );
 			}
@@ -108,12 +107,12 @@ const Size = {
 	},
 
 	/**
-	 * Update or select the unit size in hidden input.
+	 * On update or select the unit size in hidden input.
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectUnit() {
-		eventListener( 'click', '.hacu-size__dropdown__li', function( e ) {
+		eventListener( 'click', '.hacu-size__dropdown__li', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const elements = Size.elements( target );
@@ -125,8 +124,13 @@ const Size = {
 			const { parentElem, inputElem, dropdownElem, dropdownBtnElem } = elements;
 			const state = target.getAttribute( 'data-state' );
 			const value = target.getAttribute( 'data-value' );
-			if ( state === 'default' || value.length > 0 ) {
-				setAttribute.child( parentElem, '.hacu-size__dropdown__li', 'data-state', 'default' );
+			if ( 'default' === state || 0 < value.length ) {
+				setAttribute.child(
+					parentElem,
+					'.hacu-size__dropdown__li',
+					'data-state',
+					'default'
+				);
 				target.setAttribute( 'data-state', 'active' );
 
 				dropdownBtnElem.textContent = value;
@@ -140,12 +144,13 @@ const Size = {
 	},
 
 	/**
-	 * Update or type the number size value.
+	 * On change or type the number size value.
 	 *
 	 * @since 1.0.0
 	 */
 	onChangeNumber() {
-		const callback = function( e ) {
+		// eslint-disable-next-line require-jsdoc
+		const callback = ( e ) => {
 			const target = e.target;
 			const elements = Size.elements( target );
 			if ( ! elements ) {
@@ -154,8 +159,8 @@ const Size = {
 
 			const { inputElem } = elements;
 			clearTimeout( Size.timer );
-			Size.timer = setTimeout( function() {
-				const value = ( isNumber( target.value ) ? target.value : '' );
+			Size.timer = setTimeout( () => {
+				const value = isNumber( target.value ) ? target.value : '';
 				target.value = value;
 				inputElem.setAttribute( 'data-size', value );
 				Size.updateValue( inputElem );

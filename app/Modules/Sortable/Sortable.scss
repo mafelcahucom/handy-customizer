@@ -12,10 +12,10 @@
 		display: flex;
 		align-items: center;
 		padding: 5px 10px;
-		fill: $clr-black-2;
-		color: $clr-black-2;
-		background-color: $clr-white-1;
-		border: 1px solid $clr-gray-1;
+		fill: $color-black-2;
+		color: $color-black-2;
+		background-color: $color-white-1;
+		border: 1px solid $color-gray-1;
 		border-radius: 4px;
 
 		&[data-state="enabled"] {
@@ -24,15 +24,15 @@
 
 		&[data-state="disabled"] {
 			cursor: not-allowed;
-			fill: $clr-gray-4;
-			color: $clr-gray-4;
-			border-color: $clr-gray-4;
+			fill: $color-gray-4;
+			color: $color-gray-4;
+			border-color: $color-gray-4;
 		}
 
 		&[data-dragging="yes"] {
 			cursor: grabbing !important;
-			border-color: $clr-blue-1 !important;
-			box-shadow: 0 0 0 1px $clr-blue-1 !important;
+			border-color: $color-blue-1 !important;
+			box-shadow: 0 0 0 1px $color-blue-1 !important;
 		}
 
 		&__handle {
@@ -75,8 +75,8 @@
 				}
 
 				&:hover {
-					fill: $clr-black-2;
-					color: $clr-black-2;
+					fill: $color-black-2;
+					color: $color-black-2;
 
 					@include transition;
 				}

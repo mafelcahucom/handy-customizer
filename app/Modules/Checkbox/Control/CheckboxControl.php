@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Checkbox > Control > Checkbox Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Checkbox\Control;
 
 use Handy\Inc\Helper;
@@ -6,28 +16,27 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Checkbox.
+ * The `CheckboxControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class CheckboxControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-checkbox-'. $this->id;
+        return 'hacu-checkbox-' . $this->id;
     }
 
     /**
-     * Render Checkbox Control Content
-     * 
+     * Render Checkbox Control Content.
+     *
      * @since 1.0.0
      *
      * @return void
@@ -41,13 +50,12 @@ final class CheckboxControl extends \WP_Customize_Control {
                 </div>
                 <div class="hacu-col__right">
                     <?php
-                        // Label & Description.
-                        echo Helper::get_control_title([
+                        echo Helper::get_control_title(array(
                             'class'       => 'hacu-ds-block',
                             'id'          => $this->prefix_id(),
                             'label'       => $this->label,
-                            'description' => $this->description
-                        ]);
+                            'description' => $this->description,
+                        ));
                     ?>
                 </div>
             </div>

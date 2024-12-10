@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Date Picker > Field > Date Picker Field.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\DatePicker\Field;
 
 use Handy\Core\Setting;
@@ -8,26 +18,25 @@ use Handy\Modules\DatePicker\Control\DatePickerControl;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Field > Date Picker.
+ * The `DatePickerField` class contains the settings,
+ * sanitization and validation.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class DatePickerField extends Setting {
 
     /**
      * Return the validated default value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_default( $validated ) {
-        $length      = ( $validated['mode'] === 'single' ? 1 : 2 );
-        $format      = ( $validated['enable_time'] === true ? 'Y-m-d H:i' : 'Y-m-d' );
-        $has_invalid = ( count( $validated['default'] ) !== $length ? true : false );
+        $length      = $validated['mode'] === 'single' ? 1 : 2;
+        $format      = $validated['enable_time'] === true ? 'Y-m-d H:i' : 'Y-m-d';
+        $has_invalid = count( $validated['default'] ) !== $length ? true : false;
         if ( ! $has_invalid ) {
             foreach ( $validated['default'] as $date ) {
                 if ( ! Validator::is_valid_date( $date, $format ) ) {
@@ -36,46 +45,46 @@ final class DatePickerField extends Setting {
             }
         }
 
-        return ( ! $has_invalid ? $validated['default'] : [] );
+        return ! $has_invalid ? $validated['default'] : array();
     }
 
     /**
      * Return the validated enable time value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_enable_time( $validated ) {
-        return ( isset( $validated['enable_time'] ) ? $validated['enable_time'] : false );
+        return isset( $validated['enable_time'] ) ? $validated['enable_time'] : false;
     }
 
     /**
      * Return the validated mode value.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments.
+     * @param  array $validated Contains the validated arguments.
      * @return string
      */
     private function get_validated_mode( $validated ) {
-        $is_valid_mode = ( isset( $validated['mode'] ) && in_array( $validated['mode'], [ 'single', 'range' ] ) );
-        return ( $is_valid_mode ? $validated['mode'] : 'single' );
+        $is_valid_mode = isset( $validated['mode'] ) && in_array( $validated['mode'], array( 'single', 'range' ), true );
+        return $is_valid_mode ? $validated['mode'] : 'single';
     }
 
     /**
      * Return the predetermined default validations.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  array  $validated  Contains the validated arguments
+     * @param  array $validated Contains the validated arguments
      * @return string
      */
     private function get_default_validations( $validated ) {
-        $format      = ( $validated['enable_time'] === true ? 'Y-m-d H:i' : 'Y-m-d' );
+        $format      = $validated['enable_time'] === true ? 'Y-m-d H:i' : 'Y-m-d';
         $validation  = "valid_dates[{$format}]";
-        $validations = [ $validation ];
+        $validations = array( $validation );
         if ( isset( $validated['validations'] ) ) {
             $validations = $validated['validations'];
             array_unshift( $validations, $validation );
@@ -86,88 +95,88 @@ final class DatePickerField extends Setting {
 
     /**
      * Render Date Picker Control.
-     * 
+     *
      * @since 1.0.0
      *
-     * @param  object  $customize  Contain the instance of WP_Customize_Manager.
-     * @param  array   $args       Contains the arguments needed to render date picker control.
+     * @param  object $customize Contains the instance of WP_Customize_Manager.
+     * @param  array  $args      Contains the necessary arguments to render date picker control.
      * $args = [
-     *      'id'                => (string)  The unique slug like string to be used as an id.
-     *      'section'           => (string)  The section where the control belongs to.
-     *      'default'           => (array)   The default value of the control.
-     *      'label'             => (string)  The label of the control.
-     *      'description'       => (string)  The description of the control.
-     *      'placeholder'       => (string)  The placeholder of the control.
-     *      'priority'          => (integer) The order of control appears in the section. 
-     *      'validations'       => (array)   The list of built-in and custom validations.
-     *      'active_callback'   => (object)  The callback function whether to show control, must always return true.
-     *      'sanitize_callback' => (object)  The callback function to sanitize the value before saving in database.
-     *      'enable_time'       => (boolean) The flag to add time in date result.
-     *      'mode'              => (string)  The set type of mode of date picker whether single or range.
+     *     'id'                => (string)  Contains the unique slug like string to be used as an id.
+     *     'section'           => (string)  Contains the section where the control belongs to.
+     *     'default'           => (array)   Contains the default value of the control.
+     *     'label'             => (string)  Contains the label of the control.
+     *     'description'       => (string)  Contains the description of the control.
+     *     'placeholder'       => (string)  Contains the placeholder of the control.
+     *     'priority'          => (integer) Contains the order of control appears in the section.
+     *     'validations'       => (array)   Contains the list of built-in and custom validations.
+     *     'active_callback'   => (object)  Contains the callback function whether to show control, must always return true.
+     *     'sanitize_callback' => (object)  Contains the callback function to sanitize the value before saving in database.
+     *     'enable_time'       => (boolean) Contains the flag to add time in date result.
+     *     'mode'              => (string)  Contains the set type of mode of date picker whether single or range.
      * ]
      * @return void
      */
-    public function render( $customize, $args = [] ) {
+    public function render( $customize, $args = array() ) {
         if ( empty( $customize ) || empty( $args ) ) {
             return;
         }
 
-        $schema = [
-            'id'                => [
+        $schema = array(
+            'id'                => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'section'           => [
+                'required' => true,
+            ),
+            'section'           => array(
                 'type'     => 'string',
-                'required' => true
-            ],
-            'default'           => [
+                'required' => true,
+            ),
+            'default'           => array(
                 'type'     => 'array',
                 'required' => false,
-            ],
-            'label'             => [
+            ),
+            'label'             => array(
                 'type'     => 'string',
                 'required' => false,
-            ],
-            'description'       => [
+            ),
+            'description'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'placeholder'       => [
+                'required' => false,
+            ),
+            'placeholder'       => array(
                 'type'     => 'string',
-                'required' => false
-            ],
-            'priority'          => [
+                'required' => false,
+            ),
+            'priority'          => array(
                 'type'     => 'integer',
-                'required' => false
-            ],
-            'validations'       => [
+                'required' => false,
+            ),
+            'validations'       => array(
                 'type'     => 'array',
-                'required' => false
-            ],
-            'active_callback'   => [
+                'required' => false,
+            ),
+            'active_callback'   => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'sanitize_callback' => [
+                'required' => false,
+            ),
+            'sanitize_callback' => array(
                 'type'     => 'mixed',
-                'required' => false
-            ],
-            'enable_time'       => [
+                'required' => false,
+            ),
+            'enable_time'       => array(
                 'type'     => 'boolean',
-                'required' => false
-            ],
-            'mode'              => [
+                'required' => false,
+            ),
+            'mode'              => array(
                 'type'     => 'string',
-                'required' => false
-            ]
-        ];
+                'required' => false,
+            ),
+        );
 
         $validated = Validator::get_validated_argument( $schema, $args );
         if ( ! empty( $validated ) ) {
             $validated['enable_time'] = $this->get_validated_enable_time( $validated );
             $validated['mode']        = $this->get_validated_mode( $validated );
-            
+
             if ( isset( $validated['default'] ) ) {
                 $validated['default'] = $this->get_validated_default( $validated );
             }

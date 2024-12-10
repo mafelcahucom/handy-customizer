@@ -24,17 +24,17 @@
 		font-size: 12px;
 		line-height: 12px;
 		cursor: pointer;
-		color: $clr-black-2;
-		background-color: $clr-white-2;
-		border: 1px solid $clr-gray-1;
+		color: $color-black-2;
+		background-color: $color-white-2;
+		border: 1px solid $color-gray-1;
 		border-radius: 4px;
 
 		&:hover,
 		&:focus,
 		&[data-state="opened"] {
-			color: $clr-blue-1;
-			background-color: $clr-white-3;
-			border-color: $clr-blue-1;
+			color: $color-blue-1;
+			background-color: $color-white-3;
+			border-color: $color-blue-1;
 
 			@include transition;
 		}
@@ -50,8 +50,8 @@
 		width: 45px;
 		max-height: 150px;
 		list-style: none;
-		background-color: $clr-white-1;
-		border: 1px solid $clr-gray-1;
+		background-color: $color-white-1;
+		border: 1px solid $color-gray-1;
 		border-radius: 4px;
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -66,7 +66,7 @@
 		}
 
 		&::-webkit-scrollbar-thumb {
-			background-color: $clr-gray-1;
+			background-color: $color-gray-1;
 			border-radius: 4px;
 		}
 
@@ -84,8 +84,8 @@
 			&:hover,
 			&:focus,
 			&[data-state="active"] {
-				color: $clr-white-1;
-				background-color: $clr-blue-1;
+				color: $color-white-1;
+				background-color: $color-blue-1;
 
 				@include transition;
 			}

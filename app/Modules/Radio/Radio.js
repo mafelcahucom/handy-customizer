@@ -1,11 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-	queryElement,
-	updateFieldValue,
-	eventListener,
-} from '../../../assets/src/js/helpers';
+import { queryElement, updateFieldValue, eventListener } from '../../../resources/scripts/helpers';
 
 /**
  * Radio Field.
@@ -15,7 +11,6 @@ import {
  * @type {Object}
  */
 const Radio = {
-
 	/**
 	 * Initialize.
 	 *
@@ -30,8 +25,8 @@ const Radio = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -52,22 +47,22 @@ const Radio = {
 	},
 
 	/**
-	 * On selecting radio and update field value based on selected radio
+	 * On select radio and update field value based on selected radio
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectRadio() {
-		eventListener( 'change', '.hacu-radio__box', function( e ) {
+		eventListener( 'change', '.hacu-radio__box', ( e ) => {
 			const target = e.target;
 			const value = target.value;
 			const elements = Radio.elements( target );
-			if ( ! elements || value.length === 0 ) {
+			if ( ! elements || 0 === value.length ) {
 				return;
 			}
 
 			const { inputElem, radioElems } = elements;
-			if ( radioElems.length > 0 ) {
-				radioElems.forEach( function( radioElem ) {
+			if ( 0 < radioElems.length ) {
+				radioElems.forEach( ( radioElem ) => {
 					radioElem.checked = false;
 				} );
 			}

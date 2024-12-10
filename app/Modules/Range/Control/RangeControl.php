@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Range > Control > Range Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Range\Control;
 
 use Handy\Inc\Helper;
@@ -6,17 +16,16 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Range.
+ * The `RangeControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class RangeControl extends \WP_Customize_Control {
 
     /**
      * Holds the option settings.
-     * 
+     *
      * @since 1.0.0
      *
      * @var array
@@ -25,18 +34,18 @@ final class RangeControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-range-'. $this->id;
+        return 'hacu-range-' . $this->id;
     }
 
     /**
      * Return the validated value.
-     * 
+     *
      * @since 1.0.0
      *
      * @return double
@@ -47,12 +56,12 @@ final class RangeControl extends \WP_Customize_Control {
         }
 
         $value = floatval( $this->value() );
-        return ( $value >= $this->options['min'] && $value <= $this->options['max'] ? $value : $this->options['min'] );
+        return $value >= $this->options['min'] && $value <= $this->options['max'] ? $value : $this->options['min'];
     }
 
     /**
      * Render Range Control Content
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -61,13 +70,12 @@ final class RangeControl extends \WP_Customize_Control {
         ?>
         <div class="hacu hacu-range">
             <?php
-                // Label & Description.
-                echo Helper::get_control_title([
+                echo Helper::get_control_title(array(
                     'class'       => 'hacu-ds-block',
                     'id'          => $this->prefix_id(),
                     'label'       => $this->label,
-                    'description' => $this->description
-                ]);
+                    'description' => $this->description,
+                ));
             ?>
 
             <div class="hacu-range__container">

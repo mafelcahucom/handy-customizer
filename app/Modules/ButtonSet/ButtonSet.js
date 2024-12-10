@@ -6,7 +6,7 @@ import {
 	setAttribute,
 	updateFieldValue,
 	eventListener,
-} from '../../../assets/src/js/helpers';
+} from '../../../resources/scripts/helpers';
 
 /**
  * Button Set Field.
@@ -16,7 +16,6 @@ import {
  * @type {Object}
  */
 const ButtonSet = {
-
 	/**
 	 * Initialize.
 	 *
@@ -31,8 +30,8 @@ const ButtonSet = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param {Object} target The target element.
-	 * @return {Object} The required elements.
+	 * @param {Object} target Contains the target element.
+	 * @return {Object|void} The required elements.
 	 */
 	elements( target ) {
 		if ( target ) {
@@ -49,18 +48,18 @@ const ButtonSet = {
 	},
 
 	/**
-	 * On selecting item & update field value based on selected item.
+	 * On select item & update field value based on selected item.
 	 *
 	 * @since 1.0.0
 	 */
 	onSelectItem() {
-		eventListener( 'click', '.hacu-button-set__item-btn', function( e ) {
+		eventListener( 'click', '.hacu-button-set__item-btn', ( e ) => {
 			e.preventDefault();
 			const target = e.target;
 			const value = target.getAttribute( 'data-value' );
 			const state = target.getAttribute( 'data-state' );
 			const elements = ButtonSet.elements( target );
-			if ( ! elements || value.length === 0 || state !== 'default' ) {
+			if ( ! elements || 0 === value.length || 'default' !== state ) {
 				return;
 			}
 

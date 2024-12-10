@@ -1,22 +1,31 @@
 <?php
+/**
+ * App > Inc > Installer.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Inc;
 
-use Handy\Lib\Singleton;
+use Handy\Inc\Traits\Singleton;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Installer.
+ * The `Installer` class contains helper methods for
+ * setting plugin's status and version.
  *
- * @since 	1.0.0
- * @version 1.0.0
- * @author Mafel John Cahucom
+ * @since 1.0.0
  */
 final class Installer {
 
     /**
      * Inherit Singleton.
-     * 
+     *
      * @since 1.0.0
      */
     use Singleton;
@@ -32,11 +41,15 @@ final class Installer {
      * Plugin Activation.
      *
      * @since 1.0.0
+     *
+     * @return void
      */
 	public static function activate() {
         flush_rewrite_rules();
 
-        // Set plugin version.
+        /**
+         * Set plugin's version.
+         */
         update_option( '_handy_plugin_version', HACU_PLUGIN_VERSION );
     }
 
@@ -44,6 +57,8 @@ final class Installer {
      * Plugin Deactivation.
      *
      * @since 1.0.0
+     *
+     * @return void
      */
     public static function deactivate() {
         flush_rewrite_rules();

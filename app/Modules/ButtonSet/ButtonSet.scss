@@ -4,12 +4,12 @@
 	&__container {
 		display: flex;
 		flex-wrap: wrap;
-		border: 1px solid $clr-gray-2;
+		border: 1px solid $color-gray-2;
 		border-radius: 4px;
 
 		&:hover,
 		&:focus {
-			border-color: $clr-blue-1;
+			border-color: $color-blue-1;
 
 			@include transition;
 		}
@@ -20,15 +20,15 @@
 		padding: 0.5em 1em;
 		margin: 0;
 		cursor: pointer;
-		color: $clr-black-2;
-		background-color: $clr-gray-2;
+		color: $color-black-2;
+		background-color: $color-gray-2;
 		border: 0;
 
 		&:hover,
 		&:focus,
 		&[data-state="active"] {
-			color: $clr-white-1;
-			background-color: $clr-blue-1;
+			color: $color-white-1;
+			background-color: $color-blue-1;
 
 			@include transition;
 		}

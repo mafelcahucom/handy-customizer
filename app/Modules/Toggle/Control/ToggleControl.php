@@ -1,4 +1,14 @@
 <?php
+/**
+ * App > Modules > Toggle > Control > Toggle Control.
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ * @author  Mafel John Cahucom
+ * @package handy-customizer
+ */
+
 namespace Handy\Modules\Toggle\Control;
 
 use Handy\Inc\Helper;
@@ -6,28 +16,27 @@ use Handy\Inc\Helper;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Control > Toggle.
+ * The `ToggleControl` class contains the rendering
+ * control's component and enqueueing resources.
  *
- * @since   1.0.0
- * @version 1.0.0
- * @author  Mafel John Cahucom
+ * @since 1.0.0
  */
 final class ToggleControl extends \WP_Customize_Control {
 
     /**
      * Return the ID with prefix.
-     * 
+     *
      * @since 1.0.0
      *
      * @return string
      */
     private function prefix_id() {
-        return  'hacu-toggle-'. $this->id;
+        return 'hacu-toggle-' . $this->id;
     }
 
     /**
      * Render Toggle Control Content
-     * 
+     *
      * @since 1.0.0
      *
      * @return void
@@ -38,13 +47,12 @@ final class ToggleControl extends \WP_Customize_Control {
             <div class="hacu-flex">
                 <div class="hacu-col__left hacu-width-full">
                     <?php
-                        // Label & Description.
-                        echo Helper::get_control_title([
+                        echo Helper::get_control_title(array(
                             'class'       => 'hacu-ds-block',
                             'id'          => $this->prefix_id(),
                             'label'       => $this->label,
-                            'description' => $this->description
-                        ]);
+                            'description' => $this->description,
+                        ));
                     ?>
                 </div>
                 <div class="hacu-col__right hacu-pl-20">

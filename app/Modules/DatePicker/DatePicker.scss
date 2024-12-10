@@ -35,7 +35,7 @@
 			position: absolute;
 			top: 35px;
 			width: 100%;
-			border: 1px solid $clr-gray-1;
+			border: 1px solid $color-gray-1;
 			border-radius: 4px;
 		}
 
@@ -52,7 +52,7 @@
 			.flatpickr-prev-month:focus {
 
 				svg {
-					fill: $clr-blue-1;
+					fill: $color-blue-1;
 
 					@include transition;
 				}
@@ -60,8 +60,8 @@
 		}
 
 		.flatpickr-day.selected {
-			background-color: $clr-blue-1;
-			border-color: $clr-blue-1;
+			background-color: $color-blue-1;
+			border-color: $color-blue-1;
 		}
 
 		.flatpickr-innerContainer {
@@ -76,7 +76,7 @@
 			}
 
 			&::-webkit-scrollbar-thumb {
-				background-color: $clr-gray-1;
+				background-color: $color-gray-1;
 				border-radius: 4px;
 			}
 		}
