@@ -91,7 +91,7 @@ In some cases we need to use WordPress Rest API to provide an internal data to o
 
 To get the best results with Handy Customizer, we strongly encourage WordPress theme developers to be familiar with the [Customizer API](https://developer.wordpress.org/themes/classic-themes/customize-api/). You’ll find an excellent and detailed handbook on [developer.wordpress.org](https://developer.wordpress.org/themes/classic-themes/customize-api/) to guide you through the process.
 
-## Author\Developer
+## Developer
 
 [Mafel John Cahucom](https://www.mafeljohncahucom.site)
 
