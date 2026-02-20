@@ -87,7 +87,18 @@ There can be some confusion about the [arguments](https://www.gethandycustomizer
 
 In some cases we need to use WordPress Rest API to provide an internal data to our control, and we are aware that this will take some time. As a result, Handy offers helpful [utilities](https://www.gethandycustomizer.site/docs/utilities/) that you may utilize to feed data into your controls.
 
+## Note
 
-Hello World
+To get the best results with Handy Customizer, we strongly encourage WordPress theme developers to be familiar with the [Customizer API](https://developer.wordpress.org/themes/classic-themes/customize-api/). You’ll find an excellent and detailed handbook on [developer.wordpress.org](https://developer.wordpress.org/themes/classic-themes/customize-api/) to guide you through the process.
+
+## Author\Developer
+
+[Mafel John Cahucom](https://www.mafeljohncahucom.site)
+
+## License
+
+[GPLv3 or later](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+
 
 
