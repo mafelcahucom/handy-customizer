@@ -6,3 +6,64 @@
 ![Version: WordPress](https://img.shields.io/badge/WordPress-4.9+-%2328799e.svg)
 
 Welcome to the Handy Customizer Framework GitHub repository! Explore the source code, review open issues, and stay updated with ongoing development. Not a developer? Simply use the [Handy Customizer Framework plugin](https://www.gethandycustomizer.site) version for an easy setup.
+
+## Description
+
+Handy Customizer Framework is an open-source WordPress toolkit built to help WordPress Theme Developers to develop themes using the WordPress Customizer API while writing clean and minimal code only.
+
+## Why You Should Use It?
+
+- **Super Easy To Use** - The Customizer API can be a headache and confusing. So Handy managed to simplify the process of adding controls to customizer.
+- **Avoid Code Repetition** - Handy will allow you to organize your code. Instead of calling 3 methods in order to add controls, Handy simplified it by just calling one method.
+- **Helpful Utilities** - Handy provide also a useful API for utilities, This will provide a useful methods where you can use in adding controls and providing data.
+- **Enhance Productivity** - Because Handy simplified Customizer API, it will help you to work fast, minimally, and save a lot of time coding complicated controls.
+
+## Essential Components.
+
+- **Panel** - Panels serve as containers for sections and give you the option to arrange several sections together and add another level of hierarchy above controls and sections.
+- **Section** - Sections serve as containers for controls and give you the option to arrange several controls together. Also, sections can be added to the panel.
+- **Control** - Controls are the main Customizer object for building UI fields. Every control must be associated with a setting, and that setting will store user-entered data from the control as well as display and sanitize it in the live preview. Controls must be added to a section before they will be displayed (and sections must contain controls to be displayed).
+
+## Available Controls
+
+- [Audio Uploader](https://www.gethandycustomizer.site/docs/controls/audio-uploader/)
+- [Alignment](https://www.gethandycustomizer.site/docs/controls/alignment/)
+- [Angle Picker](https://www.gethandycustomizer.site/docs/controls/angle-picker/)
+- [Button Set](https://www.gethandycustomizer.site/docs/controls/button-set/)
+- [Checkbox](https://www.gethandycustomizer.site/docs/controls/checkbox/)
+- [Checkbox Multiple](https://www.gethandycustomizer.site/docs/controls/checkbox-multiple/)
+- [Checkbox Pill](https://www.gethandycustomizer.site/docs/controls/checkbox-pill/)
+- [Code Editor](https://www.gethandycustomizer.site/docs/controls/code-editor/)
+- [Color Picker](https://www.gethandycustomizer.site/docs/controls/color-picker/)
+- [Color Set](https://www.gethandycustomizer.site/docs/controls/color-set/)
+- [Content Editor](https://www.gethandycustomizer.site/docs/controls/content-editor/)
+- [Counter](https://www.gethandycustomizer.site/docs/controls/counter/)
+- [Dashicons](https://www.gethandycustomizer.site/docs/controls/dashicons/)
+- [Date Picker](https://www.gethandycustomizer.site/docs/controls/date-picker/)
+- [Dimension](https://www.gethandycustomizer.site/docs/controls/dimension/)
+- [Dropdown Custom Post](https://www.gethandycustomizer.site/docs/controls/dropdown-custom-post/)
+- [Dropdown Page](https://www.gethandycustomizer.site/docs/controls/dropdown-page/)
+- [Dropdown Post](https://www.gethandycustomizer.site/docs/controls/dropdown-post/)
+- [Duotune](https://www.gethandycustomizer.site/docs/controls/duotune/)
+- [Email](https://www.gethandycustomizer.site/docs/controls/email/)
+- [File Uploader](https://www.gethandycustomizer.site/docs/controls/file-uploader/)
+- [Group](https://www.gethandycustomizer.site/docs/controls/group/)
+- [Image Checkbox](https://www.gethandycustomizer.site/docs/controls/image-checkbox/)
+- [Image Radio](https://www.gethandycustomizer.site/docs/controls/image-radio/)
+- [Image Uploader](https://www.gethandycustomizer.site/docs/controls/image-uploader/)
+- [Markup](https://www.gethandycustomizer.site/docs/controls/markup/)
+- [Number](https://www.gethandycustomizer.site/docs/controls/number/)
+- [Radio](https://www.gethandycustomizer.site/docs/controls/radio/)
+- [Range](https://www.gethandycustomizer.site/docs/controls/range/)
+- [Repeater](https://www.gethandycustomizer.site/docs/controls/repeater/)
+- [Select](https://www.gethandycustomizer.site/docs/controls/select/)
+- [Size](https://www.gethandycustomizer.site/docs/controls/size/)
+- [Sortable](https://www.gethandycustomizer.site/docs/controls/sortable/)
+- [Switch](https://www.gethandycustomizer.site/docs/controls/switch/)
+- [Tagging](https://www.gethandycustomizer.site/docs/controls/tagging/)
+- [Tagging Select](https://www.gethandycustomizer.site/docs/controls/tagging-select/)
+- [Text](https://www.gethandycustomizer.site/docs/controls/text/)
+- [Textarea](https://www.gethandycustomizer.site/docs/controls/textarea/)
+- [Time Picker](https://www.gethandycustomizer.site/docs/controls/time-picker/)
+- [Toogle](https://www.gethandycustomizer.site/docs/controls/toogle/)
+- [URL](https://www.gethandycustomizer.site/docs/controls/url/)
