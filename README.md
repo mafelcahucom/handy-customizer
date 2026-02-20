@@ -20,9 +20,9 @@ Handy Customizer Framework is an open-source WordPress toolkit built to help Wor
 
 ## Essential Components
 
-- **Panel** - Panels serve as containers for sections and give you the option to arrange several sections together and add another level of hierarchy above controls and sections.
-- **Section** - Sections serve as containers for controls and give you the option to arrange several controls together. Also, sections can be added to the panel.
-- **Control** - Controls are the main Customizer object for building UI fields. Every control must be associated with a setting, and that setting will store user-entered data from the control as well as display and sanitize it in the live preview. Controls must be added to a section before they will be displayed (and sections must contain controls to be displayed).
+- **[Panel](https://www.gethandycustomizer.site/docs/essentials/panel/)** - Panels serve as containers for sections and give you the option to arrange several sections together and add another level of hierarchy above controls and sections.
+- **[Section](https://www.gethandycustomizer.site/docs/essentials/section/)** - Sections serve as containers for controls and give you the option to arrange several controls together. Also, sections can be added to the panel.
+- **[Control](https://www.gethandycustomizer.site/docs/essentials/control/)** - Controls are the main Customizer object for building UI fields. Every control must be associated with a setting, and that setting will store user-entered data from the control as well as display and sanitize it in the live preview. Controls must be added to a section before they will be displayed (and sections must contain controls to be displayed).
 
 ## Getting Started
 
