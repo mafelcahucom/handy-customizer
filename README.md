@@ -83,34 +83,10 @@ Below is a comprehensive list of all available [controls](https://www.gethandycu
 
 There can be some confusion about the [arguments](https://www.gethandycustomizer.site/docs/arguments/), so to help clarify, we've included comprehensive and thorough documentation on each common argument.
 
-- [active_callback](https://www.gethandycustomizer.site/docs/arguments/active_callback/)
-- [default](https://www.gethandycustomizer.site/docs/arguments/default/)
-- [description](https://www.gethandycustomizer.site/docs/arguments/description/)
-- [id](https://www.gethandycustomizer.site/docs/arguments/id/)
-- [label](https://www.gethandycustomizer.site/docs/arguments/label/)
-- [panel](https://www.gethandycustomizer.site/docs/arguments/panel/)
-- [placeholder](https://www.gethandycustomizer.site/docs/arguments/placeholder/)
-- [priority](https://www.gethandycustomizer.site/docs/arguments/priority/)
-- [sanitize_callback](https://www.gethandycustomizer.site/docs/arguments/sanitize_callback/)
-- [section](https://www.gethandycustomizer.site/docs/arguments/section/)
-- [title](https://www.gethandycustomizer.site/docs/arguments/title/)
-- [validations](https://www.gethandycustomizer.site/docs/arguments/validations/)
-
 ## Utilities
 
 In some cases we need to use WordPress Rest API to provide an internal data to our control, and we are aware that this will take some time. As a result, Handy offers helpful [utilities](https://www.gethandycustomizer.site/docs/utilities/) that you may utilize to feed data into your controls.
 
-- [__get_categories](https://www.gethandycustomizer.site/docs/utilities/__get_categories/)
-- [__get_custom_posts](https://www.gethandycustomizer.site/docs/utilities/__get_custom_posts/)
-- [__get_image_sizes](https://www.gethandycustomizer.site/docs/utilities/__get_image_sizes/)
-- [__get_material_colors](https://www.gethandycustomizer.site/docs/utilities/__get_material_colors/)
-- [__get_pages](https://www.gethandycustomizer.site/docs/utilities/__get_pages/)
-- [__get_post_types](https://www.gethandycustomizer.site/docs/utilities/__get_post_types/)
-- [__get_posts](https://www.gethandycustomizer.site/docs/utilities/__get_posts/)
-- [__get_tags](https://www.gethandycustomizer.site/docs/utilities/__get_tags/)
-- [__get_taxonomies](https://www.gethandycustomizer.site/docs/utilities/__get_taxonomies/)
-- [__get_terms](https://www.gethandycustomizer.site/docs/utilities/__get_terms/)
-- [__get_users](https://www.gethandycustomizer.site/docs/utilities/__get_users/)
 
 Hello World
 
