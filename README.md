@@ -7,6 +7,8 @@
 
 Welcome to the Handy Customizer Framework GitHub repository! Explore the source code, review open issues, and stay updated with ongoing development. Not a developer? Simply use the [Handy Customizer Framework plugin](https://www.gethandycustomizer.site) version for an easy setup.
 
+For detailed guidance, best practices, and complete feature insights, we strongly recommend reading the [official documentation](https://www.gethandycustomizer.site).
+
 ## Description
 
 Handy Customizer Framework is an open-source WordPress toolkit built to help WordPress Theme Developers to develop themes using the WordPress Customizer API while writing clean and minimal code only.
