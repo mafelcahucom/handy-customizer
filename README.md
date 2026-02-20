@@ -5,9 +5,7 @@
 ![Version: PHP](https://img.shields.io/badge/PHP-8.0.0+-%237b7fb5.svg)
 ![Version: WordPress](https://img.shields.io/badge/WordPress-4.9+-%2328799e.svg)
 
-Welcome to the Handy Customizer Framework GitHub repository! Explore the source code, review open issues, and stay updated with ongoing development. Not a developer? Simply use the [Handy Customizer Framework plugin](https://www.gethandycustomizer.site) version for an easy setup.
-
-For detailed guidance, best practices, and complete feature insights, we strongly recommend reading the [official documentation](https://www.gethandycustomizer.site).
+Welcome to the Handy Customizer Framework GitHub repository! Explore the source code, review open issues, and stay updated with ongoing development. For detailed guidance, best practices, and complete feature insights, we strongly recommend reading the [official documentation](https://www.gethandycustomizer.site).
 
 ## Description
 
