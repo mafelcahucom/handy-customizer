@@ -3,12 +3,12 @@
  * Plugin Name:          Handy Customizer Framework
  * Description:          Handy Customizer Framework is a tool for WordPress Theme Developer to develop theme using WordPress Customizer API while writing clean and minimal code.
  * Author:               Mafel John Cahucom
- * Author URI:           https://www.facebook.com/mafeljohn.cahucom
+ * Author URI:           https://www.mafeljohncahucom.site
  * Version:              1.0.0
  * Text Domain:          handy-customizer
  * Domain Path:          /languages
  * Requires at least:    4.9
- * License:              GPLv2 or later
+ * License:              GPLv3 or later
  */
 
 defined( 'ABSPATH' ) || exit;
