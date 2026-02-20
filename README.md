@@ -18,11 +18,19 @@ Handy Customizer Framework is an open-source WordPress toolkit built to help Wor
 - **Helpful Utilities** - Handy provide also a useful API for utilities, This will provide a useful methods where you can use in adding controls and providing data.
 - **Enhance Productivity** - Because Handy simplified Customizer API, it will help you to work fast, minimally, and save a lot of time coding complicated controls.
 
-## Essential Components.
+## Essential Components
 
 - **Panel** - Panels serve as containers for sections and give you the option to arrange several sections together and add another level of hierarchy above controls and sections.
 - **Section** - Sections serve as containers for controls and give you the option to arrange several controls together. Also, sections can be added to the panel.
 - **Control** - Controls are the main Customizer object for building UI fields. Every control must be associated with a setting, and that setting will store user-entered data from the control as well as display and sanitize it in the live preview. Controls must be added to a section before they will be displayed (and sections must contain controls to be displayed).
+
+## Getting Started
+
+Hello there! Are you ready to to learn more about Handy? Let's first take a brief look at Handy and see how we can use it to our WordPress theme development projects.
+
+- [Introduction](https://www.gethandycustomizer.site/docs/getting-started/introduction/)
+- [Installation](https://www.gethandycustomizer.site/docs/getting-started/installation/)
+- [Download](https://www.gethandycustomizer.site/docs/getting-started/download/)
 
 ## Available Controls
 
