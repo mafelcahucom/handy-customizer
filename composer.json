@@ -11,8 +11,8 @@
 		}
 	],
 	"support": {
-		"source": "https://www.github.com",
-		"docs": "https://www.github.com/read.md"
+		"source": "https://github.com/mafelcahucom/handy-customizer/",
+		"docs": "https://github.com/mafelcahucom/handy-customizer/blob/master/README.md"
 	},
 	"require": {
 		"php": ">=8.0.0"
